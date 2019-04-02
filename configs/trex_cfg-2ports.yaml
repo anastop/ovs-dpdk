@@ -30,7 +30,7 @@
      traffic_mbuf_2048  : 4096
      
      dp_flows           : 1048576       # Number of TRex flow objects allocated (To get best performance they are allocated upfront, and not dynamically). If you expect more concurrent flows than the default (1048576), enlarge this.
-     global_flows       : 10240         # Number objects TRex allocates for holding NAT “in transit” connections. Again, default here (10240) should be good. Increase only if you use NAT and see issues.
+     global_flows       : 10240         # Number objects TRex allocates for holding NAT in transit connections. Again, default here (10240) should be good. Increase only if you use NAT and see issues.
 
   platform              :
      master_thread_id   : 1             # Hardware thread_id for control thread
