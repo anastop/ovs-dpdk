@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo 1024 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
 cd /root/ovs-dpdk
 cp ./configs/trex_cfg-4ports.yaml /etc
 echo "Starting Trex server"
