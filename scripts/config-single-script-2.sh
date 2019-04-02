@@ -64,6 +64,6 @@ echo "$vm_name started!"
 echo "VNC: $vm_vnc"
 echo "ssh root@localhost -p $vm_ssh"
 echo "username: root"
-echo "password: passme123"
+echo "password: root245"
 echo
 
