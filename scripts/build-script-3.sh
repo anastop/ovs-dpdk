@@ -25,7 +25,8 @@ echo "Done"
 echo
 echo " Installing TREX-2.53..."
 tar xvf trex-v2.53.tgz trex-v2.53
-ln -rs -v trex-v2.53 /root/ovs-dpdk/trex
+mv trex-v2.53 /opt
+ln -rs -v /opt/trex-v2.53 /root/ovs-dpdk/trex
 echo
 echo "Done"
 echo
