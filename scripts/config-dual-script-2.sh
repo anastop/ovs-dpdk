@@ -14,8 +14,8 @@
 # Core 29,30,31,32 = VPP-VM2
 #
 
-vm_master=/root/vm-images/ubuntu-16.04-vpp.img.tgz
-vm_disk=/root/vm-images/ubuntu-16.04-vpp-1.img
+vm_master=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img.tgz
+vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1
@@ -72,8 +72,8 @@ echo
 echo
 echo
 echo
-vm_master=/root/vm-images/ubuntu-16.04-vpp.img.tgz
-vm_disk=/root/vm-images/ubuntu-16.04-vpp-2.img
+vm_master=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img.tgz
+vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_ssh=2024
 vm_vnc=2

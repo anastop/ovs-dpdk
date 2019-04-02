@@ -13,8 +13,8 @@
 # Core 25,26,27,28 = VPP-VM1
 #
 
-vm_master=/root/vm-images/ubuntu-16.04-vpp.img.tgz
-vm_disk=/root/vm-images/ubuntu-16.04-vpp-1.img
+vm_master=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img.tgz
+vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1

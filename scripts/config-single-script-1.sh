@@ -50,7 +50,7 @@ rm -f /tmp/conf.db
 
 mkdir -p /usr/local/etc/openvswitch
 mkdir -p /usr/local/var/run/openvswitch
-mkdir -p  /usr/local/var/log/openvswitch
+mkdir -p /usr/local/var/log/openvswitch
 
 # initialize new OVS database
 cd $OVS_DIR
@@ -129,7 +129,7 @@ $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,idle_timeout=0
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,idle_timeout=0,action=output:1
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,idle_timeout=0,action=output:2
 
-$OVS_DIR/utilities/ovs-ofctl dump-flows br0
+# $OVS_DIR/utilities/ovs-ofctl dump-flows br0
 
 echo
 echo "Done"
