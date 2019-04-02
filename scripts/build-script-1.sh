@@ -11,6 +11,12 @@ sudo dpkg -i *.deb
 echo
 echo "Done"
 echo
+echo "Disabling Surprise Upgrades (messes with TREX)"
+apt-get remove unattended-upgrades
+echo
+echo "Done"
+echo
+echo
 echo "Setting up the GRUB boot loader"
 cd
 cp -f /root/ovs-dpdk/source/grub /etc/default/grub
