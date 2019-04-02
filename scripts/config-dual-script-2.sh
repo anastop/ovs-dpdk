@@ -14,7 +14,7 @@
 # Core 29,30,31,32 = VPP-VM2
 #
 
-vm_master=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img.tgz
+vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
 vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
@@ -39,7 +39,8 @@ then
 	echo
 	echo "File: $vm_disk not found."
 	echo "Expanding the disk for $vm_name..."
-	tar xvf $vm_master $vm_disk
+	tar xvf $vm_base.tgz 
+	mv $vm_base $vm_disk
 	echo "Disk restored. Starting $vm_name..."
 fi
 taskset -c $vm_cores  /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
@@ -72,7 +73,7 @@ echo
 echo
 echo
 echo
-vm_master=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img.tgz
+vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
 vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_ssh=2024
@@ -97,7 +98,8 @@ then
 	echo
 	echo "File: $vm_disk not found."
 	echo "Expanding the disk for $vm_name..."
-	tar xvf $vm_master $vm_disk
+	tar xvf $vm_base.tgz 
+	mv $vm_base $vm_disk
 	echo "Disk restored. Starting $vm_name..."
 fi
 taskset -c $vm_cores  /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
