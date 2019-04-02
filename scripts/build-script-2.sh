@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir /root/ovs-dpdk/vm-images
 cd /root/ovs-dpdk/vm-images
 echo
 echo "Downloading Virtual Router VM image..."
