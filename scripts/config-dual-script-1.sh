@@ -54,7 +54,7 @@ mkdir -p  /usr/local/var/log/openvswitch
 
 # initialize new OVS database
 cd $OVS_DIR
-$OVS_DIR/ovsdb/ovsdb-tool create /usr/local/etc/openvswitch/conf.db ./vswitchd/vswitch.ovsschema
+$OVS_DIR/ovsdb/ovsdb-tool create /usr/local/etc/openvswitch/conf.db $OVS_DIR/vswitchd/vswitch.ovsschema
 
 #start database server
 $OVS_DIR/ovsdb/ovsdb-server --remote=punix:$DB_SOCK \
@@ -96,9 +96,9 @@ $OVS_DIR/utilities/ovs-vsctl --no-wait init
 
 
 # Configure OVS with the CPU cores and RAM for the SECOND NUMA node
-$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true \
-	other_config:dpdk-lcore-mask=0x100000 \ 	# This is core 20, the first core in the second NUMA node
-	other_config:dpdk-socket-mem="0,2048"		# This assigns 2GB of RAM to the second NUMA node, and none to the first
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true 
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x100000  	# This is core 20, the first core in the second NUMA node
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem="0,2048"		# This assigns 2GB of RAM to the second NUMA node, and none to the first
 $OVS_DIR/vswitchd/ovs-vswitchd unix:$DB_SOCK \
 	--pidfile \
 	--detach  \
