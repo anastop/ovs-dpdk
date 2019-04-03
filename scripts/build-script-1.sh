@@ -17,6 +17,12 @@ echo
 echo "Done"
 echo
 echo
+echo "Downloading additional software packages"
+apt-get install -y curl
+apt-get install -y tmux
+echo
+echo "Done"
+echo
 echo "Setting up the GRUB boot loader"
 cd
 cp -f /root/ovs-dpdk/source/grub /etc/default/grub
