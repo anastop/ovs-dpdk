@@ -108,8 +108,12 @@ cd /root/ovs-dpdk/trex
 
 6. At the TRex command prompt, start the test:
 ```
+tui
 start -f /root/ovs-dpdk/configs/vpp-vrouter-p0.yaml --force -p0
 start -f /root/ovs-dpdk/configs/vpp-vrouter-p1.yaml --force -p1
+start -f /root/ovs-dpdk/configs/vpp-vrouter-p2.yaml --force -p2
+start -f /root/ovs-dpdk/configs/vpp-vrouter-p3.yaml --force -p3
+
 stats -a
 ```
 
