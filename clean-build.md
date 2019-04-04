@@ -82,25 +82,3 @@ init 6
 
 
 
-## Containerize
-To keep the host as clean as possible, use containers were possible. Containers may also be used to pin uncooperative services to specific cores without the use of tasksets.
-
-
-
-
-
-## Customization Stage
-During this stage, install the applications specific to this collection of lab activities.
-
-Applications/services to install:
-* collectd
-* grafana
-* docker
-
-Copy/Paste this code:
-```
-apt update
-apt install -y collectd
-apt install 
-```
-
