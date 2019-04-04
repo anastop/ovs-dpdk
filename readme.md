@@ -56,6 +56,10 @@ password: root245
 ./disable_service.sh
 ./stop_services.sh
 ./setup_huge.sh
+
+Copy the files from vpp folder. Startup config and the profile.
+
+systemctl enable vpp.service
 systemctl start vpp
 telnet localhost 5002
 ```
