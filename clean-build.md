@@ -23,6 +23,11 @@ ssh pid@<hostname>
 su
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 service sshd restart
+exit
+```
+3. Logout of the host as user `pid`, and return to your workstation.
+```
+exit
 ```
 
 
@@ -33,7 +38,7 @@ Software to install:
 * tmux
 * curl
 
-1. Logon to the host:
+1. Logon to the host as root via SSH:
 ```
 ssh root@<hostname>
 ```
