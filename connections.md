@@ -69,16 +69,16 @@ For now, use PuTTY or a similar terminal emulator to create the keys and manage 
 
  
 ## Using the SSH tunnel
-If you used the SSH tunnel configuration above, you can access ports on your server through redirection.
+If you used the SSH tunnel configuration above, you can access ports on your server through redirection. In the configuration above you mapped the local port **TCP/10022** to *TCP/22* on your lab server, and the local port **TCP/13000** to *TCP/3000* on your lab server.
 
-1. Open an SSH connection to your localhost on port 10022. This will actually connect to port 22 on your lab server.
+1. Open an SSH connection to your localhost on port **TCP/10022**. This will actually connect to port *TCP/22* on your lab server.
 ```
 ssh <username>@localhost -p 10022
 ```
-2. Alternatively, if you have Grafana running on your lab server, which uses TCP/3000 by default, you can open a web browser on your workstation.
+2. Alternatively, if you have Grafana running on your lab server, which uses *TCP/3000* by default, you can open a web browser on your workstation to the local port **TCP/13000**.
 ```
 http://localhost:13000
 ```
 **Note:**
-> Both of these commands redirect input and output over the encrypted SSH tunnel. You may add more ports by editing the SSH config file; however for the change to take effect, you must close the SSH tunnel by typing `ssh -O stop lab-tunnel`, and then restart the tunnel by typing `ssh -fN lab-tunnel'.
+> Both of these commands redirect input and output over the encrypted SSH tunnel. You may add more ports by editing the SSH config file; however for the change to take effect, you must close the SSH tunnel by typing `ssh -O stop lab-tunnel`, and then restart the tunnel by typing `ssh -fN lab-tunnel`.
 
