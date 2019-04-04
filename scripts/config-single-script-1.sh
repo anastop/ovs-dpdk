@@ -112,9 +112,9 @@ $OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
 $OVS_DIR/utilities/ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev
 ifconfig br0 0 up
 $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:21"
-sleep 8
+#sleep 8
 $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:22"
-sleep 8
+#sleep 8
 
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:61"
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:62"
@@ -122,12 +122,12 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-use
 
 $OVS_DIR/utilities/ovs-ofctl del-flows br0
  
-# Add Flow for port 0 to port 1 and port 1 to port 0 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,idle_timeout=0,action=output:3
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,idle_timeout=0,action=output:4
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,idle_timeout=0,action=output:3
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,idle_timeout=0,action=output:4
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,idle_timeout=0,action=output:1
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,idle_timeout=0,action=output:2
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,idle_timeout=0,action=output:1
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,idle_timeout=0,action=output:2
+
 
 # $OVS_DIR/utilities/ovs-ofctl dump-flows br0
 
