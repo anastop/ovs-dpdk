@@ -31,14 +31,14 @@ mkdir ~/.ssh/controlmasters
 2. Using a text editor, add the following text to the file `~/.ssh/config`:
 ```
 Host lab-tunnel
- 	Hostname XXX.XXX.XXX.XXX
- 	IdentityFile ~/.ssh/lab_rsa.key
- 	ControlPath ~/.ssh/controlmasters/%r@%h:%p
+    Hostname XXX.XXX.XXX.XXX
+    IdentityFile ~/.ssh/lab_rsa.key
+    ControlPath ~/.ssh/controlmasters/%r@%h:%p
     ControlMaster auto
     ControlPersist 5m
     LocalForward 10022 192.168.120.1:22
     LocalForward 13000 192.168.120.1:3000
-    User	your_user_name
+    User your_user_name
 
 ```
 3. Save the file and close the text editor.
