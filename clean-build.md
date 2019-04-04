@@ -14,7 +14,7 @@ Current state assumption:
 * The user `pid` is not yet in the sudoers file, 
 
 ### Logon and gain root access to the Server
-1. Logon to the host as "pid"
+1. Logon to the host as `pid`, password `password`
 ```
 ssh pid@<hostname>
 ```
@@ -33,7 +33,12 @@ Software to install:
 * tmux
 * curl
 
-Copy/Paste this code:
+1. Logon to the host:
+```
+ssh root@<hostname>
+```
+
+2. Update the repositories and install the basic utilities:
 ```
 apt update
 apt install -y curl
