@@ -21,11 +21,14 @@ ssh pid@<hostname>
 2. Enter Super User mode and allow root to logon via SSH. The root password is `password`
 ```
 su
+```
+3. Allow root to logon via SSH.
+```
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 service sshd restart
 exit
 ```
-3. Logout of the host as user `pid`, and return to your workstation.
+4. Logout of the host as user `pid`, and return to your workstation.
 ```
 exit
 ```
