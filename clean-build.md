@@ -52,6 +52,34 @@ apt update
 apt install -y curl
 apt install -y tmux
 ```
+3. Disable the automatic (background) upgrades that can create version mismatch. This is a security risk, but this is also a lab terminal and therefore should never be used in a production capacity or to host sensitive data. The important aspect of a lab terminal is the reliable execution of written procedures, and therefore automatic updates that could impact the behavior of the lab must be disabled. To do so, enter this command:
+```
+apt remove -y unattended-upgrades
+```
+
+### Update the Linux Kernel
+Linux kernel v4.20 is the lowest version our lab exercises can use. Follow these steps to upgrade the kernel, GRUB, and then reboot the host.
+1. Download the packages to the directory `/tmp`
+```
+cd /tmp/
+wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-headers-4.20.0-042000_4.20.0-042000.201812232030_all.deb
+wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-headers-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
+wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-image-unsigned-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
+wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-modules-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
+```
+2. Install the packages
+```
+dpkg -i *.deb
+```
+3. Update the GRUB boot loader
+```
+update-grub
+```
+4. Reboot the host.
+```
+init 6
+```
+
 
 
 ## Containerize
