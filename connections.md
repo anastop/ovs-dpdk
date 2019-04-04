@@ -79,6 +79,6 @@ ssh <username>@localhost -p 10022
 ```
 http://localhost:13000
 ```
-***Note:**
+**Note:**
 > Both of these commands redirect input and output over the encrypted SSH tunnel. You may add more ports by editing the SSH config file; however for the change to take effect, you must close the SSH tunnel by typing `ssh -O stop lab-tunnel`, and then restart the tunnel by typing `ssh -fN lab-tunnel'.
 
