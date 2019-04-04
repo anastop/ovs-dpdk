@@ -75,7 +75,7 @@ If you used the SSH tunnel configuration above, you can access ports on your ser
 ```
 ssh <username>@localhost -p 10022
 ```
-2. Alternatively, if you have Grafana running on your lab server, which uses *TCP/3000* by default, you can open a web browser on your workstation to the local port **TCP/13000**.
+2. Alternatively, if you have Grafana running on your lab server, which uses *TCP/3000* by default, you can open a web browser on your workstation to the local port **TCP/13000**, which will allow you to access the HTTP interface of Grafana running on your remote lab server, all from the comfort of your own workstation!
 ```
 http://localhost:13000
 ```
