@@ -108,11 +108,19 @@ cd /root/ovs-dpdk/trex
 
 6. At the TRex command prompt, start the test:
 ```
+portattr
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
 tui
-start -f /root/ovs-dpdk/configs/vpp-vrouter-p0.yaml --force -p0
-start -f /root/ovs-dpdk/configs/vpp-vrouter-p1.yaml --force -p1
-start -f /root/ovs-dpdk/configs/vpp-vrouter-p2.yaml --force -p2
-start -f /root/ovs-dpdk/configs/vpp-vrouter-p3.yaml --force -p3
+start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p0.yaml --force -p0
+start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p1.yaml --force -p1
+start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p2.yaml --force -p2
+start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p3.yaml --force -p3
 
 stats -a
 ```
