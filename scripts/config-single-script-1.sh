@@ -123,11 +123,12 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-use
 
 #$OVS_DIR/utilities/ovs-ofctl del-flows br0
  
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,idle_timeout=0,action=output:3
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,idle_timeout=0,action=output:4
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:3
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:4
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,idle_timeout=0,action=output:1
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,idle_timeout=0,action=output:2
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:1
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:2
+
 
 
 # $OVS_DIR/utilities/ovs-ofctl dump-flows br0
