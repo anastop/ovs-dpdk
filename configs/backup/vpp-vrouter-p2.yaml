@@ -30,9 +30,9 @@
     vm:
       split_by_var: "ip_src"
       instructions:
-      - init_value: 536870912
-        min_value: 536870912
-        max_value: 537370911
+      - init_value: "48.0.0.1"
+        min_value: "48.0.0.1"
+        max_value: "48.255.255.254"
         name: "ip_dest"
         op: "inc"
         size: 4
@@ -43,9 +43,9 @@
         name: "ip_dest"
         pkt_offset: 30
         type: "write_flow_var"
-      - init_value: 1728053248
-        min_value: 1728053248
-        max_value: 1728553247
+      - init_value: "102.0.0.1"
+        min_value: "102.0.0.1"
+        max_value: "102.255.255.254"
         name: "ip_src"
         op: "inc"
         size: 4
