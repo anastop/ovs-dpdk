@@ -10,6 +10,7 @@ echo "Done"
 echo
 echo "Running the configuration scripts for two VMs..."
 echo 24 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages
+echo 24 > /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages
 umount /dev/hugepages
 mount -t hugetlbfs nodev /dev/hugepages
 
@@ -125,17 +126,27 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-use
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:64"
 
 
-$OVS_DIR/utilities/ovs-ofctl del-flows br0
+#$OVS_DIR/utilities/ovs-ofctl del-flows br0
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,idle_timeout=0,action=output:5
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,idle_timeout=0,action=output:6
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,idle_timeout=0,action=output:7
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,idle_timeout=0,action=output:8
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,idle_timeout=0,action=output:5
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,idle_timeout=0,action=output:6
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,idle_timeout=0,action=output:7
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,idle_timeout=0,action=output:8
+# 
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,dl_type=0x800,idle_timeout=0,action=output:1
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,dl_type=0x800,idle_timeout=0,action=output:2
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,idle_timeout=0,action=output:3
+# $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,idle_timeout=0,action=output:4
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,idle_timeout=0,action=output:1
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,idle_timeout=0,action=output:2
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,idle_timeout=0,action=output:3
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,idle_timeout=0,action=output:4
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:5
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:6
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:7
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:8
+
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:1
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:2
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:3
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:4
 
 $OVS_DIR/utilities/ovs-ofctl dump-flows br0
  

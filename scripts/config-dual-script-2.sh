@@ -65,7 +65,7 @@ echo "$vm_name started!"
 echo "VNC: $vm_vnc"
 echo "ssh root@localhost -p $vm_ssh"
 echo "username: root"
-echo "password: passme123"
+echo "password: root245"
 echo
 echo
 echo
@@ -82,7 +82,7 @@ vm_cores=29-32
 
 vm_nic_1_id=char3
 vm_nic_1_hostport=vhost-user2
-vm_nic_1_net=net2
+vm_nic_1_net=net3
 vm_nic_1_mac=00:03:00:00:00:03
 
 vm_nic_2_id=char4
@@ -124,7 +124,7 @@ echo "$vm_name started!"
 echo "VNC: $vm_vnc"
 echo "ssh root@localhost -p $vm_ssh"
 echo "username: root"
-echo "password: passme123"
+echo "password: root245"
 echo
 echo
 echo "Done"
