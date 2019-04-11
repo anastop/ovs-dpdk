@@ -7,6 +7,18 @@
   c                     : 4             # Number of threads (cores) TRex will use per interface pair
   port_bandwidth_gb     : 25            # port bandwidth 25Gb/sec , for VM put here 1 for XL710 put 40
 
+  port_info             :
+     - default_gw       : 192.1.1.1     # Port 0
+       ip               : 192.1.1.2
+
+     - default_gw       : 192.2.1.1     # Port 1
+       ip               : 192.2.1.2
+
+     - default_gw       : 192.3.1.1     # Port 2
+       ip               : 192.3.1.2
+
+     - default_gw       : 192.4.1.1     # Port 3
+       ip               : 192.4.1.2
   memory                :
      mbuf_64            : 16380         # Numbers of memory buffers allocated for packets in transit, per port pair. Numbers are specified per packet size
      mbuf_128           : 8190

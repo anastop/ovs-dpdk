@@ -8,10 +8,10 @@
 # This is for a dual vRouter configuration (4 ports) 
 # Therefore the PMD mask will include 4 cores and their hyperthreads
 #
-# Core 20 = lcpu mask (0x100000)
-# Core 21,22,23,24,61,62.63,64 = pmd mask (0x0x1E000000001E00000)
-# Core 25,26,27,28 = VPP-VM1
-# Core 29,30,31,32 = VPP-VM2
+# Core 21 = lcpu mask (0x200000)
+# Core 26,27,30,31,66,67.70,71 = pmd mask ()
+# Core 22,23,24,25 = VPP-VM1
+# Core 35,36,37,38 = VPP-VM2
 #
 
 vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
@@ -19,7 +19,7 @@ vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1
-vm_cores=25-28
+vm_cores=22-25
 
 vm_nic_1_id=char1
 vm_nic_1_hostport=vhost-user0
@@ -43,7 +43,7 @@ then
 	mv $vm_base $vm_disk
 	echo "Disk restored. Starting $vm_name..."
 fi
-taskset -c $vm_cores  /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c $vm_cores /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
 	-boot c \
@@ -78,7 +78,7 @@ vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_ssh=2024
 vm_vnc=2
-vm_cores=29-32
+vm_cores=35-38
 
 vm_nic_1_id=char3
 vm_nic_1_hostport=vhost-user2

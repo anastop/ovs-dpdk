@@ -8,9 +8,9 @@
 # This is for a single vRouter configuration (2 ports) 
 # Therefore the PMD mask will include 2 cores and their hyperthreads
 #
-# Core 20 = lcpu mask (0x100000)
-# Core 21,22,61,62 = pmd mask (0x6000000000600000)
-# Core 25,26,27,28 = VPP-VM1
+# Core 21 = lcpu mask (0x100000)
+# Core 26,27,66,67 = pmd mask (0x6000000000600000)
+# Core 22,23,24,25 = VPP-VM1
 #
 
 vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
@@ -18,7 +18,7 @@ vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1
-vm_cores=25-28
+vm_cores=22-25
 
 vm_nic_1_id=char1
 vm_nic_1_hostport=vhost-user0

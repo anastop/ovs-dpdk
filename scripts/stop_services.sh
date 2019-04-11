@@ -140,3 +140,5 @@ rmmod libcrc32c
 rmmod scsi_transport_iscsi i2c_algo_bit ttm drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm
 rmmod snd_hda_codec_realtek snd_hda_codec_generic  i915_bpo  intel_ips  snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer  snd  soundcore
 rmmod video drm_kms_helper drm i2c_algo_bit fb_sys_fops syscopyarea sysfillrect sysimgblt scsi_transport_iscsi
+rmmod crypto_simd cryptd intel_cstate intel_spi_pci intel_spi switchtec
+rmmod ipmi_devintf ipmi_msghandler

@@ -12,7 +12,8 @@ echo "Running the configuration scripts for two VMs..."
 echo 24 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages
 echo 24 > /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages
 umount /dev/hugepages
-mount -t hugetlbfs nodev /dev/hugepages
+mount -t hugetlbfs nodev /dev/hugepages -o pagesize=1G
+
 
 #rmmod i40e 
 #rmmod ixgbe
@@ -98,34 +99,35 @@ $OVS_DIR/utilities/ovs-vsctl --no-wait init
 
 # Configure OVS with the CPU cores and RAM for the SECOND NUMA node
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true 
-$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x100000  	# This is core 20, the first core in the second NUMA node
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x200000  	# This is core 21, the first core in the second NUMA node
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem="0,2048"		# This assigns 2GB of RAM to the second NUMA node, and none to the first
 $OVS_DIR/vswitchd/ovs-vswitchd unix:$DB_SOCK \
 	--pidfile \
 	--detach  \
 	--log-file=/usr/local/var/log/openvswitch/ovs-vswitchd.log
-$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0x1E000000001E00000 #4C48 -- uses CPUs 21,22,23,24,61,62,63,64
+$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0xCC00000000CC000000   #4C8T -- uses CPUs 26,27,30,31,66,67,70,71
 $OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
 
 
 #create OVS DPDK Bridge and add the four physical NICs
 $OVS_DIR/utilities/ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev
 ifconfig br0 0 up
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:21"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:26"
 #sleep 8
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:22"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:27"
 #sleep 8
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:23"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:30"
 #sleep 8
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:24"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:31"
 #sleep 8
 
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:61"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:62"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-user2 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:63"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:64"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:66"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:67"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-user2 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:70"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:71"
 
-
+$OVS_DIR/utilities/ovs-vsctl show
+$OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
 #$OVS_DIR/utilities/ovs-ofctl del-flows br0
 
 # $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,idle_timeout=0,action=output:5
@@ -138,15 +140,15 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-use
 # $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,idle_timeout=0,action=output:3
 # $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,idle_timeout=0,action=output:4
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:5
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:6
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:7
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:8
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:5
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:6
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:7
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:8
 
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:1
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:2
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:3
-$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:4
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:1
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:2
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:3
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:4
 
 $OVS_DIR/utilities/ovs-ofctl dump-flows br0
  
