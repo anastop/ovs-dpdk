@@ -51,6 +51,13 @@ ssh root@<hostname>
 ### Update the Linux Kernel
 Linux kernel v4.20 is the lowest version our lab exercises can use. Follow these steps to upgrade the kernel, GRUB, and then reboot the host.
 
+**Note:**
+> If DNS fails to resolve the name, reboot the host. If that still fails, you can perform these steps as a workaround:
+> ```
+> echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
+> systemctl restart systemd-resolved.service
+> ```
+
 1. Download the packages to the directory `/tmp`
 ```
 cd /tmp/
@@ -59,13 +66,6 @@ wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-headers-4.20.
 wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-image-unsigned-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
 wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-modules-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
 ```
-**Note:**
-> If DNS fails to resolve the name, reboot the host. If that still fails, you can perform these steps as a workaround:
-> ```
-> echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
-> systemctl restart systemd-resolved.service
-> ```
-
 2. Install the packages
 ```
 dpkg -i *.deb
