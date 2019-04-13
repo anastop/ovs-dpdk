@@ -30,5 +30,15 @@ ln -sv /opt/trex-v2.53 /opt/ovs-dpdk-lab/trex
 echo
 echo "Done"
 echo
-
-
+echo
+echo "Setting up the GRUB boot loader"
+cd
+cp -f /opt/ovs-dpdk-lab/source/grub /etc/default/grub
+update-grub
+echo
+echo "Done"
+echo
+echo
+echo "You must reboot to complete the changes."
+echo "===> Type 'init 6' and press ENTER."
+echo
