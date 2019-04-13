@@ -26,12 +26,23 @@ su
 ```
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 service sshd restart
+```
+4. Exit Super User mode.
+```
 exit
 ```
-4. Logout of the host as user `pid`, and return to your workstation.
+
+5. Type `exit` again to logout of the host as user `pid`, and return to your workstation.
 ```
 exit
 ```
+
+### Enable password-less SSH connections from your workstation
+1. Push your public SSH key to the server.
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@<hostname>
+```
+2. Enter the root password of `password` to save the key.
 
 
 ### Install basic utilities
