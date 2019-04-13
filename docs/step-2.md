@@ -37,5 +37,23 @@ git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab
 cd /opt/ovs-dpdk-lab
 ```
 
+## Run the Build Step Scripts
+There are build scripts that perform many of the remaining steps for you. These scripts are only run one time and should NOT be run again unless the server has been rebuilt.
+
+1. Run the first build script to download the remaining files from the Internet.
+```
+cd /opt/ovs-dpdk-lab/scripts
+./build-step-1.sh
+```
+2. Run the second build script which unpacks and compiles the software.
+```
+cd /opt/ovs-dpdk-lab/scripts
+./build-step-2.sh
+```
+3. Reboot the server as directed by the script. This implements the changes to GRUB.
+```
+init 6
+```
+
 
 # Continue to the next document in the build process.
