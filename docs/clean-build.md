@@ -31,7 +31,6 @@ service sshd restart
 ```
 exit
 ```
-
 5. Type `exit` again to logout of the host as user `pid`, and return to your workstation.
 ```
 exit
@@ -42,34 +41,16 @@ exit
 ```
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@<hostname>
 ```
-2. Enter the root password of `password` to save the key.
+2. Enter the root password of `password` when prompted to save the key.
 
-
-### Install basic utilities
-These are tools and utilities that are required by all, or nearly all labs. The tools must be non-commercial and the installations cannot include unique identifiers that would conflict with a server imaging/deployment process.
-
-Software to install:
-* tmux
-* curl
-
-1. Logon to the host as root via SSH:
+3. Logon to the host as root via SSH:
 ```
 ssh root@<hostname>
 ```
 
-2. Update the repositories and install the basic utilities:
-```
-apt update
-apt install -y curl
-apt install -y tmux
-```
-3. Disable the automatic (background) upgrades that can create version mismatch. This is a security risk, but this is also a lab terminal and therefore should never be used in a production capacity or to host sensitive data. The important aspect of a lab terminal is the reliable execution of written procedures, and therefore automatic updates that could impact the behavior of the lab must be disabled. To do so, enter this command:
-```
-apt remove -y unattended-upgrades
-```
-
 ### Update the Linux Kernel
 Linux kernel v4.20 is the lowest version our lab exercises can use. Follow these steps to upgrade the kernel, GRUB, and then reboot the host.
+
 1. Download the packages to the directory `/tmp`
 ```
 cd /tmp/
@@ -79,7 +60,11 @@ wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-image-unsigne
 wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-modules-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
 ```
 **Note:**
-> If DNS fails to resolve the name, reboot the host. If that still fails, you may need to manually update `/etc/resolv.conf` to include the line `nameserver 8.8.8.8` for DNS to function. This is a workaround, not a solution. Plan to fix the DNS resolver before going into production.
+> If DNS fails to resolve the name, reboot the host. If that still fails, you can perform these steps as a workaround:
+> ```
+> echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
+> systemctl restart systemd-resolved.service
+> ```
 
 2. Install the packages
 ```
@@ -94,5 +79,41 @@ update-grub
 init 6
 ```
 
+## GitHub Build Stage
+The steps in this section prepare the host for the lab by cloning a GitHub repository.
 
+Current state assumption:
+* The server has been updated to Ubuntu 18.04.2 (Kernel 4.20)
+* The root account is permitted to logon via SSH
+
+### Install basic utilities
+These are tools and utilities that are required by the lab.
+Software to install:
+* tmux (Terminal emulator)
+* curl (CLI-based web browser)
+* git (GitHub client for downloading the scripts)
+
+1. Logon to the host as root via SSH:
+```
+ssh root@<hostname>
+```
+
+2. Update the repositories and install the basic utilities:
+```
+apt update
+apt install -y curl
+apt install -y tmux
+apt install -y git
+apt install -y resolvconf
+```
+3. Disable the automatic (background) upgrades that can create version mismatch. This is a security risk, but this is also a lab terminal and therefore should never be used in a production capacity or to host sensitive data. The important aspect of a lab terminal is the reliable execution of written procedures, and therefore automatic updates that could impact the behavior of the lab must be disabled. To do so, enter this command:
+```
+apt remove -y unattended-upgrades
+```
+
+### Clone the GitHub repository for the lab
+1. Create a folder for the repository .
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@<hostname>
+```
 
