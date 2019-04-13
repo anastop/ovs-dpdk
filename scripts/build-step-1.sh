@@ -19,17 +19,6 @@ wget https://www.dropbox.com/s/fac2plyvwfpuhac/dpdk-17.11.4.tar.xz
 echo
 echo "Done"
 echo
-echo "Setting up the GRUB boot loader"
-cd
-cp -f /opt/ovs-dpdk-lab/source/grub /etc/default/grub
-update-grub
+echo "Build step 1 is complete. Now run the second build script.
 echo
-echo "Done"
-echo
-echo
-echo "You must reboot to complete the changes."
-echo "===> Type 'init 6' and press ENTER."
-echo
-
-
 
