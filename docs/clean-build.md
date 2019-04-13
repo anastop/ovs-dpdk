@@ -67,6 +67,9 @@ wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-headers-4.20.
 wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-image-unsigned-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
 wget -c https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.20/linux-modules-4.20.0-042000-generic_4.20.0-042000.201812232030_amd64.deb
 ```
+**Note:**
+> If DNS fails to resolve the name, reboot the host. If that still fails, you may need to manually update `/etc/resolv.conf` to include the line `nameserver 8.8.8.8` for DNS to function. This is a workaround, not a solution. Plan to fix the DNS resolver before going into production.
+
 2. Install the packages
 ```
 dpkg -i *.deb
