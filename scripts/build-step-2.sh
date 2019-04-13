@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cd /opt/ovs-dpdk-lab/source
+apt update
 echo
 echo "Installing DPDK 17.11.4..."
 mkdir /opt/dpdk
