@@ -4,7 +4,8 @@ mkdir /root/ovs-dpdk/vm-images
 cd /root/ovs-dpdk/vm-images
 echo
 echo "Downloading Virtual Router VM image..."
-wget https://www.dropbox.com/s/kilwgqg842pnko7/ubuntu-16.04-vpp.img.tgz
+wget https://www.dropbox.com/s/zflruubvu9cd2ni/ubuntu-16.04-vpp-1.img.tgz
+wget https://www.dropbox.com/s/p0ohwtodtohlkkb/ubuntu-16.04-vpp-2.img.tgz
 echo
 echo "Done"
 echo
