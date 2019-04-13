@@ -13,8 +13,8 @@
 # Core 22,23,24,25 = VPP-VM1
 #
 
-vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
-vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
+vm_base=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp.img
+vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1
@@ -34,7 +34,7 @@ echo
 echo "Powering on $vm_name..."
 if [ ! -f $vm_disk ];
 then
-	cd /root/ovs-dpdk/vm-images
+	cd /opt/ovs-dpdk-lab/vm-images
 	echo
 	echo "File: $vm_disk not found."
 	echo "Expanding the disk for $vm_name..."
@@ -42,7 +42,7 @@ then
 	mv $vm_base $vm_disk
 	echo "Disk restored. Starting $vm_name..."
 fi
-taskset -c $vm_cores  /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
 	-boot c \

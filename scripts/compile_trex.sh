@@ -1,6 +1,6 @@
-cd /root/ovs-dpdk/trex/ko/src
+cd /opt/ovs-dpdk-lab/trex/ko/src
 make clean; make
 rmmod igb_uio uio
 modprobe uio
-insmod /root/ovs-dpdk/trex/ko/src/igb_uio.ko
-cd /root/ovs-dpdk
+insmod /opt/ovs-dpdk-lab/trex/ko/src/igb_uio.ko
+cd /opt/ovs-dpdk-lab

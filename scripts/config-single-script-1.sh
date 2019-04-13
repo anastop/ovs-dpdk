@@ -2,7 +2,7 @@
 
 echo
 echo "Shutdown extraneous services..."
-cd /root/ovs-dpdk
+cd /opt/ovs-dpdk-lab
 ./scripts/disable_service.sh > /dev/null
 ./scripts/stop_services.sh > /dev/null
 echo
@@ -26,9 +26,9 @@ rmmod eventfd_link > /dev/null
 rmmod ioeventfd > /dev/null
 rm -rf /dev/vhost-net > /dev/null
 
-export DPDK_DIR=/root/ovs-dpdk/dpdk
+export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
 export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
-export OVS_DIR=/root/ovs-dpdk/ovs
+export OVS_DIR=/opt/ovs-dpdk-lab/ovs
 export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
 
 modprobe uio > /dev/null
