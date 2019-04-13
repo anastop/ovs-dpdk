@@ -104,7 +104,6 @@ apt update
 apt install -y curl
 apt install -y tmux
 apt install -y git
-apt install -y resolvconf
 ```
 3. Disable the automatic (background) upgrades that can create version mismatch. This is a security risk, but this is also a lab terminal and therefore should never be used in a production capacity or to host sensitive data. The important aspect of a lab terminal is the reliable execution of written procedures, and therefore automatic updates that could impact the behavior of the lab must be disabled. To do so, enter this command:
 ```
@@ -112,8 +111,10 @@ apt remove -y unattended-upgrades
 ```
 
 ### Clone the GitHub repository for the lab
-1. Create a folder for the repository .
+Clone the repository to the `/opt/ovs-dpdk-lab` directory
 ```
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@<hostname>
+cd /opt
+git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab
+cd /opt/ovs-dpdk-lab
 ```
 
