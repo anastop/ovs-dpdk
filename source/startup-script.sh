@@ -21,6 +21,8 @@ umount /dev/hugepages
 mount -t hugetlbfs nodev /dev/hugepages -o pagesize=1G
 echo 8192 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages 
 mount -t hugetlbfs nodev /mnt/huge -o pagesize=2MB
-
+echo "[Resolve]" > /etc/systemd/resolved.conf
 echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
 systemctl restart systemd-resolved.service
+touch /root/startup-script-ran
+
