@@ -1,4 +1,4 @@
-# GitHub Build Stage
+# 2.0 - Lab Server CONFIGURE Stage
 The steps in this section prepare the host for the lab by cloning a GitHub repository.
 
 Current state assumption:
