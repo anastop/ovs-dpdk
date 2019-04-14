@@ -59,7 +59,7 @@ echo
 echo
 echo "Setting up the Startup Script..."
 cp -f /opt/ovs-dpdk-lab/source/startup-script.sh /etc/init.d/
-update-rc.d /etc/init.d/startup-script.sh defaults
+update-rc.d startup-script.sh defaults
 echo
 echo "Done Setting up the Startup script"
 echo
