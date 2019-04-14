@@ -43,12 +43,12 @@ There are build scripts that perform many of the remaining steps for you. These 
 1. Run the first build script to download the remaining files from the Internet.
 ```
 cd /opt/ovs-dpdk-lab/scripts
-./build-step-1.sh
+./step-1-download.sh
 ```
 2. Run the second build script which unpacks and compiles the software.
 ```
 cd /opt/ovs-dpdk-lab/scripts
-./build-step-2.sh
+./step-2-build.sh
 ```
 3. Reboot the server as directed by the script. This implements the changes to GRUB.
 ```
