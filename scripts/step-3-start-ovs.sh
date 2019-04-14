@@ -34,12 +34,15 @@ $OVS_DIR/ovsdb/ovsdb-server --remote=punix:$DB_SOCK \
 	--remote=db:Open_vSwitch,Open_vSwitch,manager_options \
 	--pidfile --detach
 
+#As both TRex and OvS-DPDK create hugepages via DPDK, they need to change from the default hugepage-backed filenames
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-extra=”--file-prefix=ovs”
+
 #initialize OVS database
 $OVS_DIR/utilities/ovs-vsctl --no-wait init
 
 # Configure OVS with the CPU cores and RAM for the SECOND NUMA node
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true 
-$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x200000  	# This is core 21, the first core in the second NUMA node
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x200000  	# This is core 21, the second core in the second NUMA node
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem="0,2048"		# This assigns 2GB of RAM to the second NUMA node, and none to the first
 $OVS_DIR/vswitchd/ovs-vswitchd unix:$DB_SOCK \
 	--pidfile \
