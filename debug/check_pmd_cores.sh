@@ -1,2 +1,2 @@
-/root/ovs-dpdk/ovs/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
 

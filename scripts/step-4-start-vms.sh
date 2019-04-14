@@ -14,8 +14,7 @@
 # Core 35,36,37,38 = VPP-VM2
 #
 
-vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
-vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-1.img
+vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_ssh=2023
 vm_vnc=1
@@ -35,15 +34,11 @@ echo
 echo "Powering on $vm_name..."
 if [ ! -f $vm_disk ];
 then
-	cd /root/ovs-dpdk/vm-images
 	echo
 	echo "File: $vm_disk not found."
-	echo "Expanding the disk for $vm_name..."
-	tar xvf $vm_base.tgz 
-	mv $vm_base $vm_disk
-	echo "Disk restored. Starting $vm_name..."
-fi
-taskset -c $vm_cores /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
+	echo "You must first run the build script to download the VM disk files."
+else
+taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
 	-boot c \
@@ -66,6 +61,8 @@ echo "VNC: $vm_vnc"
 echo "ssh root@localhost -p $vm_ssh"
 echo "username: root"
 echo "password: root245"
+fi
+
 echo
 echo
 echo
@@ -73,8 +70,8 @@ echo
 echo
 echo
 echo
-vm_base=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp.img
-vm_disk=/root/ovs-dpdk/vm-images/ubuntu-16.04-vpp-2.img
+
+vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_ssh=2024
 vm_vnc=2
@@ -94,15 +91,11 @@ echo
 echo "Powering on $vm_name..."
 if [ ! -f $vm_disk ];
 then
-	cd /root/ovs-dpdk/vm-images
 	echo
 	echo "File: $vm_disk not found."
-	echo "Expanding the disk for $vm_name..."
-	tar xvf $vm_base.tgz 
-	mv $vm_base $vm_disk
-	echo "Disk restored. Starting $vm_name..."
-fi
-taskset -c $vm_cores  /root/ovs-dpdk/qemu/x86_64-softmmu/qemu-system-x86_64 \
+	echo "You must first run the build script to download the VM disk files."
+else
+taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
 	-boot c \
@@ -125,6 +118,7 @@ echo "VNC: $vm_vnc"
 echo "ssh root@localhost -p $vm_ssh"
 echo "username: root"
 echo "password: root245"
+fi
 echo
 echo
 echo "Done"

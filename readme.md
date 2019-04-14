@@ -19,16 +19,16 @@ git clone https://github.com/brianeiler/ovs-dpdk
 ```
 1. Update the Kernel and GRUB, then reboot:
 ```
-/root/ovs-dpdk/scripts/build-script-1.sh
+/opt/ovs-dpdk-lab/scripts/build-script-1.sh
 init 6
 ```
 2. Download the software packages and VM:
 ```
-/root/ovs-dpdk/scripts/build-script-2.sh
+/opt/ovs-dpdk-lab/scripts/build-script-2.sh
 ```
 3. Install and compile the software packages:
 ```
-/root/ovs-dpdk/scripts/build-script-3.sh
+/opt/ovs-dpdk-lab/scripts/build-script-3.sh
 ```
 
 ## Configuration Steps: Single VM
@@ -40,9 +40,9 @@ This configuration will produce
    - Open vSwitch
    - One Linux VM running the VPP router software with 2 active NICs
    
-1. Configure the vSwitch by running the script: `/root/ovs-dpdk/scripts/config-single-script-1.sh`
+1. Configure the vSwitch by running the script: `/opt/ovs-dpdk-lab/scripts/config-single-script-1.sh`
 
-2. Power on the VM by running the script: `/root/ovs-dpdk/scripts/config-single-script-2.sh`
+2. Power on the VM by running the script: `/opt/ovs-dpdk-lab/scripts/config-single-script-2.sh`
 
 3. Logon to the VPP VM:
 ```
@@ -86,7 +86,7 @@ tmux new -s trex-server
 
 2. In the tmux session, launch the TRex server:
 ```
-cd /root/ovs-dpdk/scripts
+cd /opt/ovs-dpdk-lab/scripts
 ./trex_server_2ports.sh
 ```
 
@@ -102,7 +102,7 @@ tmux new -s trex-console
 
 5. In the tmux session, launch the TRex console:
 ```
-cd /root/ovs-dpdk/trex
+cd /opt/ovs-dpdk-lab/trex
 ./trex-console -f
 ```
 
@@ -117,10 +117,10 @@ l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
 l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
 service -a --off
 tui
-start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p0.yaml --force -p0
-start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p1.yaml --force -p1
-start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p2.yaml --force -p2
-start -f /root/ovs-dpdk/configs/trex/vpp-vrouter-p3.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p0.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p3.yaml --force -p3
 
 stats -a
 ```

@@ -2,9 +2,9 @@
 
 echo
 echo "Shutdown extraneous services..."
-cd /root/ovs-dpdk
-./scripts/disable_service.sh > /dev/null
-./scripts/stop_services.sh > /dev/null
+cd /opt/ovs-dpdk-lab
+./debug/disable_services.sh > /dev/null
+./debug/stop_services.sh > /dev/null
 echo
 echo "Done"
 echo
@@ -26,9 +26,9 @@ rmmod eventfd_link > /dev/null
 rmmod ioeventfd > /dev/null
 rm -rf /dev/vhost-net > /dev/null
 
-export DPDK_DIR=/root/ovs-dpdk/dpdk
+export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
 export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
-export OVS_DIR=/root/ovs-dpdk/ovs
+export OVS_DIR=/opt/ovs-dpdk-lab/ovs
 export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
 
 modprobe uio > /dev/null
@@ -37,6 +37,8 @@ insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
 # Bind OVS to the second NUMA node. All device IDs are 80 or higher.
 python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio af:00.0
 python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio af:00.1
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio b1:00.0
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio b1:00.1
 
 # python $DPDK_DIR/usertools/dpdk-devbind.py --status 
 
@@ -103,7 +105,7 @@ $OVS_DIR/vswitchd/ovs-vswitchd unix:$DB_SOCK \
 	--pidfile \
 	--detach  \
 	--log-file=/usr/local/var/log/openvswitch/ovs-vswitchd.log
-$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0xC000000000C000000   #2C4T -- uses CPUs 26,27,66,67
+$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0xCC00000000CC000000   #4C8T -- uses CPUs 26,27,30,31,66,67,70,71
 $OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
 
 
@@ -114,9 +116,15 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk
 #sleep 8
 $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:27"
 #sleep 8
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:30"
+#sleep 8
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:31"
+#sleep 8
 
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:66"
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:67"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-user2 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:70"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:71"
 
 $OVS_DIR/utilities/ovs-vsctl show
 $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
@@ -134,9 +142,13 @@ $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
 
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:5
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:6
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=3,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:7
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=4,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:8
 
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=5,dl_type=0x800,nw_dst=24.0.0.0/8,idle_timeout=0,action=output:1
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,dl_type=0x800,nw_dst=16.0.0.0/8,idle_timeout=0,action=output:2
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,dl_type=0x800,nw_dst=48.0.0.0/8,idle_timeout=0,action=output:3
+$OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,dl_type=0x800,nw_dst=32.0.0.0/8,idle_timeout=0,action=output:4
 
 $OVS_DIR/utilities/ovs-ofctl dump-flows br0
  
