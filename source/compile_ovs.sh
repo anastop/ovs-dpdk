@@ -1,6 +1,7 @@
 #!/bin/sh
 
-apt install -y python-six autoconf automake
+apt install -y autoconf automake libtool
+apt install -y python-six
 
 cd /opt/ovs-dpdk-lab/ovs
 ./boot.sh

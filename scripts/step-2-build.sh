@@ -50,6 +50,7 @@ else
 	echo DPDK version of igb_uio.ko copied successfully.
 	echo
 fi
+/opt/ovs-dpdk-lab/source/compile_trex.sh
 echo
 echo "Done Installing TREX-2.53."
 echo
