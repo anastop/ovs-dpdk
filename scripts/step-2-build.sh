@@ -2,6 +2,7 @@
 
 cd /opt/ovs-dpdk-lab/source
 apt update
+apt install -y net-tools
 echo
 echo "Installing DPDK 17.11.4..."
 tar xf dpdk-17.11.4.tar.xz -C /opt
