@@ -26,6 +26,5 @@ echo
 echo "Done Expanding Virtual Router VM images"
 echo
 echo
-echo "Build step 1 is complete. Now run the second build script.
+echo "Build step 1 is complete. Now run the second build script."
 echo
-
