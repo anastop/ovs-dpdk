@@ -58,8 +58,7 @@ read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press 
 echo
 echo
 echo "Setting up the Startup Script..."
-cp -f /opt/ovs-dpdk-lab/source/startup-script.sh /etc/init.d/
-update-rc.d startup-script.sh defaults
+echo "@reboot /opt/ovs-dpdk-lab/source/startup-script.sh" > crontab -e
 echo
 echo "Done Setting up the Startup script"
 echo
