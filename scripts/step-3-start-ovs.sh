@@ -32,7 +32,7 @@ $OVS_DIR/ovsdb/ovsdb-tool create /usr/local/etc/openvswitch/conf.db $OVS_DIR/vsw
 #start database server
 $OVS_DIR/ovsdb/ovsdb-server --remote=punix:$DB_SOCK \
 	--remote=db:Open_vSwitch,Open_vSwitch,manager_options \
-	-pidfile --detach
+	--pidfile --detach
 
 #initialize OVS database
 $OVS_DIR/utilities/ovs-vsctl --no-wait init
