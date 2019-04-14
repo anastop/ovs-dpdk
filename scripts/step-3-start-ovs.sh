@@ -3,8 +3,8 @@
 echo
 echo "Shutdown extraneous services..."
 cd /opt/ovs-dpdk-lab
-./scripts/disable_service.sh > /dev/null
-./scripts/stop_services.sh > /dev/null
+./debug/disable_services.sh > /dev/null
+./debug/stop_services.sh > /dev/null
 echo
 echo "Done"
 echo
