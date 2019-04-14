@@ -57,6 +57,13 @@ echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
+echo "Setting up the Startup Script..."
+cp -f /opt/ovs-dpdk-lab/source/startup-script.sh /etc/init.d/
+update-rc.d /etc/init.d/startup-script.sh defaults
+echo
+echo "Done Setting up the Startup script"
+echo
+echo
 echo "Setting up the GRUB boot loader"
 cp -f /opt/ovs-dpdk-lab/source/grub /etc/default/grub
 update-grub
