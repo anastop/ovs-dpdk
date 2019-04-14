@@ -36,8 +36,20 @@ echo
 echo "Installing TREX-2.53..."
 tar xf trex-v2.53.tgz -C /opt
 ln -sv /opt/trex-v2.53 /opt/ovs-dpdk-lab/trex
-mkdir /opt/ovs-dpdk-lab/trex/ko/`uname -r`
-cp /opt/ovs-dpdk-lab/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko /opt/ovs-dpdk-lab/trex/ko/`uname -r`/
+dpdk_igb_file=/opt/ovs-dpdk-lab/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
+trex_igb_dir=/opt/ovs-dpdk-lab/trex/ko/`uname -r`
+mkdir $trex_igb_dir
+if [ ! -f $dpdk_igb_file ];
+then
+	echo
+	echo The DPDK version of igb_uio.ko is missing. Cannot copy file.
+	echo
+else
+	cp $dpdk_igb_file $trex_igb_dir
+	echo
+	echo DPDK version of igb_uio.ko copied successfully.
+	echo
+fi
 echo
 echo "Done Installing TREX-2.53."
 echo
