@@ -24,5 +24,4 @@ mount -t hugetlbfs nodev /mnt/huge -o pagesize=2MB
 echo "[Resolve]" > /etc/systemd/resolved.conf
 echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
 systemctl restart systemd-resolved.service
-touch /root/startup-script-ran
 
