@@ -29,6 +29,26 @@ cd /opt/ovs-dpdk-lab/scripts
 ```
 ./step-5-start-trex.sh
 ```
+## Configure TRex
+In this task you will configure the TRex console to send a large amount of traffic through the virtual router VMs. In the TRex console window, type the following commands:
+```
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-vrouter-p3.yaml --force -p3
+tui
+```
+This will start a continuous monitor that shows you the number of packets sent and received by TRex.
+You will leave this terminal window open for the remainder of the lab so that you can monitor the performance of the server.
+
+
 
 ## Experiment with SST-BF
 In this task you will open a new SSH terminal window where you will run the script to enable and disable SST-BF on your CPUs. In your TRex console window, you will see the number of packets per second increase when you activate SST-BF.
