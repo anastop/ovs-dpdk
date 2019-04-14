@@ -13,7 +13,7 @@ rm -rf /dev/vhost-net > /dev/null
 
 modprobe uio
 insmod /opt/ovs-dpdk-lab/trex/ko/src/igb_uio.ko
-
+modprobe msr
 
 echo 24 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages
 echo 24 > /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages
