@@ -21,7 +21,7 @@
 # The VMs are otherwise unable to uniquely identify themselves.
 #
 
-fs_path=/opt/ovs-dpdk-lab/config/vpp
+fs_path=/opt/ovs-dpdk-lab/configs/vpp
 fs_mount_tag=hostfs
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
@@ -83,7 +83,7 @@ echo
 echo
 echo
 
-fs_path=/opt/ovs-dpdk-lab/config/vpp
+fs_path=/opt/ovs-dpdk-lab/configs/vpp
 fs_mount_tag=hostfs
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
