@@ -5,8 +5,8 @@ export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
 export OVS_DIR=/opt/ovs-dpdk-lab/ovs
 export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
 
-modprobe uio > /dev/null
-insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
+#modprobe uio > /dev/null
+#insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
 
 # Bind OVS to the second NUMA node. All device IDs are 80 or higher.
 python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio af:00.0
