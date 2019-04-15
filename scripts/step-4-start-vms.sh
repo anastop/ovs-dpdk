@@ -57,7 +57,7 @@ taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-	-virtfs local,path=${fs_path},mount_tag={fs_mount_tag},security_model=none,readonly \
+	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
@@ -119,7 +119,7 @@ taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-	-virtfs local,path=${fs_path},mount_tag={fs_mount_tag},security_model=none,readonly \
+	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
