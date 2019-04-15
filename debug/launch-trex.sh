@@ -15,9 +15,6 @@ echo "Starting Trex server"
 if [ -d ${trex_dir} -a -d ${tmp_dir} ]; then
 	pushd ${trex_dir} 2>/dev/null
 	trex_server_cmd="./t-rex-64 -i --cfg ${yaml_file} --iom 0 -v 4"
-	echo
-	echo "about to run: ${trex_server_cmd}"
-	echo
 	rm -fv /tmp/trex.server.out
 	screen -dmS trex -t server ${trex_server_cmd}
 	screen -x trex -X chdir /tmp
@@ -25,7 +22,9 @@ if [ -d ${trex_dir} -a -d ${tmp_dir} ]; then
 	screen -x trex -p server -X logtstamp on
 	screen -x trex -p server -X log on
 
-	# wait for trex server to be ready                                                                                                                                                                                                    
+	echo
+	echo "Waiting for the TRex server to be ready..."
+	echo
 	count=60
 	num_ports=0
 	while [ ${count} -gt 0 -a ${num_ports} -lt 2 ]; do
@@ -34,9 +33,13 @@ if [ -d ${trex_dir} -a -d ${tmp_dir} ]; then
 		((count--))
 	done
 	if [ ${num_ports} -eq 2 ]; then
-		echo "trex-server is ready"
+		echo "Session: \'screen -x trex\'"
+		echo "Logs:    \'cat /tmp/trex.server.out\'"
+		echo
+		echo "Done. The TRex server is online"
+		echo
 	else
-		echo "ERROR: trex-server could not start properly.  Check \'screen -x trex\' and/or \'cat /tmp/trex.server.out\'"
+		echo "ERROR: The TRex server did not start properly.  Check \'screen -x trex\' and/or \'cat /tmp/trex.server.out\'"
 		exit 1
 	fi
 else
