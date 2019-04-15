@@ -33,13 +33,13 @@ if [ -d ${trex_dir} -a -d ${tmp_dir} ]; then
 		((count--))
 	done
 	if [ ${num_ports} -eq 2 ]; then
-		echo "Session: \'screen -x trex\'"
-		echo "Logs:    \'cat /tmp/trex.server.out\'"
+		echo "Session: screen -x trex"
+		echo "Logs:    cat /tmp/trex.server.out"
 		echo
 		echo "Done. The TRex server is online"
 		echo
 	else
-		echo "ERROR: The TRex server did not start properly.  Check \'screen -x trex\' and/or \'cat /tmp/trex.server.out\'"
+		echo "ERROR: The TRex server did not start properly.  Check 'screen -x trex' and/or 'cat /tmp/trex.server.out'"
 		exit 1
 	fi
 else
