@@ -48,6 +48,8 @@ then
 	echo "File: $vm_disk not found."
 	echo "You must first run the build script to download the VM disk files."
 else
+#	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
+
 taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
@@ -57,7 +59,6 @@ taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-#	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
@@ -110,6 +111,9 @@ then
 	echo "File: $vm_disk not found."
 	echo "You must first run the build script to download the VM disk files."
 else
+
+#	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
+
 taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=$vm_disk \
@@ -119,7 +123,6 @@ taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-#	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
