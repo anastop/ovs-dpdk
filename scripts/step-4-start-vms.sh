@@ -21,6 +21,8 @@
 # The VMs are otherwise unable to uniquely identify themselves.
 #
 
+fs_path=/opt/ovs-dpdk-lab/config/vpp
+fs_mount_tag=hostfs
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_uuid=00000000-0000-0000-0000-000000000001
@@ -55,6 +57,7 @@ taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
+	-virtfs local,path=${fs_path},mount_tag={fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
@@ -80,6 +83,8 @@ echo
 echo
 echo
 
+fs_path=/opt/ovs-dpdk-lab/config/vpp
+fs_mount_tag=hostfs
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_uuid=00000000-0000-0000-0000-000000000002
@@ -114,6 +119,7 @@ taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
+	-virtfs local,path=${fs_path},mount_tag={fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=$vm_nic_1_id,path=/usr/local/var/run/openvswitch/$vm_nic_1_hostport \
