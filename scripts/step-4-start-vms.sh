@@ -14,8 +14,16 @@
 # Core 35,36,37,38 = VPP-VM2
 #
 
+#
+# WARNING!!!
+# Each VM that will run VPP must have a unique "vm_uuid" value.
+# The VM queries this value to determine which configuration script to execute at boot.
+# The VMs are otherwise unable to uniquely identify themselves.
+#
+
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
+vm_uuid=00000000-0000-0000-0000-000000000001
 vm_ssh=2023
 vm_vnc=1
 vm_cores=22-25
@@ -44,7 +52,7 @@ taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-boot c \
 	-enable-kvm \
 	-name $vm_name \
-	-uuid $vm_name \
+	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
@@ -74,6 +82,7 @@ echo
 
 vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
+vm_uuid=00000000-0000-0000-0000-000000000002
 vm_ssh=2024
 vm_vnc=2
 vm_cores=35-38
@@ -102,7 +111,7 @@ taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-boot c \
 	-enable-kvm \
 	-name $vm_name \
-	-uuid $vm_name \
+	-uuid $vm_uuid \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
