@@ -57,5 +57,5 @@ fi
 read -r -p "Press the ENTER key to launch the TRex console." key
 echo
 echo "Starting the TRex console"
-cd {trex_dir}
+cd ${trex_dir}
 ./trex-console -f
