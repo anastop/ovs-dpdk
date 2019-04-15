@@ -44,6 +44,7 @@ taskset -c $vm_cores /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-boot c \
 	-enable-kvm \
 	-name $vm_name \
+	-uuid $vm_name \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
@@ -101,6 +102,7 @@ taskset -c $vm_cores  /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-boot c \
 	-enable-kvm \
 	-name $vm_name \
+	-uuid $vm_name \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::$vm_ssh-:22 \
