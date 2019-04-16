@@ -6,32 +6,32 @@ apt install -y net-tools
 apt install -y screen
 
 echo
-echo "Installing DPDK 17.11.4..."
-tar xf dpdk-17.11.4.tar.xz -C /opt
-ln -sv /opt/dpdk-stable-17.11.4 /opt/ovs-dpdk-lab/dpdk
+echo "Installing DPDK 18.11.1..."
+tar xf dpdk-18.11.1.tar.xz -C /opt
+ln -sv /opt/dpdk-stable-18.11.1 /opt/ovs-dpdk-lab/dpdk
 /opt/ovs-dpdk-lab/source/compile_dpdk.sh 
 echo
-echo "Done Installing DPDK 17.11.4."
+echo "Done Installing DPDK 18.11.1"
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Installing OVS-2.10.1..."
-tar xf openvswitch-2.10.1.tar.gz -C /opt
-ln -sv /opt/openvswitch-2.10.1 /opt/ovs-dpdk-lab/ovs
+echo "Installing OVS-2.11.0..."
+tar xf openvswitch-2.11.0.tar.gz -C /opt
+ln -sv /opt/openvswitch-2.11.0 /opt/ovs-dpdk-lab/ovs
 /opt/ovs-dpdk-lab/source/compile_ovs.sh 
 echo
-echo "Done Installing OVS-2.10.1."
+echo "Done Installing OVS-2.11.0."
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Installing qemu-2.12.1..."
-tar xf qemu-2.12.1.tar.xz -C /opt
-ln -sv /opt/qemu-2.12.1 /opt/ovs-dpdk-lab/qemu
+echo "Installing qemu-3.1.0..."
+tar xf qemu-3.1.0.tar.xz -C /opt
+ln -sv /opt/qemu-3.1.0 /opt/ovs-dpdk-lab/qemu
 /opt/ovs-dpdk-lab/source/compile_qemu.sh
 echo
-echo "Done Installing qemu-2.12.1"
+echo "Done Installing qemu-3.1.0"
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
