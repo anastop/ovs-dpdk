@@ -99,7 +99,7 @@ vm_nic_1_net=net3
 vm_nic_1_mac=00:03:00:00:00:03
 
 vm_nic_2_id=char4
-vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-3
+vm_nic_2_hostpath=/usr/local/var/run/openvswitch/vhost-client-3
 vm_nic_2_net=net4
 vm_nic_2_mac=00:04:00:00:00:04
 
