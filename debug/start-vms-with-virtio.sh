@@ -58,7 +58,6 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-uuid ${vm_uuid} \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::${vm_ssh}-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=${vm_nic_1_id},path=${vm_nic_1_hostpath},server \
@@ -67,6 +66,7 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-chardev socket,id=${vm_nic_2_id},path=${vm_nic_2_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
+	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-vnc :${vm_vnc} &
 echo
 echo "${vm_name} started!"
@@ -122,7 +122,6 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-uuid ${vm_uuid} \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
-	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-netdev user,id=nttsip,hostfwd=tcp::${vm_ssh}-:22 \
 	-device e1000,netdev=nttsip \
 	-chardev socket,id=${vm_nic_1_id},path=${vm_nic_1_hostpath},server \
@@ -131,6 +130,7 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-chardev socket,id=${vm_nic_2_id},path=${vm_nic_2_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
+	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 	-vnc :${vm_vnc} &
 echo
 echo "${vm_name} started!"
