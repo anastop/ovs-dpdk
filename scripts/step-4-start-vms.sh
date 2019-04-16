@@ -31,12 +31,12 @@ vm_vnc=1
 vm_cores=22-25
 
 vm_nic_1_id=char1
-vm_nic_1_hostport=vhost-client-0
+vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-0
 vm_nic_1_net=net1
 vm_nic_1_mac=00:01:00:00:00:01
 
 vm_nic_2_id=char2
-vm_nic_2_hostport=vhost-client-1
+vm_nic_2_hostpath=/usr/local/var/run/openvswitch/vhost-client-1
 vm_nic_2_net=net2
 vm_nic_2_mac=00:02:00:00:00:02
 
@@ -61,10 +61,10 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::${vm_ssh}-:22 \
 	-device e1000,netdev=nttsip \
-	-chardev socket,id=${vm_nic_1_id},path=/usr/local/var/run/openvswitch/${vm_nic_1_hostport},server \
+	-chardev socket,id=${vm_nic_1_id},path=${vm_nic_1_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_1_net},chardev=${vm_nic_1_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_1_net},mac=${vm_nic_1_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
-	-chardev socket,id=${vm_nic_2_id},path=/usr/local/var/run/openvswitch/${vm_nic_2_hostport},server \
+	-chardev socket,id=${vm_nic_2_id},path=${vm_nic_2_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} &
@@ -94,12 +94,12 @@ vm_vnc=2
 vm_cores=35-38
 
 vm_nic_1_id=char3
-vm_nic_1_hostport=vhost-client-2
+vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-2
 vm_nic_1_net=net3
 vm_nic_1_mac=00:03:00:00:00:03
 
 vm_nic_2_id=char4
-vm_nic_2_hostport=vhost-client-3
+vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-3
 vm_nic_2_net=net4
 vm_nic_2_mac=00:04:00:00:00:04
 
@@ -125,10 +125,10 @@ taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 
 	-numa node,memdev=mem -mem-prealloc \
 	-netdev user,id=nttsip,hostfwd=tcp::${vm_ssh}-:22 \
 	-device e1000,netdev=nttsip \
-	-chardev socket,id=${vm_nic_1_id},path=/usr/local/var/run/openvswitch/${vm_nic_1_hostport},server \
+	-chardev socket,id=${vm_nic_1_id},path=${vm_nic_1_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_1_net},chardev=${vm_nic_1_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_1_net},mac=${vm_nic_1_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
-	-chardev socket,id=${vm_nic_2_id},path=/usr/local/var/run/openvswitch/${vm_nic_2_hostport},server \
+	-chardev socket,id=${vm_nic_2_id},path=${vm_nic_2_hostpath},server \
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} &
