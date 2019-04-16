@@ -4,7 +4,8 @@ export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
 export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
 export OVS_DIR=/opt/ovs-dpdk-lab/ovs
 export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
-export vhost_socket_path=/usr/local/var/run/openvswitch/
+export vhost_socket_path=/usr/local/var/run/openvswitch/vhost-client
+
 
 #modprobe uio > /dev/null
 #insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
@@ -62,19 +63,19 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk
 $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:31"
 
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-0 -- set Interface vhost-client-0 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-0 \
+	options:vhost-server-path=${vhost_socket_path}-0 \
 	other_config:pmd-rxq-affinity="0:66"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-1 -- set Interface vhost-client-1 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-1 \
+	options:vhost-server-path=${vhost_socket_path}-1 \
 	other_config:pmd-rxq-affinity="0:67"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-2 -- set Interface vhost-client-2 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-2 \
+	options:vhost-server-path=${vhost_socket_path}-2 \
 	other_config:pmd-rxq-affinity="0:70"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-3 -- set Interface vhost-client-3 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-3 \
+	options:vhost-server-path=${vhost_socket_path}-3 \
 	other_config:pmd-rxq-affinity="0:71"
 
 $OVS_DIR/utilities/ovs-vsctl show
