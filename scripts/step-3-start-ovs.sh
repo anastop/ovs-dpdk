@@ -62,16 +62,20 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk
 $OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:31"
 
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-0 -- set Interface vhost-client-0 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-0 pmd-rxq-affinity="0:66"
+	options:vhost-server-path=${vhost_socket_path}vhost-client-0 \
+	other_config:pmd-rxq-affinity="0:66"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-1 -- set Interface vhost-client-1 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-1 pmd-rxq-affinity="0:67"
+	options:vhost-server-path=${vhost_socket_path}vhost-client-1 \
+	other_config:pmd-rxq-affinity="0:67"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-2 -- set Interface vhost-client-2 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-2 pmd-rxq-affinity="0:70"
+	options:vhost-server-path=${vhost_socket_path}vhost-client-2 \
+	other_config:pmd-rxq-affinity="0:70"
 	
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-3 -- set Interface vhost-client-3 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}vhost-client-3 pmd-rxq-affinity="0:71"
+	options:vhost-server-path=${vhost_socket_path}vhost-client-3 \
+	other_config:pmd-rxq-affinity="0:71"
 
 $OVS_DIR/utilities/ovs-vsctl show
 $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
