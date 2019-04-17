@@ -32,6 +32,8 @@ else
 		echo
 		echo "Waiting for the TRex server to be ready..."
 		echo
+		echo "Please be patient, this may take up to 2 minutes."
+		echo
 		count=120
 		num_ports=0
 		while [ ${count} -gt 0 -a ${num_ports} -lt 2 ]; do
