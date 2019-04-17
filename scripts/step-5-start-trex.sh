@@ -54,6 +54,9 @@ else
 	fi
 	echo
 fi
+cd ${trex_dir}
+./trex_daemon_server start
+echo
 read -r -p "Press the ENTER key to launch the TRex console." key
 echo
 echo "Starting the TRex console"
