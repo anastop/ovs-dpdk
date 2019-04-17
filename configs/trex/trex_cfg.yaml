@@ -1,6 +1,6 @@
 - port_limit            : 4             # Number of ports
   prefix                : trex          # As both TRex and OvS-DPDK create hugepages via DPDK, they need to change from the default hugepage-backed filenames
-  version               : 2.53          # Version of TRex
+  version               : 2             # Version of TRex
   interfaces            : ["18:00.0","18:00.1","1a:00.0","1a:00.1"]
 
   enable_zmq_pub        : true          # enable publisher for stats data
