@@ -63,4 +63,5 @@ read -r -p "Press the ENTER key to launch the TRex console." key
 echo
 echo "Starting the TRex console"
 cd ${trex_dir}
+./trex-console --batch /opt/ovs-dpdk-lab/configs/trex/trex-script.conf
 ./trex-console -f
