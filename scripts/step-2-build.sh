@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cd /opt/ovs-dpdk-lab/source
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+
+cd ${git_base_path}/source
 apt update
 apt install -y net-tools
 apt install -y screen
@@ -8,8 +12,8 @@ apt install -y screen
 echo
 echo "Installing DPDK 18.11.1..."
 tar xf dpdk-18.11.1.tar.xz -C /opt
-ln -sv /opt/dpdk-stable-18.11.1 /opt/ovs-dpdk-lab/dpdk
-/opt/ovs-dpdk-lab/source/compile_dpdk.sh 
+ln -sv /opt/dpdk-stable-18.11.1 ${git_base_path}/dpdk
+${git_base_path}/source/compile_dpdk.sh 
 echo
 echo "Done Installing DPDK 18.11.1"
 echo
@@ -18,8 +22,8 @@ echo
 echo
 echo "Installing OVS-2.11.0..."
 tar xf openvswitch-2.11.0.tar.gz -C /opt
-ln -sv /opt/openvswitch-2.11.0 /opt/ovs-dpdk-lab/ovs
-/opt/ovs-dpdk-lab/source/compile_ovs.sh 
+ln -sv /opt/openvswitch-2.11.0 ${git_base_path}/ovs
+${git_base_path}/source/compile_ovs.sh 
 echo
 echo "Done Installing OVS-2.11.0."
 echo
@@ -28,8 +32,8 @@ echo
 echo
 echo "Installing qemu-3.1.0..."
 tar xf qemu-3.1.0.tar.xz -C /opt
-ln -sv /opt/qemu-3.1.0 /opt/ovs-dpdk-lab/qemu
-/opt/ovs-dpdk-lab/source/compile_qemu.sh
+ln -sv /opt/qemu-3.1.0 ${git_base_path}/qemu
+${git_base_path}/source/compile_qemu.sh
 echo
 echo "Done Installing qemu-3.1.0"
 echo
@@ -38,9 +42,9 @@ echo
 echo
 echo "Installing TREX-2.53..."
 tar xf trex-v2.53.tgz -C /opt
-ln -sv /opt/trex-v2.53 /opt/ovs-dpdk-lab/trex
-dpdk_igb_file=/opt/ovs-dpdk-lab/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
-trex_igb_dir=/opt/ovs-dpdk-lab/trex/ko/`uname -r`
+ln -sv /opt/trex-v2.53 ${git_base_path}/trex
+dpdk_igb_file=${git_base_path}/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
+trex_igb_dir=${git_base_path}/trex/ko/`uname -r`
 mkdir $trex_igb_dir
 if [ ! -f $dpdk_igb_file ];
 then
@@ -53,7 +57,7 @@ else
 	echo DPDK version of igb_uio.ko copied successfully.
 	echo
 fi
-/opt/ovs-dpdk-lab/source/compile_trex.sh
+${git_base_path}/source/compile_trex.sh
 echo
 echo "Done Installing TREX-2.53."
 echo
@@ -61,13 +65,13 @@ read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press 
 echo
 echo
 echo "Setting up the Startup Script..."
-echo "@reboot root /opt/ovs-dpdk-lab/source/startup-script.sh" >> /etc/crontab
+echo "@reboot root ${git_base_path}/source/startup-script.sh" >> /etc/crontab
 echo
 echo "Done Setting up the Startup script"
 echo
 echo
 echo "Setting up the GRUB boot loader"
-cp -f /opt/ovs-dpdk-lab/source/grub /etc/default/grub
+cp -f ${git_base_path}/source/grub /etc/default/grub
 update-grub
 echo
 echo "Done Setting up the GRUB boot loader"

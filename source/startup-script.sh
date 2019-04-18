@@ -1,7 +1,11 @@
 #!/bin/bash
 
-/opt/ovs-dpdk-lab/debug/disable_services.sh > /dev/null
-/opt/ovs-dpdk-lab/debug/stop_services.sh > /dev/null
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+
+${git_base_path}/debug/disable_services.sh > /dev/null
+${git_base_path}/debug/stop_services.sh > /dev/null
 rmmod igb_uio > /dev/null
 rmmod cuse > /dev/null
 rmmod fuse > /dev/null
@@ -12,8 +16,8 @@ rmmod ioeventfd > /dev/null
 rm -rf /dev/vhost-net > /dev/null
 
 modprobe uio
-insmod /opt/ovs-dpdk-lab/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
-#insmod /opt/ovs-dpdk-lab/trex/ko/src/igb_uio.ko
+insmod ${DPDK_DIR}/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
+#insmod ${trex_dir}/ko/src/igb_uio.ko
 modprobe msr
 
 echo 24 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages

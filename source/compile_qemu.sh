@@ -1,10 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
 
 apt install -y libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev
 apt install -y libattr1 libattr1-dev libcap-dev libcap-ng-dev
 apt install -y linux-image-extra-virtual
 
-cd /opt/ovs-dpdk-lab/qemu/
+cd ${git_base_path}/qemu/
 ./configure --target-list=x86_64-softmmu --enable-virtfs
 make -j10
 

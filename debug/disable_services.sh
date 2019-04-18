@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 #echo never  > /sys/kernel/mm/transparent_hugepages/enabled
 echo "#Disable Address Space Layout Randomization (ASLR)" > /etc/sysctl.d/aslr.conf
 echo "kernel.randomize_va_space=0" >> /etc/sysctl.d/aslr.conf

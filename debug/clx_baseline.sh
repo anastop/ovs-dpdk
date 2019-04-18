@@ -1,3 +1,6 @@
+#!/bin/bash
+
+
 CPUPATH=/sys/devices/system/cpu
 MHZPATH=/root/scripts/mhz
 # How many mhz should it run after changing to each freq scale?

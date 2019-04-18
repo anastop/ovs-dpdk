@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
 #
 # WARNING!!!
 # Each VM that will run VPP must have a unique "vm_uuid" value.
@@ -7,9 +9,9 @@
 # The VMs are otherwise unable to uniquely identify themselves.
 #
 
-fs_path=/opt/ovs-dpdk-lab/configs/vpp
+fs_path=${git_base_path}/configs/vpp
 fs_mount_tag=hostfs
-vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-1.img
+vm_disk=${git_base_path}/vm-images/ubuntu-16.04-vpp-1.img
 vm_name=VPP-VM1
 vm_uuid=00000000-0000-0000-0000-000000000001
 vm_ssh=2023
@@ -35,7 +37,7 @@ then
 else
 #	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 
-taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} ${git_base_path}/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=${vm_disk} \
 	-boot c \
@@ -69,9 +71,9 @@ echo
 echo
 echo
 
-fs_path=/opt/ovs-dpdk-lab/configs/vpp
+fs_path=${git_base_path}/configs/vpp
 fs_mount_tag=hostfs
-vm_disk=/opt/ovs-dpdk-lab/vm-images/ubuntu-16.04-vpp-2.img
+vm_disk=${git_base_path}/vm-images/ubuntu-16.04-vpp-2.img
 vm_name=VPP-VM2
 vm_uuid=00000000-0000-0000-0000-000000000002
 vm_ssh=2024
@@ -98,7 +100,7 @@ else
 
 #	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 
-taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} ${git_base_path}/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=${vm_disk} \
 	-boot c \

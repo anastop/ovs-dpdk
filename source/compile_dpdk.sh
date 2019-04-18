@@ -1,8 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+
+cd ${git_base_path}/dpdk
 
 apt install -y libnuma-dev
 
-cd /opt/ovs-dpdk-lab/dpdk
 make install T=x86_64-native-linuxapp-gcc DESTDIR=install
 
 sleep 2

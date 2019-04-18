@@ -1,18 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
-export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
-export OVS_DIR=/opt/ovs-dpdk-lab/ovs
-export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+
+
 
 #modprobe uio > /dev/null
 #insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
 
 # Bind OVS to the second NUMA node. All device IDs are 80 or higher.
-python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio af:00.0
-python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio af:00.1
-python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio b1:00.0
-python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio b1:00.1
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC4}
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC5}
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC6}
+python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC7}
 
 # terminate OVS
 pkill -9 ovs
@@ -55,10 +56,10 @@ $OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
 #create OVS DPDK Bridge and add the four physical NICs
 $OVS_DIR/utilities/ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev
 ifconfig br0 0 up
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk0}"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk1}"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk2}"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk3}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:${PCI_ADDR_NIC4} other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk0}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:${PCI_ADDR_NIC5} other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk1}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:${PCI_ADDR_NIC6} other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk2}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:${PCI_ADDR_NIC7} other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk3}"
 
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost0}"
 $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost1}"

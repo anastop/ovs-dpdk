@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd /opt/ovs-dpdk-lab/debug/
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+cd ${git_base_path}/debug
 ./clx_baseline.sh
 
 echo

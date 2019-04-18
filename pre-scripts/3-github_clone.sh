@@ -3,6 +3,5 @@
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
-cd ${trex_dir}/ko/src
-make clean; make
-cd ${git_base_path}
+git clone https://github.com/brianeiler/ovs-dpdk.git ${git_base_path}
+

@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+
 # This script is intended to optimally configure TRex and launch it in
 # a screen session for the user.
 
-tmp_dir="/tmp"
-trex_dir="/opt/ovs-dpdk-lab/trex"
-yaml_source="/opt/ovs-dpdk-lab/configs/trex/trex_cfg.yaml"
+
+yaml_source="${git_base_path}/configs/trex/trex_cfg.yaml"
 yaml_file="/etc/trex_cfg.yaml"
 
 
@@ -13,6 +16,10 @@ yaml_file="/etc/trex_cfg.yaml"
 cp ${yaml_source} ${yaml_file}
 
 # Replace the variables in the YAML file for CPU cores
+sed -e "s/PCI_ADDR_NIC0/${PCI_ADDR_NIC0}/g" ${yaml_file}
+sed -e "s/PCI_ADDR_NIC1/${PCI_ADDR_NIC1}/g" ${yaml_file}
+sed -e "s/PCI_ADDR_NIC2/${PCI_ADDR_NIC2}/g" ${yaml_file}
+sed -e "s/PCI_ADDR_NIC3/${PCI_ADDR_NIC3}/g" ${yaml_file}
 sed -e "s/cpu_trex_port0/${cpu_trex_port0}/g" ${yaml_file}
 sed -e "s/cpu_trex_port1/${cpu_trex_port1}/g" ${yaml_file}
 sed -e "s/cpu_trex_port2/${cpu_trex_port2}/g" ${yaml_file}
@@ -78,5 +85,5 @@ read -r -p "Press the ENTER key to launch the TRex console." key
 echo
 echo "Starting the TRex console"
 cd ${trex_dir}
-./trex-console --batch /opt/ovs-dpdk-lab/configs/trex/trex-script.conf
+./trex-console --batch ${git_base_path}/configs/trex/trex-script.conf
 ./trex-console -f

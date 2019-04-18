@@ -1,6 +1,9 @@
 #!/bin/bash
 
-/opt/ovs-dpdk-lab/debug/pbf.py -s
+# Load the custom global environment variables
+source /etc/0-ovs-dpdk-global-variables.sh
+
+${git_base_path}/debug/pbf.py -s
 
 echo
 echo "SST-BF is ACTIVE."
