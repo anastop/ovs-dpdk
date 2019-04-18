@@ -8,39 +8,39 @@ cd ${git_base_path}/source
 apt update
 
 echo
-echo "Installing DPDK 18.11.1..."
+echo "Installing DPDK..."
 tar xf dpdk-18.11.1.tar.xz -C /opt
 ln -sv /opt/dpdk-stable-18.11.1 ${git_base_path}/dpdk
 ${git_base_path}/source/compile_dpdk.sh 
 echo
-echo "Done Installing DPDK 18.11.1"
+echo "Done Installing DPDK."
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Installing OVS-2.11.0..."
+echo "Installing OVS..."
 tar xf openvswitch-2.11.0.tar.gz -C /opt
 ln -sv /opt/openvswitch-2.11.0 ${git_base_path}/ovs
 ${git_base_path}/source/compile_ovs.sh 
 echo
-echo "Done Installing OVS-2.11.0."
+echo "Done Installing OVS."
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Installing qemu-3.1.0..."
+echo "Installing QEMU..."
 tar xf qemu-3.1.0.tar.xz -C /opt
 ln -sv /opt/qemu-3.1.0 ${git_base_path}/qemu
 ${git_base_path}/source/compile_qemu.sh
 echo
-echo "Done Installing qemu-3.1.0"
+echo "Done Installing QEMU."
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Installing TREX-2.53..."
-tar xf trex-v2.53.tgz -C /opt
-ln -sv /opt/trex-v2.53 ${git_base_path}/trex
+echo "Installing TRex..."
+tar xf trex-v2.56.tgz -C /opt
+ln -sv /opt/trex-v2.56 ${git_base_path}/trex
 dpdk_igb_file=${git_base_path}/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
 trex_igb_dir=${git_base_path}/trex/ko/`uname -r`
 mkdir $trex_igb_dir
@@ -57,7 +57,7 @@ else
 fi
 ${git_base_path}/source/compile_trex.sh
 echo
-echo "Done Installing TREX-2.53."
+echo "Done Installing TRex."
 echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
