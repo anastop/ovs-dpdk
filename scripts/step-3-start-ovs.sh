@@ -4,8 +4,6 @@ export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
 export DPDK_BUILD=$DPDK_DIR/x86_64-native-linuxapp-gcc
 export OVS_DIR=/opt/ovs-dpdk-lab/ovs
 export DB_SOCK=/usr/local/var/run/openvswitch/db.sock
-export vhost_socket_path=/usr/local/var/run/openvswitch/vhost-client
-
 
 #modprobe uio > /dev/null
 #insmod $DPDK_BUILD/kmod/igb_uio.ko > /dev/null
@@ -44,39 +42,28 @@ $OVS_DIR/utilities/ovs-vsctl --no-wait init
 
 # Configure OVS with the CPU cores and RAM for the SECOND NUMA node
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true 
-$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x200000  	# This is core 21, the second core in the second NUMA node
+$OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=${cpu_ovs_lcpu_mask} 
 $OVS_DIR/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem="0,2048" 	# This assigns 2GB of RAM to the second NUMA node, and none to the first
 $OVS_DIR/vswitchd/ovs-vswitchd unix:$DB_SOCK \
 	--pidfile \
 	--detach  \
 	--log-file=/usr/local/var/log/openvswitch/ovs-vswitchd.log
-$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0xCC00000000CC000000   #4C8T -- uses CPUs 26,27,30,31,66,67,70,71
+$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=${cpu_ovs_pmd_mask}
 $OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
-$OVS_DIR/utilities/ovs-vsctl set Open_vSwitch . other_config:vhost-iommu-support=true
+
 
 #create OVS DPDK Bridge and add the four physical NICs
 $OVS_DIR/utilities/ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev
 ifconfig br0 0 up
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:26"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:27"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:30"
-$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:31"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk0}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk1}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk2}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk3}"
 
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-0 -- set Interface vhost-client-0 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}-0 \
-	other_config:pmd-rxq-affinity="0:66"
-	
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-1 -- set Interface vhost-client-1 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}-1 \
-	other_config:pmd-rxq-affinity="0:67"
-	
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-2 -- set Interface vhost-client-2 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}-2 \
-	other_config:pmd-rxq-affinity="0:70"
-	
-$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-3 -- set Interface vhost-client-3 type=dpdkvhostuserclient \
-	options:vhost-server-path=${vhost_socket_path}-3 \
-	other_config:pmd-rxq-affinity="0:71"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost0}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost1}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-user2 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost2}"
+$OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost3}"
 
 $OVS_DIR/utilities/ovs-vsctl show
 $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show

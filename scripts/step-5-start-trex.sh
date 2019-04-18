@@ -5,10 +5,25 @@
 
 tmp_dir="/tmp"
 trex_dir="/opt/ovs-dpdk-lab/trex"
-yaml_file="/etc/trex_cfg.yaml"
 yaml_source="/opt/ovs-dpdk-lab/configs/trex/trex_cfg.yaml"
+yaml_file="/etc/trex_cfg.yaml"
 
+
+# Copy in the source yaml with variable placeholders for the CPU core numbers
 cp ${yaml_source} ${yaml_file}
+
+# Replace the variables in the YAML file for CPU cores
+sed -e "s/cpu_trex_port0/${cpu_trex_port0}/g" ${yaml_file}
+sed -e "s/cpu_trex_port1/${cpu_trex_port1}/g" ${yaml_file}
+sed -e "s/cpu_trex_port2/${cpu_trex_port2}/g" ${yaml_file}
+sed -e "s/cpu_trex_port3/${cpu_trex_port3}/g" ${yaml_file}
+sed -e "s/cpu_trex_port4/${cpu_trex_port4}/g" ${yaml_file}
+sed -e "s/cpu_trex_port5/${cpu_trex_port5}/g" ${yaml_file}
+sed -e "s/cpu_trex_port6/${cpu_trex_port6}/g" ${yaml_file}
+sed -e "s/cpu_trex_port7/${cpu_trex_port7}/g" ${yaml_file}
+sed -e "s/cpu_trex_master/${cpu_trex_master}/g" ${yaml_file}
+sed -e "s/cpu_trex_latency/${cpu_trex_latency}/g" ${yaml_file}
+
 
 echo "Starting the TRex server"
 

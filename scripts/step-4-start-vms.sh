@@ -1,20 +1,6 @@
 #!/bin/sh
 
 #
-# This is for a dual-socket, 20-core hyper-threaded system.
-# Cores 0-19 are on NUMA node 0; hyperthreads are 40-59
-# Cores 20-39 are on NUMA node 1; hyperthreads are 60-79
-#
-# This is for a dual vRouter configuration (4 ports) 
-# Therefore the PMD mask will include 4 cores and their hyperthreads
-#
-# Core 21 = lcpu mask (0x200000)
-# Core 26,27,30,31,66,67.70,71 = pmd mask ()
-# Core 22,23,24,25 = VPP-VM1
-# Core 35,36,37,38 = VPP-VM2
-#
-
-#
 # WARNING!!!
 # Each VM that will run VPP must have a unique "vm_uuid" value.
 # The VM queries this value to determine which configuration script to execute at boot.
@@ -28,7 +14,6 @@ vm_name=VPP-VM1
 vm_uuid=00000000-0000-0000-0000-000000000001
 vm_ssh=2023
 vm_vnc=1
-vm_cores=22-25
 
 vm_nic_1_id=char1
 vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-0
@@ -50,7 +35,7 @@ then
 else
 #	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 
-taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=${vm_disk} \
 	-boot c \
@@ -91,7 +76,6 @@ vm_name=VPP-VM2
 vm_uuid=00000000-0000-0000-0000-000000000002
 vm_ssh=2024
 vm_vnc=2
-vm_cores=35-38
 
 vm_nic_1_id=char3
 vm_nic_1_hostpath=/usr/local/var/run/openvswitch/vhost-client-2
@@ -114,7 +98,7 @@ else
 
 #	-virtfs local,path=${fs_path},mount_tag=${fs_mount_tag},security_model=none,readonly \
 
-taskset -c ${vm_cores} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
+taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} /opt/ovs-dpdk-lab/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-m 8G -smp 4,cores=4,threads=1,sockets=1 -cpu host \
 	-drive format=raw,file=${vm_disk} \
 	-boot c \

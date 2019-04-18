@@ -1,5 +1,7 @@
 #!/bin/sh
 
+
+
 export DPDK_DIR=/opt/ovs-dpdk-lab/dpdk
 export DPDK_BUILD=/opt/ovs-dpdk-lab/dpdk/x86_64-native-linuxapp-gcc
 export OVS_DIR=/opt/ovs-dpdk-lab/ovs
@@ -42,23 +44,23 @@ cd /opt/ovs-dpdk-lab/ovs
 
 # Configure OVS with the CPU cores and RAM for the SECOND NUMA node
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true 
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=0x200000  	# This is core 21, the second core in the second NUMA node
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=${cpu_ovs_lcpu_mask}  	# This is core 21, the second core in the second NUMA node
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem="0,2048" 		# This assigns 2GB of RAM to the second NUMA node, and none to the first
 /opt/ovs-dpdk-lab/ovs/vswitchd/ovs-vswitchd unix:/usr/local/var/run/openvswitch/db.sock \
 	--pidfile \
 	--detach  \
 	--log-file=/usr/local/var/log/openvswitch/ovs-vswitchd.log
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=0xC000000000C000000   #4C8T -- uses CPUs 26,27,66,67
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask=${cpu_ovs_pmd_mask}
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl set Open_vSwitch . other_config:max-idle=30000
 
 
 #create OVS DPDK Bridge and add the four physical NICs
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev
 ifconfig br0 0 up
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:26"
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:27"
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:66"
-/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:67"
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk0 -- set Interface dpdk0 type=dpdk options:dpdk-devargs=0000:af:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk0}"
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk1 -- set Interface dpdk1 type=dpdk options:dpdk-devargs=0000:af:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk1}"
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk2 -- set Interface dpdk2 type=dpdk options:dpdk-devargs=0000:b1:00.0 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk2}"
+/opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl add-port br0 dpdk3 -- set Interface dpdk3 type=dpdk options:dpdk-devargs=0000:b1:00.1 other_config:pmd-rxq-affinity="0:${cpu_ovs_dpdk3}"
 
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-vsctl show
 /opt/ovs-dpdk-lab/ovs/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
