@@ -6,8 +6,6 @@ source /etc/0-ovs-dpdk-global-variables.sh
 
 cd ${git_base_path}/source
 apt update
-apt install -y net-tools
-apt install -y screen
 
 echo
 echo "Installing DPDK 18.11.1..."
