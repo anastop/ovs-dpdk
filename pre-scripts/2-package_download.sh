@@ -8,6 +8,8 @@ apt install -y curl
 apt install -y tmux
 apt install -y git
 apt install -y python
+apt install -y net-tools
+apt install -y screen
 apt remove -y unattended-upgrades
 
 
