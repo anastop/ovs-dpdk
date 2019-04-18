@@ -39,7 +39,8 @@ read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press 
 echo
 echo
 echo "Installing TRex..."
-tar xf trex-v2.56.tgz -C /opt
+tar xf trex-v2.56.tar.gz -C /opt
+mv /opt/v2.56 /opt/trex-v2.56
 ln -sv /opt/trex-v2.56 ${git_base_path}/trex
 dpdk_igb_file=${git_base_path}/dpdk/x86_64-native-linuxapp-gcc/kmod/igb_uio.ko
 trex_igb_dir=${git_base_path}/trex/ko/`uname -r`
