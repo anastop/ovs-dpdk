@@ -13,7 +13,7 @@ This repository may be found at: https://github.com/brianeiler/ovs-dpdk
 ---------------------
 ## Build Steps
 
-Follow the numbered guide documents in the /doc folder of this repository.
+Follow the numbered guide documents in the `/docs` folder of this repository.
 
 
 
