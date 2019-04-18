@@ -12,6 +12,8 @@ wget https://www.openvswitch.org/releases/openvswitch-2.11.0.tar.gz
 wget https://download.qemu.org/qemu-3.1.0.tar.xz
 wget https://fast.dpdk.org/rel/dpdk-18.11.1.tar.xz
 
+mv v2.56.tar.gz trex-v2.56.tar.gz
+
 echo
 echo "Done Downloading source packages."
 echo
