@@ -80,10 +80,14 @@ else
 fi
 cd ${trex_dir}
 ./trex_daemon_server start
+./trex-console --batch ${git_base_path}/configs/trex/trex-init-script.conf
+# echo
+# read -r -p "Press the ENTER key to launch the TRex console." key
+# echo
+# echo "Starting the TRex console"
+cd ${git_base_path}/scripts
 echo
-read -r -p "Press the ENTER key to launch the TRex console." key
+echo "To start a TRex workload, type: ./trex-load-64byte-baseline.sh"
 echo
-echo "Starting the TRex console"
-cd ${trex_dir}
-./trex-console --batch ${git_base_path}/configs/trex/trex-script.conf
-./trex-console -f
+echo "To launch the TRex Console, type: ${trex_dir}/trex-console -f"
+echo 
