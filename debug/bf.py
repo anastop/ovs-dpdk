@@ -258,9 +258,11 @@ def revert_to_P1():
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds --> Minimum: " + str(min/1000).rjust(4) + "MHz / Maximum: " + str(max/1000).rjust(4) + "MHz")
 	print("--------------------------------------------------------------------------------------------")
 	print()
-	print("All cores have been reset to defaults (" + str(P1) + "MHz)")
+	print("All cores have been reset to the same default frequency of (" + str(P1) + "MHz)")
 	print()
-
+	print("All cores will now perform equally.")
+	print()
+	
 
 
 def get_high_perf_cores():
