@@ -19,6 +19,8 @@ driver = ""
 cpucount=0
 P1cores = []
 
+
+
 # Read a 64-byte value from an MSR through the sysfs interface.
 # Returns an 8-byte binary packed string.
 def rdmsr(core, msr):
@@ -28,6 +30,8 @@ def rdmsr(core, msr):
 	regstr = os.read(msr_file, 8)
 	return regstr
 
+
+
 # Writes a 64-byte value to an MSR through the sysfs interface.
 # Expects an 8-byte binary packed string in regstr.
 def wrmsr(core, msr, regstr):
@@ -35,6 +39,8 @@ def wrmsr(core, msr, regstr):
         msr_file = os.open(msr_filename, os.O_WRONLY)
         os.lseek(msr_file, msr, os.SEEK_SET)
         os.write(msr_file, regstr)
+
+
 
 
 # Read the HWP_REQUEST MSR
@@ -48,6 +54,8 @@ def get_hwp_request(core):
         desired = bytes[2]
         epp = bytes[3]
         return ( minimum, maximum, desired, epp )
+
+
 
 
 # Read the HWP_ENABLED MSR
@@ -73,6 +81,7 @@ def get_hwp_capabilities(core):
         return ( highest, guaranteed, lowest )
 
 
+
 # Get the CPU base frequencey from the PLATFORM_INFO MSR
 def get_cpu_base_frequency():
 	regstr = rdmsr(0,0xCE) # MSR_PLATFORM_INFO
@@ -81,6 +90,7 @@ def get_cpu_base_frequency():
 	# Byte 1 contains the max non-turbo frequecy
 	P1 = bytes[1]*100
 	return P1
+
 
 
 def check_driver():
@@ -108,6 +118,7 @@ def check_driver():
 
 
 
+
 def getcpucount():
 	cpus = os.listdir("/sys/devices/system/cpu")
 	regex = re.compile(r'cpu[0-9]')
@@ -116,11 +127,15 @@ def getcpucount():
 	return cpucount
 
 
-def enable_pbf(mode):
+
+def enable_sstbf():
 	global cpucount
 
 	print("CPU Count = " + str(cpucount))
 
+	high_perf_core=0
+	standard_core=0
+	
 	P1 = get_cpu_base_frequency()
 
 	for core in range(0,cpucount):
@@ -147,70 +162,33 @@ def enable_pbf(mode):
 				base = minimum * 100
 			else:
 				base = 2100
-
-		if mode == 2:
-			if cpucount == 16 or cpucount == 32 or cpucount == 64:
-				if pbf_cores_16[core] == 1:
-					base = 2700
-				else:
-					base = 2100
-			if cpucount == 20 or cpucount == 40 or cpucount == 80:
-				if pbf_cores_20[core] == 1:
-					base = 2700
-				else:
-					base = 2100
-			if cpucount == 24 or cpucount == 48 or cpucount == 96:
-				if pbf_cores_24[core] == 1:
-					base = 2800
-				else:
-					base = 2100
-
-		if mode == 0:
-			print("Core " + str(core) + ": P1 " + str(P1) + " : min/max " + str(base))
-			min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
-			minFile = open(min_file,'w')
-			minFile.write(str(base*1000))
-			minFile.close()
-			max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
-			maxFile = open(max_file,'w')
-			maxFile.write(str(base*1000))
-			maxFile.close()
-		if mode == 1 and base > P1:
-			print("Core " + str(core) + ": P1 " + str(P1) + " : min/max " + str(base))
-			min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
-			minFile = open(min_file,'w')
-			minFile.write(str(base*1000))
-			minFile.close()
-
-
-def reverse_pbf():
-	global cpucount
-
-	print("CPU Count = " + str(cpucount))
-
-	P1 = get_cpu_base_frequency()
-
-	for core in range(0,cpucount):
-		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/cpuinfo_max_freq"
+		
+		# Read and display the Min/Max values to confirm the SSTBF setting worked
+		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
 		maxFile = open(max_file,'r')
 		max = int(maxFile.readline().strip("\n"))
 		maxFile.close()
-		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
-		maxFile = open(max_file,'w')
-		maxFile.write(str(max))
-		maxFile.close()
-
-		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/cpuinfo_min_freq"
+		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
 		minFile = open(min_file,'r')
 		min = int(minFile.readline().strip("\n"))
 		minFile.close()
-		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
-		minFile = open(min_file,'w')
-		minFile.write(str(min))
-		minFile.close()
-		print("Core " + str(core) + ": base " + str(P1) + " : min " + str(min/1000) + " : max " + str(max/1000))
 
-def reverse_pbf_to_P1():
+		if base > P1:
+			if base > high_perf_core: high_perf_core = base
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
+		else
+			if base > standard_core: standard_core = base
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
+	print("---------------------------------------------------------------------------------------------------")
+	print()
+	print("The high performance cores have been increased to " + str(high_perf_core) + "MHz")
+	print()
+	print("All other cores have been reduced to " + str(standard_core) + "MHz")
+	print()
+
+
+
+def revert_to_P1():
 	global cpucount
 
 	print("CPU Count = " + str(cpucount))
@@ -250,8 +228,19 @@ def reverse_pbf_to_P1():
 		
 		print("Core " + str(core) + ": base " + str(P1) + " : min " + str(min/1000) + " : max " + str(min/1000))
 
+		if base > P1:
+		 	P1hi = P1hi + 1
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
+		else
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
+	print("---------------------------------------------------------------------------------------------------")
+	print()
+	print("All cores have been reset to defaults (" + str(P1) + "MHz)")
+	print()
 
-def get_highcores():
+
+
+def get_high_perf_cores():
 	global cpucount
 	global P1cores
 
@@ -272,7 +261,10 @@ def get_highcores():
 		if base > P1:
 		 	P1cores.append(core)
 
-def query_pbf():
+
+
+
+def inspect_cpu_cores():
 	global cpucount
 
 	print("CPU Count = " + str(cpucount))
@@ -301,10 +293,12 @@ def query_pbf():
 		minFile = open(min_file,'r')
 		min = int(minFile.readline().strip("\n"))
 		minFile.close()
-		print("Core " + str(core).rjust(3) + ": base_frequency " + str(base).rjust(4) + " : min " + str(min/1000).rjust(4) + " : max " + str(max/1000).rjust(4))
 		if base > P1:
 		 	P1hi = P1hi + 1
-	
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
+		else
+			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
+
 	# Print the core listing
 	lim1 = len(P1cores)
 	lim2 = len(P1cores)/2
@@ -342,6 +336,11 @@ def query_pbf():
 	print("NUMA 1: " + numa1)
 	print()
 	print("NUMA 2: " + numa2)
+	print()
+
+
+
+
 
 def range_expand(s):
     r = []
@@ -353,12 +352,20 @@ def range_expand(s):
             r+= range(l,h+1)
     return r
 
+
+
+
+
 def print_banner():
 	print("----------------------------------------------------------")
-	print("  LAB SCRIPT:  Cascade Lake SST-BF Test (2019-04-18 v.1.0)")
+	print("  LAB SCRIPT:  Cascade Lake SST-BF Test (2019-04-19 v.1.0)")
 	print("")  
 	print("  This script should only be used for testing purposes!")
 	print("----------------------------------------------------------")
+
+
+
+
 
 def show_help():
 	print("")
@@ -367,20 +374,24 @@ def show_help():
 	print(scriptname + ' <option>')
 	print("")
 	print('   <no params>   use interactive menu')
-	print("   -a            Activate SST-BF")
-	print("   -d            Deactivate SST-BF (Revert to default frequency configuration)")
-	print("   -i            Display CPU core information")
+	print("   -a            Activate SST-BF (Favor the high performance cores)")
+	print("   -d            Deactivate SST-BF (Revert all cores to Base Frequency)")
+	print("   -i            Inspect the CPU cores")
 	print("   -h            Help")
 	print()
+
+
+
+
 
 
 def do_menu():
 	print("")
 	print_banner()
 	print("")
-	print("[a] Activate SST-BF")
-	print("[d] Deactivate SST-BF (Revert to default frequency configuration)")
-	print("[i] Display CPU core information")
+	print("[a] Activate SST-BF (Favor the high performance cores)")
+	print("[d] Deactivate SST-BF (Revert all cores to Base Frequency)")
+	print("[i] Inspect the CPU cores")
 	print("[h] Help")
 	print("")
 	print("[q] Exit Script")
@@ -389,18 +400,24 @@ def do_menu():
 
 	#("[1] Display Available Settings")
 	if (text == "a"):
-		enable_pbf(0)
+		enable_sstbf()
 	elif (text == "d"):
-		reverse_pbf_to_P1()
+		revert_to_P1()
 	elif (text == "h"):
 		show_help()
 	elif (text == "i"):
-		query_pbf()
+		inspect_cpu_cores()
 	elif (text == "q"):
 		sys.exit(0)
 	else:
 		print("")
 		print("Unknown Option")
+
+
+
+
+
+
 
 #
 # Do some prerequesite checks.
@@ -430,20 +447,20 @@ except getopt.GetoptError:
 
 cpucount = getcpucount()
 cpurange = range_expand('0-' + str(cpucount-1))
-get_highcores()
+get_high_perf_cores()
 
 for opt, arg in opts:
         if opt in ("-a"):
-		enable_pbf(0)
+		enable_sstbf()
 		sys.exit(0)
         if opt in ("-d"):
-		reverse_pbf_to_P1()
+		revert_to_P1()
 		sys.exit(0)
         if opt in ("-h"):
 		show_help()
 		sys.exit(0)
         if opt in ("-i"):
-		query_pbf()
+		inspect_cpu_cores()
 		sys.exit(0)
 
 if (len(opts)==0):
