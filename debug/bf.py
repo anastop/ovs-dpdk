@@ -271,15 +271,6 @@ def get_highcores():
 		( highest, guaranteed, lowest ) = get_hwp_capabilities(core)
 		if base > P1:
 		 	P1cores.append(core)
-	inc = len(P1cores)/4
-	r1 = 0
-	r2 = r1 + inc
-	r3 = r2 + inc
-	r4 = r3 + inc
-	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
-	print()
-	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
-	
 
 def query_pbf():
 	global cpucount
@@ -313,7 +304,7 @@ def query_pbf():
 		print("Core " + str(core).rjust(3) + ": base_frequency " + str(base).rjust(4) + " : min " + str(min/1000).rjust(4) + " : max " + str(max/1000).rjust(4))
 		if base > P1:
 		 	P1hi = P1hi + 1
-
+	
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
 	print(*P1cores, sep = ", ")
 	print()
@@ -413,7 +404,7 @@ except getopt.GetoptError:
 
 cpucount = getcpucount()
 cpurange = range_expand('0-' + str(cpucount-1))
-
+get_highcores()
 
 for opt, arg in opts:
         if opt in ("-a"):
