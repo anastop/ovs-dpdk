@@ -21,19 +21,22 @@ mkdir ${git_base_path}/vm-images
 cd ${git_base_path}/vm-images
 echo
 echo "Downloading Virtual Router VM images..."
-wget https://www.dropbox.com/s/zflruubvu9cd2ni/ubuntu-16.04-vpp-1.img.tgz
-wget https://www.dropbox.com/s/p0ohwtodtohlkkb/ubuntu-16.04-vpp-2.img.tgz
+# wget https://www.dropbox.com/s/zflruubvu9cd2ni/ubuntu-16.04-vpp-1.img.tgz
+# wget https://www.dropbox.com/s/p0ohwtodtohlkkb/ubuntu-16.04-vpp-2.img.tgz
+wget https://www.dropbox.com/s/bnjocs6a886gk4e/images_ubuntu-vpp.tgz
 echo
 echo "Done Downloading Virtual Router VM images"
 echo
 echo "Expanding Virtual Router VM images..."
-tar xvf ubuntu-16.04-vpp-1.img.tgz
-tar xvf ubuntu-16.04-vpp-2.img.tgz
+# tar xvf ubuntu-16.04-vpp-1.img.tgz
+# tar xvf ubuntu-16.04-vpp-2.img.tgz
+tar xvf images_ubuntu-vpp.tgz
 echo
 echo "Done Expanding Virtual Router VM images"
 echo
 echo
 echo "Generating the CPU core environment variables."
+${git_base_path}/scripts/sstbf.py -d
 ${git_base_path}/scripts/sstbf.py -c >> /etc/0-ovs-dpdk-global-variables.sh
 ${git_base_path}/scripts/sstbf.py -c >> ${git_base_path}/pre-scripts/0-ovs-dpdk-global-variables.sh
 source /etc/0-ovs-dpdk-global-variables.sh
