@@ -255,7 +255,6 @@ def revert_to_P1():
 		print("Core " + str(core) + ": base " + str(P1) + " : min " + str(min/1000) + " : max " + str(min/1000))
 
 		if base > P1:
-		 	P1hi = P1hi + 1
 			print("Core " + str(core).rjust(3) + ": *Base Frequency: " + str(base).rjust(4) + "MHz* |  Actual Speeds --> Minimum: " + str(min/1000).rjust(4) + "MHz / Maximum: " + str(max/1000).rjust(4) + "MHz  <-- High Performance Core")
 		else:
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds --> Minimum: " + str(min/1000).rjust(4) + "MHz / Maximum: " + str(max/1000).rjust(4) + "MHz")
