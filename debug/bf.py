@@ -17,26 +17,6 @@ MIN_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 
 driver = ""
 cpucount=0
-P1cores = []
-
-# pbf_cores_16 = [ 
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0
-# ]
-# pbf_cores_20 = [ 
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0
-# ]
-# pbf_cores_24 = [ 
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,1,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,1,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,1,0,
-# 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,1,0,1,0
-# ]
 
 
 # Read a 64-byte value from an MSR through the sysfs interface.
@@ -55,11 +35,6 @@ def wrmsr(core, msr, regstr):
         msr_file = os.open(msr_filename, os.O_WRONLY)
         os.lseek(msr_file, msr, os.SEEK_SET)
         os.write(msr_file, regstr)
-
-# Set the HWP_REQUEST MSR
-def set_hwp_request(core, minimum, maximum, desired, epp):
-        regstr = struct.pack('BBBBBBBB', minimum, maximum, desired, epp,0,0,0,0)
-        wrmsr(core, 0x774, regstr)
 
 
 # Read the HWP_REQUEST MSR
@@ -131,21 +106,6 @@ def check_driver():
 	else:
 		return 1
 
-
-def set_max_cpu_freq(maxfreq, core):
-	maxName = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
-	print("Writing " + str(maxfreq) + " to " + maxName)
-	maxFile = open(maxName,'w')
-	maxFile.write(str(maxfreq))
-	maxFile.close()
-
-
-def set_min_cpu_freq(minfreq, core):
-	minName = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
-	print("Writing " + str(minfreq) + " to " + minName)
-	minFile = open(minName,'w')
-	minFile.write(str(minfreq))
-	minFile.close()
 
 
 def getcpucount():
@@ -292,7 +252,7 @@ def reverse_pbf_to_P1():
 
 def query_pbf():
 	global cpucount
-
+	P1cores = []
 	print("CPU Count = " + str(cpucount))
 
 	P1 = get_cpu_base_frequency()
