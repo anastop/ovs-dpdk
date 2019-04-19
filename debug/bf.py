@@ -332,9 +332,9 @@ def query_pbf():
 		c = a + "/" + b
 		numa2 = numa2 + c + " "
 	
-	print("NUMA 1: " + numa1
+	print("NUMA 1: " + numa1)
 	print()
-	print("NUMA 2: " + numa2
+	print("NUMA 2: " + numa2)
 
 def range_expand(s):
     r = []
