@@ -305,10 +305,7 @@ def query_pbf():
 		if base > P1:
 		 	P1hi = P1hi + 1
 	
-	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
-	print(*P1cores, sep = ", ")
-	print()
-	
+	# Print the core listing
 	lim1 = len(P1cores)
 	lim2 = len(P1cores)/2
 	lim4 = len(P1cores)/4
@@ -316,7 +313,7 @@ def query_pbf():
 	numa1 = ""
 	numa2 = ""
 	
-	# iterate through NUMA node 1
+	# iterate through NUMA node 1 to find the hyperthreaded pairs
 	for i in range(0,lim4):
 		j = i + step
 		a = str(P1cores[i])
@@ -324,14 +321,25 @@ def query_pbf():
 		c = a + "/" + b
 		numa1 = numa1 + c + " "
 	
-	# iterate through NUMA node 2
+	# iterate through NUMA node 2 to find the hyperthreaded pairs
 	for i in range(lim4,lim2):
 		j = i + step
 		a = str(P1cores[i])
 		b = str(P1cores[j])
 		c = a + "/" + b
 		numa2 = numa2 + c + " "
-	
+
+	print("---------------------------------------------------")
+	print()
+	print()
+	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
+	print()
+	print("The list of high priority cores are:")
+	print(*P1cores, sep = ", ")
+	print()
+	print()
+	print("These cores are grouped by NUMA node, and paired with their Hyperthreaded 'sister core' as follows:")
+	print("---------------------------------------------------------------------------------------------------")
 	print("NUMA 1: " + numa1)
 	print()
 	print("NUMA 2: " + numa2)
