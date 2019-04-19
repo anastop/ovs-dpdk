@@ -17,7 +17,7 @@ MIN_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 
 driver = ""
 cpucount=0
-
+P1cores = []
 
 # Read a 64-byte value from an MSR through the sysfs interface.
 # Returns an 8-byte binary packed string.
@@ -250,9 +250,40 @@ def reverse_pbf_to_P1():
 		
 		print("Core " + str(core) + ": base " + str(P1) + " : min " + str(min/1000) + " : max " + str(min/1000))
 
+
+def get_highcores():
+	global cpucount
+	global P1cores
+
+	P1 = get_cpu_base_frequency()
+	
+	for core in range(0,cpucount):
+		base = 0
+		base_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/base_frequency"
+		try:
+			baseFile = open(base_file,'r')
+			base = int(baseFile.readline().strip("\n"))/1000
+			baseFile.close()
+		except:
+			( minimum, maximum, desired, epp ) = get_hwp_request(core)
+			if minimum > 0:
+				base = minimum * 100
+		( highest, guaranteed, lowest ) = get_hwp_capabilities(core)
+		if base > P1:
+		 	P1cores.append(core)
+	inc = len(P1cores)/4
+	r1 = 0
+	r2 = r1 + inc
+	r3 = r2 + inc
+	r4 = r3 + inc
+	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
+	print()
+	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
+	
+
 def query_pbf():
 	global cpucount
-	P1cores = []
+
 	print("CPU Count = " + str(cpucount))
 
 	P1 = get_cpu_base_frequency()
@@ -282,10 +313,18 @@ def query_pbf():
 		print("Core " + str(core).rjust(3) + ": base_frequency " + str(base).rjust(4) + " : min " + str(min/1000).rjust(4) + " : max " + str(max/1000).rjust(4))
 		if base > P1:
 		 	P1hi = P1hi + 1
-		 	P1cores.append(core)
 
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
-	print(*P1cores, sep = ", ") 
+	print(*P1cores, sep = ", ")
+	print()
+	inc = len(P1cores)/4
+	r1 = 0
+	r2 = r1 + inc
+	r3 = r2 + inc
+	r4 = r3 + inc
+	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
+	print()
+	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
 
 def range_expand(s):
     r = []
