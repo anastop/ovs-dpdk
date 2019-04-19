@@ -308,20 +308,33 @@ def query_pbf():
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
 	print(*P1cores, sep = ", ")
 	print()
-	inc = len(P1cores)/4
-	r1 = 0
-	r2 = r1 + inc
-	r3 = r2 + inc
-	r4 = r3 + inc
-	print("inc = " + inc)
-	print("r1 = " + r1)
-	print("r2 = " + r2)
-	print("r3 = " + r3)
-	print("r4 = " + r4)
 	
-#	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " ) # + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
-#	print()
-#	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " ) # + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
+	lim1 = len(P1cores)
+	lim2 = len(P1cores)/2
+	lim4 = len(P1cores)/4
+	step = lim4 * 2
+	numa1 = ""
+	numa2 = ""
+	
+	# iterate through NUMA node 1
+	for i in range(0,lim4):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + "/" + b
+		numa1 = numa1 + c + " "
+	
+	# iterate through NUMA node 2
+	for i in range(lim4,lim2):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + "/" + b
+		numa2 = numa2 + c + " "
+	
+	print("NUMA 1: " + numa1
+	print()
+	print("NUMA 2: " + numa2
 
 def range_expand(s):
     r = []
