@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Copy the global variable file into place
-cp 0-ovs-dpdk-global-variables.sh /etc
+mv 0-ovs-dpdk-global-variables.sh /etc
 echo "source /etc/0-ovs-dpdk-global-variables.sh" >> /etc/bash.bashrc
 
 
