@@ -38,9 +38,9 @@ if [ $# -lt 1 ]; then
     echo "   Note: For safety, if this script is used to execute a remote command, it does *NOT* also update the Git Repo."
     echo
     exit 1
+else
+	"$@"
 fi
-
-"$@"
 
 echo
 echo "$0 Completed."
