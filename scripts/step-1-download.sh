@@ -33,5 +33,11 @@ echo
 echo "Done Expanding Virtual Router VM images"
 echo
 echo
+echo "Generating the CPU core environment variables."
+${git_base_path}/scripts/sstbf.py -c >> /etc/0-ovs-dpdk-global-variables.sh
+${git_base_path}/scripts/sstbf.py -c >> ${git_base_path}/pre-scripts/0-ovs-dpdk-global-variables.sh
+source /etc/0-ovs-dpdk-global-variables.sh
+echo
+echo
 echo "Build step 1 is complete. Now run the second build script."
 echo
