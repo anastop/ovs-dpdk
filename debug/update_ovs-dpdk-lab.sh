@@ -22,8 +22,13 @@ source /etc/0-ovs-dpdk-global-variables.sh
 if [ $# -lt 2 ]; then
 	# Pull the latest set of files from the Git Hub repo
 	cd ${git_base_path}
+	echo
+	echo "Updating the git repository at ${git_base_path}..."
+	echo
 	git pull
-
+	echo "Done Updating."
+	echo
+	echo
     echo "Reminder, this script can do more if you give it arguments:"
     echo
     echo "   To just update the Git Repo, just use: $0"
