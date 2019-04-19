@@ -25,7 +25,7 @@ echo "VM1 core 1:    ${cpu_vm1_core1}"
 echo "VM1 core 2:    ${cpu_vm1_core2}"
 echo "VM1 core 3:    ${cpu_vm1_core3}"
 echo
-echo "VM2 core 0:    ${cpu_vm2_core0}"
+echo "VM2 core 0:    ${cpu_vm2_core0}     `cat /sys/devices/system/cpu/cpu${cpu_vm2_core0}/cpufreq/base_frequency` MHz"
 echo "VM2 core 1:    ${cpu_vm2_core1}"
 echo "VM2 core 2:    ${cpu_vm2_core2}"
 echo "VM2 core 3:    ${cpu_vm2_core3}"
