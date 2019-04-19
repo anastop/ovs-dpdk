@@ -330,7 +330,6 @@ def query_pbf():
 		numa2 = numa2 + c + " "
 
 	print("---------------------------------------------------")
-	print()
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
 	print()
 	print()
