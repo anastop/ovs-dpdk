@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 source /etc/0-ovs-dpdk-global-variables.sh
 
 # The purpose of this script is to provide the lab administrator with a reliable location
