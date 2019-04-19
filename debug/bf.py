@@ -465,7 +465,7 @@ if (check_driver() == 0):
 scriptname = sys.argv[0]
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"smerthi")
+	opts, args = getopt.getopt(sys.argv[1:],"adhi")
 except getopt.GetoptError:
 	print('"' + scriptname + ' -h" for help')
 	sys.exit(-1)
