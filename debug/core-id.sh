@@ -1,14 +1,10 @@
 #!/bin/bash
+  
+declare -a CPU_CORE_BASE_FREQ
 
-declare -a CORE_BASE_FREQ
+CPU_MAX_CORES=$[$(cat /proc/cpuinfo | grep processor | wc -l)-1]
 
-CPUPATH=/sys/devices/system/cpu
-CPURANGE=$[$(cat /proc/cpuinfo | grep processor | wc -l)-1]
-
-for i in $(seq 0 ${CPURANGE})
+for i in $(seq 0 ${CPU_MAX_CORES})
 do
-   CORE_BASE_FREQ[${i}]=$(( cat ${CPUPATH}/cpu${i}/cpufreq/base_frequency ))
+   CPU_CORE_BASE_FREQ[${i}]=$(cat /sys/devices/system/cpu/cpu${i}/cpufreq/base_frequency)
 done
-
-echo "core 4 = " ${CORE_BASE_FREQ[4]}
-
