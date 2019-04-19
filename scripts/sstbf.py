@@ -295,7 +295,7 @@ def inspect_cpu_cores():
 	print("CPU Count = " + str(cpucount))
 
 	P1 = get_cpu_base_frequency()
-	print("Base = " + str(P1))
+	print("P1 Frequency = " + str(P1) + "MHz")
 	P1hi = 0
 
 	for core in range(0,cpucount):
@@ -365,6 +365,78 @@ def inspect_cpu_cores():
 
 
 
+def inspect_brief():
+	global cpucount
+
+	print("CPU Count = " + str(cpucount))
+
+	P1 = get_cpu_base_frequency()
+	print("P1 Frequency = " + str(P1) + "MHz")
+	P1hi = 0
+
+	for core in range(0,cpucount):
+		base = 0
+		base_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/base_frequency"
+		try:
+			baseFile = open(base_file,'r')
+			base = int(baseFile.readline().strip("\n"))/1000
+			baseFile.close()
+		except:
+			( minimum, maximum, desired, epp ) = get_hwp_request(core)
+			if minimum > 0:
+				base = minimum * 100
+		( highest, guaranteed, lowest ) = get_hwp_capabilities(core)
+		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
+		maxFile = open(max_file,'r')
+		max = int(maxFile.readline().strip("\n"))
+		maxFile.close()
+		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
+		minFile = open(min_file,'r')
+		min = int(minFile.readline().strip("\n"))
+		minFile.close()
+		if base > P1:
+		 	P1hi = P1hi + 1
+
+	# Print the core listing
+	lim1 = len(P1cores)
+	lim2 = len(P1cores)/2
+	lim4 = len(P1cores)/4
+	step = lim4 * 2
+	numa1 = ""
+	numa2 = ""
+	
+	# iterate through NUMA node 1 to find the hyperthreaded pairs
+	for i in range(0,lim4):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + "/" + b
+		numa1 = numa1 + c + " "
+	
+	# iterate through NUMA node 2 to find the hyperthreaded pairs
+	for i in range(lim4,lim2):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + "/" + b
+		numa2 = numa2 + c + " "
+
+	print("--------------------------------------------------------------------------------------------")
+	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
+	print()
+	print()
+	print("The list of high priority cores are:")
+	print(*P1cores, sep = ", ")
+	print()
+	print()
+	print("These cores are grouped by NUMA node, and paired with their Hyperthreaded 'sister core' as follows:")
+	print("---------------------------------------------------------------------------------------------------")
+	print("NUMA 1: " + numa1)
+	print()
+	print("NUMA 2: " + numa2)
+	print()
+
+
 
 
 def range_expand(s):
@@ -399,9 +471,10 @@ def show_help():
 	print(scriptname + ' <option>')
 	print("")
 	print('   <no params>   use interactive menu')
-	print("   -a            Activate SST-BF (Favor the high performance cores)")
+	print("   -a            Activate SST-BF   (Favor the high performance cores)")
 	print("   -d            Deactivate SST-BF (Revert all cores to Base Frequency)")
 	print("   -i            Inspect the CPU cores")
+	print("   -b            Show a brief version of the CPU core inspection")
 	print("   -h            Help")
 	print()
 
@@ -414,9 +487,10 @@ def do_menu():
 	print("")
 	print_banner()
 	print("")
-	print("[a] Activate SST-BF (Favor the high performance cores)")
+	print("[a] Activate SST-BF   (Favor the high performance cores)")
 	print("[d] Deactivate SST-BF (Revert all cores to Base Frequency)")
 	print("[i] Inspect the CPU cores")
+	print("[b] Show a brief version of the CPU core inspection")
 	print("[h] Help")
 	print("")
 	print("[q] Exit Script")
@@ -432,6 +506,8 @@ def do_menu():
 		show_help()
 	elif (text == "i"):
 		inspect_cpu_cores()
+	elif (text == "b"):
+		inspect_brief()
 	elif (text == "q"):
 		sys.exit(0)
 	else:
@@ -465,7 +541,7 @@ if (check_driver() == 0):
 scriptname = sys.argv[0]
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"adhi")
+	opts, args = getopt.getopt(sys.argv[1:],"adhib")
 except getopt.GetoptError:
 	print('"' + scriptname + ' -h" for help')
 	sys.exit(-1)
@@ -487,7 +563,10 @@ for opt, arg in opts:
         if opt in ("-i"):
 		inspect_cpu_cores()
 		sys.exit(0)
-
+        if opt in ("-b"):
+		inspect_brief()
+		sys.exit(0)
+		
 if (len(opts)==0):
 	while(1):
 		do_menu()
