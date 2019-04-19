@@ -216,6 +216,21 @@ def revert_to_P1():
 		maxFile = open(max_file,'w')
 		maxFile.write(str(max))
 		maxFile.close()
+		( highest, guaranteed, lowest ) = get_hwp_capabilities(core)
+		base = 0
+		try:
+			base_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/base_frequency"
+			baseFile = open(base_file,'r')
+			base = int(baseFile.readline().strip("\n"))/1000
+			baseFile.close()
+		except:
+			print("WARNING: base_frequency sysfs entry not found, using default values")
+			( minimum, maximum, desired, epp ) = get_hwp_request(core)
+			if minimum > 0:
+				# Available via 0x774 msr min.
+				base = minimum * 100
+			else:
+				base = 2100
 
 		# Set the Minimim and Maximum frequencies to P1 (base)
 		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
