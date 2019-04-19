@@ -19,7 +19,7 @@ source /etc/0-ovs-dpdk-global-variables.sh
 
 # Also execute any additional parameter passed to this script. Just in case.
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
 	# Pull the latest set of files from the Git Hub repo
 	cd ${git_base_path}
 	echo
@@ -33,19 +33,14 @@ if [ $# -lt 2 ]; then
     echo
     echo "   To just update the Git Repo, just use: $0"
     echo 
-    echo "   To instead remotely execute a command in a directory, use:  $0 <directory> <command to execute> [command options]"
+    echo "   To instead remotely execute a command, use:  $0 <command to execute> [command options]"
     echo
     echo "   Note: For safety, if this script is used to execute a remote command, it does *NOT* also update the Git Repo."
     echo
     exit 1
 fi
 
-dir="$1"
-shift
-
-for file in "$dir"/*; do
-    "$@" "$file"
-done
+"$@"
 
 echo
 echo "$0 Completed."
