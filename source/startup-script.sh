@@ -3,6 +3,7 @@
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
+cp ${git_base_path}/debug/update_ovs-dpdk-lab.sh /root
 
 ${git_base_path}/debug/disable_services.sh > /dev/null
 ${git_base_path}/debug/stop_services.sh > /dev/null
@@ -31,5 +32,6 @@ echo "[Resolve]" > /etc/systemd/resolved.conf
 echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
 systemctl restart systemd-resolved.service
 
+# Reset the CPU cores to the base frequency P1
 ${git_base_path}/scripts/sstbf.py -d
 

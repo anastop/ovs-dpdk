@@ -3,9 +3,10 @@
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
+# Run apt update just in case the compiler scripts change later.
+apt update
 
 cd ${git_base_path}/source
-apt update
 
 echo
 echo "Installing DPDK..."
