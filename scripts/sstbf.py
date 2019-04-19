@@ -508,16 +508,17 @@ def create_env_vars():
 	print("#")
 	print("# The index of the CPU_CORE_BASE_FREQ array is the CPU Core ID (zero-based)")
 	print("# --------------------------------------------------------------------------------------------")
-	print("CPU_CORE_BASE_FREQ=(" + *core_base_freq + ")")
+	print("CPU_CORE_BASE_FREQ=(" + ' '.join(map(str, core_base_freq)) + ")")
 	print("CPU_FREQ_HIGH_CORE=" + str(high_perf_core))
 	print("CPU_FREQ_LOW_CORE=" + str(standard_core))
 	print("CPU_P1_FREQ=" + str(P1))
-	print("CPU_HIGH_PERF_CORES=(" + *P1cores + ")")
+	print("CPU_HIGH_PERF_CORES=(" + ' '.join(map(str, P1cores)) + ")")
 	print("CPU_NUMA1_HIGH_CORES=(" + numa1 + ")")
 	print("CPU_NUMA2_HIGH_CORES=(" + numa2 + ")")
 	print("CPU_COUNT=" + str(cpucount))
 	print()
 	print()
+
 
 
 
