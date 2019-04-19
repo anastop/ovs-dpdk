@@ -31,3 +31,5 @@ echo "[Resolve]" > /etc/systemd/resolved.conf
 echo "DNS=8.8.8.8" >> /etc/systemd/resolved.conf
 systemctl restart systemd-resolved.service
 
+${git_base_path}/scripts/sstbf.py -d
+
