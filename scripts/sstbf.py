@@ -480,24 +480,26 @@ def create_env_vars():
 	lim2 = len(P1cores)/2
 	lim4 = len(P1cores)/4
 	step = lim4 * 2
-	numa1 = ""
-	numa2 = ""
+	numa1a = ""
+	numa1b = ""
+	numa2a = ""
+	numa2b = ""
 	
 	# iterate through NUMA node 1 to find the hyperthreaded pairs
 	for i in range(0,lim4):
 		j = i + step
 		a = str(P1cores[i])
 		b = str(P1cores[j])
-		c = a + " " + b
-		numa1 = numa1 + c + " "
-	
+		numa1a = numa1a + a + " "
+		numa1b = numa1b + b + " "
+
 	# iterate through NUMA node 2 to find the hyperthreaded pairs
 	for i in range(lim4,lim2):
 		j = i + step
 		a = str(P1cores[i])
 		b = str(P1cores[j])
-		c = a + " " + b
-		numa2 = numa2 + c + " "
+		numa2a = numa2a + a + " "
+		numa2b = numa2b + b + " "
 	
 	# Create the output for the BASH shell environment variables
 	print("#")
@@ -513,8 +515,8 @@ def create_env_vars():
 	print("CPU_FREQ_LOW_CORE=" + str(standard_core))
 	print("CPU_P1_FREQ=" + str(P1))
 	print("CPU_HIGH_PERF_CORES=(" + ' '.join(map(str, P1cores)) + ")")
-	print("CPU_NUMA1_HIGH_CORES=(" + numa1 + ")")
-	print("CPU_NUMA2_HIGH_CORES=(" + numa2 + ")")
+	print("CPU_NUMA1_HIGH_CORES=(" + numa1a + numa1b + ")")
+	print("CPU_NUMA2_HIGH_CORES=(" + numa2a + numa2b + ")")
 	print("CPU_COUNT=" + str(cpucount))
 	print()
 	print()
