@@ -17,6 +17,7 @@ MIN_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 
 driver = ""
 cpucount=0
+P1cores = []
 
 # pbf_cores_16 = [ 
 # 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
@@ -293,7 +294,7 @@ def query_pbf():
 	global cpucount
 
 	print("CPU Count = " + str(cpucount))
-	P1cores[]
+
 	P1 = get_cpu_base_frequency()
 	print("Base = " + str(P1))
 	P1hi = 0
@@ -324,7 +325,7 @@ def query_pbf():
 		 	P1cores.append(core)
 
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
-	print(P1cores)
+	print(*P1cores, sep = ", ") 
 
 def range_expand(s):
     r = []
