@@ -340,7 +340,7 @@ def range_expand(s):
 def print_banner():
 	print("----------------------------------------------------------")
 	print("  LAB SCRIPT:  Cascade Lake SST-BF Test (2019-04-18 v.1.0)")
-	print("  
+	print("")  
 	print("  This script should only be used for testing purposes!")
 	print("----------------------------------------------------------")
 
