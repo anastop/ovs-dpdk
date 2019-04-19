@@ -6,6 +6,16 @@
 # This file should be copied to "/etc/0-ovs-dpdk-global-variables.sh"
 #
 
+# Enumerate all the cores and store the core speed in an array
+declare -a CPU_CORE_BASE_FREQ
+CPU_TOTAL_CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
+CPU_NUMA_NODES=$(ls /sys/devices/system/node |grep node | wc -l)
+CPU_LAST_CORE_ID=$((CPU_TOTAL_CORES-1))
+for i in $(seq 0 ${CPU_LAST_CORE_ID})
+do
+   CPU_CORE_BASE_FREQ[${i}]=$(cat /sys/devices/system/cpu/cpu${i}/cpufreq/base_frequency)
+done
+
 # This is the master path for the project
 export git_base_path=/opt/ovs-dpdk-lab
 
