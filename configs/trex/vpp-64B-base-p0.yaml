@@ -12,8 +12,8 @@
     isg: 0.0
     mode:
       rate:
-        type: "percentage"
-        value: 9.0
+        type: "pps"
+        value: 2600000
       type: "continuous"
       total_pkts: 1
       pkts_per_burst: 1
