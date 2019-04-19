@@ -176,7 +176,7 @@ def enable_sstbf():
 		if base > P1:
 			if base > high_perf_core: high_perf_core = base
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
-		else
+		else:
 			if base > standard_core: standard_core = base
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
 	print("---------------------------------------------------------------------------------------------------")
@@ -231,7 +231,7 @@ def revert_to_P1():
 		if base > P1:
 		 	P1hi = P1hi + 1
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
-		else
+		else:
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
 	print("---------------------------------------------------------------------------------------------------")
 	print()
@@ -296,7 +296,7 @@ def inspect_cpu_cores():
 		if base > P1:
 		 	P1hi = P1hi + 1
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz     <-- High Performance Core")
-		else
+		else:
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds -->  Minimum: " + str(min/1000).rjust(4) + "MHz    Maximum: " + str(max/1000).rjust(4) + "MHz")
 
 	# Print the core listing
