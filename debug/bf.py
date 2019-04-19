@@ -331,8 +331,8 @@ def query_pbf():
 
 	print("---------------------------------------------------")
 	print()
-	print()
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
+	print()
 	print()
 	print("The list of high priority cores are:")
 	print(*P1cores, sep = ", ")
