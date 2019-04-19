@@ -438,6 +438,88 @@ def inspect_brief():
 
 
 
+def create_env_vars():
+	global cpucount
+
+	print("CPU Count = " + str(cpucount))
+
+	P1 = get_cpu_base_frequency()
+	print("P1 Frequency = " + str(P1) + "MHz")
+	P1hi = 0
+	
+	high_perf_core = 0
+	standard_core = 0
+	core_base_freq = []
+	
+	for core in range(0,cpucount):
+		tmp_base = 0
+		base = 0
+		base_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/base_frequency"
+		try:
+			baseFile = open(base_file,'r')
+			base = int(baseFile.readline().strip("\n"))/1000
+			baseFile.close()
+		except:
+			( minimum, maximum, desired, epp ) = get_hwp_request(core)
+			if minimum > 0:
+				base = minimum * 100
+		( highest, guaranteed, lowest ) = get_hwp_capabilities(core)
+		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
+		maxFile = open(max_file,'r')
+		max = int(maxFile.readline().strip("\n"))
+		maxFile.close()
+		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
+		minFile = open(min_file,'r')
+		min = int(minFile.readline().strip("\n"))
+		minFile.close()
+		if base > P1:
+			P1hi = P1hi + 1
+			if base > high_perf_core: high_perf_core = base
+		else:
+			if base > standard_core: standard_core = base
+
+		
+		#Create an array containing the base frequency of each core. The array index is the core ID
+		core_base_freq.append(base)
+
+	# Print the core listing
+	lim1 = len(P1cores)
+	lim2 = len(P1cores)/2
+	lim4 = len(P1cores)/4
+	step = lim4 * 2
+	numa1 = ""
+	numa2 = ""
+	
+	# iterate through NUMA node 1 to find the hyperthreaded pairs
+	for i in range(0,lim4):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + " " + b
+		numa1 = numa1 + c + " "
+	
+	# iterate through NUMA node 2 to find the hyperthreaded pairs
+	for i in range(lim4,lim2):
+		j = i + step
+		a = str(P1cores[i])
+		b = str(P1cores[j])
+		c = a + " " + b
+		numa2 = numa2 + c + " "
+	
+	# Create the output for the BASH shell environment variables
+	print("#")
+	print("# The index of the CPU_CORE_BASE_FREQ array is the CPU Core ID (zero-based)
+	print("# --------------------------------------------------------------------------------------------")
+	print("CPU_CORE_BASE_FREQ=(" + *core_base_freq + ")")
+	print("CPU_FREQ_HIGH_CORE=" + str(high_perf_core))
+	print("CPU_FREQ_LOW_CORE=" + str(standard_core))
+	print("CPU_HIGH_PERF_CORES=(" + *P1cores + ")")
+	print("CPU_NUMA1_HIGH_CORES=(" + numa1 + ")")
+	print("CPU_NUMA2_HIGH_CORES=(" + numa2 + ")")
+	print()
+
+
+
 
 def range_expand(s):
     r = []
@@ -541,7 +623,7 @@ if (check_driver() == 0):
 scriptname = sys.argv[0]
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"adhib")
+	opts, args = getopt.getopt(sys.argv[1:],"adhibc")
 except getopt.GetoptError:
 	print('"' + scriptname + ' -h" for help')
 	sys.exit(-1)
@@ -565,6 +647,9 @@ for opt, arg in opts:
 		sys.exit(0)
         if opt in ("-b"):
 		inspect_brief()
+		sys.exit(0)
+        if opt in ("-c"):
+		create_env_vars()
 		sys.exit(0)
 		
 if (len(opts)==0):
