@@ -313,10 +313,15 @@ def query_pbf():
 	r2 = r1 + inc
 	r3 = r2 + inc
 	r4 = r3 + inc
+	print("inc = " + inc)
+	print("r1 = " + r1)
+	print("r2 = " + r2)
+	print("r3 = " + r3)
+	print("r4 = " + r4)
 	
-	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " ) # + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
-	print()
-	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " ) # + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
+#	print("NUMA 1: " + P1cores[r1] + "/" + P1cores[r3] + ", " ) # + P1cores[(r1+1)] + "/" + P1cores[(r3+1)] + ", " + P1cores[(r1+2)] + "/" + P1cores[(r3+2)] + ", " + P1cores[(r1+3)] + "/" + P1cores[(r3+3)] )
+#	print()
+#	print("NUMA 2: " + P1cores[r2] + "/" + P1cores[r4] + ", " ) # + P1cores[(r2+1)] + "/" + P1cores[(r4+1)] + ", " + P1cores[(r2+2)] + "/" + P1cores[(r4+2)] + ", " + P1cores[(r2+3)] + "/" + P1cores[(r4+3)] )
 
 def range_expand(s):
     r = []
