@@ -8,7 +8,7 @@ echo "The OVS CPU Core Assignments"
 echo "----------------------------"
 echo "OVS LCPU Mask: ${cpu_ovs_lcpu_mask}"
 echo "OVS PMD Mask:  ${cpu_ovs_pmd_mask}"
-echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk0}/cpufreq/scaling_cur_freq`Hz"
+echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Base Frequency: ${CPU_CORE_BASE_FREQ[${cpu_ovs_dpdk0}]    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk0}/cpufreq/scaling_cur_freq`Hz"
 echo "OVS DPDK1:     ${cpu_ovs_dpdk1}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk1}/cpufreq/scaling_cur_freq`Hz"
 echo "OVS DPDK2:     ${cpu_ovs_dpdk2}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk2}/cpufreq/scaling_cur_freq`Hz"
 echo "OVS DPDK3:     ${cpu_ovs_dpdk3}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk3}/cpufreq/scaling_cur_freq`Hz"
@@ -44,3 +44,7 @@ echo "NIC Core 5:    ${cpu_trex_port5}    Current Frequency: `cat /sys/devices/s
 echo "NIC Core 6:    ${cpu_trex_port6}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_trex_port6}/cpufreq/scaling_cur_freq`Hz"
 echo "NIC Core 7:    ${cpu_trex_port7}    Current Frequency: `cat /sys/devices/system/cpu/cpu${cpu_trex_port7}/cpufreq/scaling_cur_freq`Hz"
 echo
+echo 
+echo "The high performance CPU cores should have a base frequency of: ${CPU_FREQ_HIGH_CORE}MHz"
+echo
+echo "The standard CPU cores should have a base frequency of: ${CPU_FREQ_LOW_CORE}MHz"
