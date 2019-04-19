@@ -18,7 +18,6 @@ MIN_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 driver = ""
 cpucount=0
 
-
 # pbf_cores_16 = [ 
 # 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
 # 	0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,
@@ -294,7 +293,7 @@ def query_pbf():
 	global cpucount
 
 	print("CPU Count = " + str(cpucount))
-
+	P1cores[]
 	P1 = get_cpu_base_frequency()
 	print("Base = " + str(P1))
 	P1hi = 0
