@@ -139,6 +139,7 @@ def enable_sstbf():
 	P1 = get_cpu_base_frequency()
 
 	for core in range(0,cpucount):
+		# Temporarily set the core to max, so that we avoid an error if the minimum is currently above P1
 		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/cpuinfo_max_freq"
 		maxFile = open(max_file,'r')
 		max = int(maxFile.readline().strip("\n"))
@@ -162,7 +163,17 @@ def enable_sstbf():
 				base = minimum * 100
 			else:
 				base = 2100
-		
+
+		# Set the frequency to base
+		min_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_min_freq"
+		minFile = open(min_file,'w')
+		minFile.write(str(base*1000))
+		minFile.close()
+		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
+		maxFile = open(max_file,'w')
+		maxFile.write(str(base*1000))
+		maxFile.close()
+			
 		# Read and display the Min/Max values to confirm the SSTBF setting worked
 		max_file = "/sys/devices/system/cpu/cpu" + str(core) + "/cpufreq/scaling_max_freq"
 		maxFile = open(max_file,'r')
