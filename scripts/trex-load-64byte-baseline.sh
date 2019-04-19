@@ -48,6 +48,6 @@ if [ ${num_ports} -lt 2 ]; then
 	echo
 fi
 cd {trex_dir}
-${trex_dir}/trex_daemon_server start
-${trex_dir}/trex-console --batch ${git_base_path}/configs/trex/trex-64B-base.conf
+./trex_daemon_server start
+./trex-console --batch ${git_base_path}/configs/trex/trex-64B-base.conf
 cd ${git_base_path}/scripts
