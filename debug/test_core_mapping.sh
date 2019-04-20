@@ -30,10 +30,11 @@ cpu_speed_trex_port7=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_port7}/cpufr
 cpu_speed_trex_master=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_master}/cpufreq/scaling_cur_freq` / 1000 ))
 cpu_speed_trex_latency=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_latency}/cpufreq/scaling_cur_freq` / 1000 ))
 
-
+clear
+echo
 echo "Activating SSTBF..."
 ${git_base_path}/scripts/sstbf.py -a > /dev/null
-sleep 5
+sleep 2
 echo
 echo
 echo "The OVS CPU Core Assignments"
