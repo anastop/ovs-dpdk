@@ -34,7 +34,7 @@ clear
 echo
 echo "Activating SSTBF..."
 ${git_base_path}/scripts/sstbf.py -a > /dev/null
-sleep 2
+sleep 3
 echo
 echo
 echo "The OVS CPU Core Assignments"
@@ -81,6 +81,7 @@ echo
 echo "The high performance CPU cores should have a base frequency of: ${CPU_FREQ_HIGH_CORE}MHz"
 echo
 echo "The standard CPU cores should have a base frequency of: ${CPU_FREQ_LOW_CORE}MHz"
+${git_base_path}/scripts/sstbf.py -d > /dev/null
 
 
 
