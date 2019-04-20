@@ -2,7 +2,6 @@
 
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
-clear
 echo
 echo "Activating SSTBF..."
 ${git_base_path}/scripts/sstbf.py -a > /dev/null
