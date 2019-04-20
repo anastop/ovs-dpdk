@@ -31,12 +31,13 @@ cpu_speed_trex_master=`cat /sys/devices/system/cpu/cpu${cpu_trex_master}/cpufreq
 cpu_speed_trex_latency=`cat /sys/devices/system/cpu/cpu${cpu_trex_latency}/cpufreq/scaling_cur_freq`
 
 
+
 echo
 echo "The OVS CPU Core Assignments"
 echo "----------------------------"
 echo "OVS LCPU Mask: ${cpu_ovs_lcpu_mask}"
 echo "OVS PMD Mask:  ${cpu_ovs_pmd_mask}"
-echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Current Frequency: ${cpu_speed_ovs_dpdk0}Hz"
+echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Current Frequency: (( ${cpu_speed_ovs_dpdk0} / 1000 ))MHz"
 echo "OVS DPDK1:     ${cpu_ovs_dpdk1}    Current Frequency: ${cpu_speed_ovs_dpdk1}Hz"
 echo "OVS DPDK2:     ${cpu_ovs_dpdk2}    Current Frequency: ${cpu_speed_ovs_dpdk2}Hz"
 echo "OVS DPDK3:     ${cpu_ovs_dpdk3}    Current Frequency: ${cpu_speed_ovs_dpdk3}Hz"
