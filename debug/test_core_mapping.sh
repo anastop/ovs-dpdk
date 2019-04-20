@@ -2,7 +2,11 @@
 
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
-
+clear
+echo
+echo "Activating SSTBF..."
+${git_base_path}/scripts/sstbf.py -a > /dev/null
+sleep 1
 cpu_speed_ovs_dpdk0=$(( `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk0}/cpufreq/scaling_cur_freq` / 1000 ))
 cpu_speed_ovs_dpdk1=$(( `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk1}/cpufreq/scaling_cur_freq` / 1000 ))
 cpu_speed_ovs_dpdk2=$(( `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk2}/cpufreq/scaling_cur_freq` / 1000 ))
@@ -30,11 +34,7 @@ cpu_speed_trex_port7=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_port7}/cpufr
 cpu_speed_trex_master=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_master}/cpufreq/scaling_cur_freq` / 1000 ))
 cpu_speed_trex_latency=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_latency}/cpufreq/scaling_cur_freq` / 1000 ))
 
-clear
-echo
-echo "Activating SSTBF..."
-${git_base_path}/scripts/sstbf.py -a > /dev/null
-sleep 3
+
 echo
 echo
 echo "The OVS CPU Core Assignments"
@@ -81,7 +81,10 @@ echo
 echo "The high performance CPU cores should have a base frequency of: ${CPU_FREQ_HIGH_CORE}MHz"
 echo
 echo "The standard CPU cores should have a base frequency of: ${CPU_FREQ_LOW_CORE}MHz"
-${git_base_path}/scripts/sstbf.py -d > /dev/null
+echo
+echo "Deactivating SSTBF..."
+${git_base_path}/scripts/sstbf.py -a > /dev/null
+sleep 1
 
 
 
