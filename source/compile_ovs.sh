@@ -1,5 +1,3 @@
-#!/bin/sh
-
 #!/bin/bash
 
 # Load the custom global environment variables
