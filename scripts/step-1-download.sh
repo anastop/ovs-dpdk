@@ -7,6 +7,10 @@ source /etc/0-ovs-dpdk-global-variables.sh
 rm /root/1-kernel_upgrade.sh
 rm /root/2-package_download.sh
 rm /root/3-github_clone.sh
+rm /root/build-1.sh
+rm /root/build-2.sh
+rm /root/prep.sh
+rm /root/pbf.py
 
 cd ${git_base_path}/source
 echo
