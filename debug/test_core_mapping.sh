@@ -3,7 +3,7 @@
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
-cpu_speed_ovs_dpdk0=(( `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk0}/cpufreq/scaling_cur_freq` / 1000 ))
+cpu_speed_ovs_dpdk0=$(( `cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk0}/cpufreq/scaling_cur_freq` / 1000 ))
 cpu_speed_ovs_dpdk1=`cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk1}/cpufreq/scaling_cur_freq`
 cpu_speed_ovs_dpdk2=`cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk2}/cpufreq/scaling_cur_freq`
 cpu_speed_ovs_dpdk3=`cat /sys/devices/system/cpu/cpu${cpu_ovs_dpdk3}/cpufreq/scaling_cur_freq`
