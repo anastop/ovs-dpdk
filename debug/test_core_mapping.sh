@@ -41,7 +41,7 @@ echo "The OVS CPU Core Assignments"
 echo "----------------------------"
 echo "OVS LCPU Mask: ${cpu_ovs_lcpu_mask}"
 echo "OVS PMD Mask:  ${cpu_ovs_pmd_mask}"
-echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Current Frequency: ${cpu_speed_ovs_dpdk0}MHz"
+echo "OVS DPDK0:     ${cpu_ovs_dpdk0}    Current Frequency: ${cpu_speed_ovs_dpdk0}MHz" $(( if ${cpu_speed_ovs_dpdk0} gt 2300 then echo "CORRECT" ))
 echo "OVS DPDK1:     ${cpu_ovs_dpdk1}    Current Frequency: ${cpu_speed_ovs_dpdk1}MHz"
 echo "OVS DPDK2:     ${cpu_ovs_dpdk2}    Current Frequency: ${cpu_speed_ovs_dpdk2}MHz"
 echo "OVS DPDK3:     ${cpu_ovs_dpdk3}    Current Frequency: ${cpu_speed_ovs_dpdk3}MHz"
