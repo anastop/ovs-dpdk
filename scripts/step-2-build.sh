@@ -8,20 +8,20 @@ apt update
 
 cd ${git_base_path}/source
 
-# echo
-# echo "Installing DPDK..."
-# tar xf dpdk-18.11.1.tar.xz -C /opt
-# ln -sv /opt/dpdk-stable-18.11.1 ${git_base_path}/dpdk
-# ${git_base_path}/source/compile_dpdk.sh 
-# echo
-# echo "Done Installing DPDK."
-# echo
-# read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
-# echo
-# echo
-# echo "Installing OVS..."
-# tar xf openvswitch-2.11.0.tar.gz -C /opt
-# ln -sv /opt/openvswitch-2.11.0 ${git_base_path}/ovs
+echo
+echo "Installing DPDK..."
+tar xf dpdk-18.11.1.tar.xz -C /opt
+ln -sv /opt/dpdk-stable-18.11.1 ${git_base_path}/dpdk
+${git_base_path}/source/compile_dpdk.sh 
+echo
+echo "Done Installing DPDK."
+echo
+read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
+echo
+echo
+echo "Installing OVS..."
+tar xf openvswitch-2.11.0.tar.gz -C /opt
+ln -sv /opt/openvswitch-2.11.0 ${git_base_path}/ovs
 ${git_base_path}/source/compile_ovs.sh 
 echo
 echo "Done Installing OVS."
