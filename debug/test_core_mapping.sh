@@ -31,7 +31,9 @@ cpu_speed_trex_master=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_master}/cpu
 cpu_speed_trex_latency=$(( `cat /sys/devices/system/cpu/cpu${cpu_trex_latency}/cpufreq/scaling_cur_freq` / 1000 ))
 
 
-
+echo "Activating SSTBF..."
+${git_base_path}/scripts/sstbf.py -a > /dev/null
+echo
 echo
 echo "The OVS CPU Core Assignments"
 echo "----------------------------"
