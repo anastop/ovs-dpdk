@@ -2,7 +2,7 @@
 
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
-
+modprobe msr
 # Cleanup pre-setup files -- the updated versions are kept in the ${git_base_path}/pre-scripts folder
 rm /root/1-kernel_upgrade.sh
 rm /root/2-package_download.sh
@@ -47,6 +47,8 @@ echo
 
 echo "Generating the CPU core environment variables."
 # Set the CPU to operate in Base Frequency (non-turbo) mode
+# Setting modprobe msr to run again. Sometimes the key is rejected on the first attempt.
+modprobe msr
 ${git_base_path}/scripts/sstbf.py -d
 
 # Inventory the CPU cores, use the -c argument to create BASH environment variables and arrays for the CPU core.s
