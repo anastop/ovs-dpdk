@@ -83,7 +83,7 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-3 -- set Interface vhost-
 # $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost3}"
 
 # $OVS_DIR/utilities/ovs-vsctl show
-$OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
+# $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
 
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=1,idle_timeout=0,action=output:5
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=2,idle_timeout=0,action=output:6
