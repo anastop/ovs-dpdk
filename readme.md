@@ -5,7 +5,7 @@ This repository contains the code and tools to build a student lab machine. The 
  - DPDK 18.11.1
  - Open vSwitch 2.11.0
  - QEMU 3.1.0
- - TREX 2.53
+ - TREX 2.56
  - And an Ubuntu 16.04 VM running VPP for routing
 
 This repository may be found at: https://github.com/brianeiler/ovs-dpdk
