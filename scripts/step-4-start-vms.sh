@@ -42,7 +42,7 @@ taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} $
 	-drive format=raw,file=${vm_disk} \
 	-boot c \
 	-enable-kvm \
-	-name ${vm_name} \
+	-name ${vm_name},debug-threads=on \
 	-uuid ${vm_uuid} \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
@@ -105,7 +105,7 @@ taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} $
 	-drive format=raw,file=${vm_disk} \
 	-boot c \
 	-enable-kvm \
-	-name ${vm_name} \
+	-name ${vm_name},debug-threads=on \
 	-uuid ${vm_uuid} \
 	-object memory-backend-file,id=mem,size=8G,mem-path=/dev/hugepages,share=on \
 	-numa node,memdev=mem -mem-prealloc \
