@@ -87,7 +87,7 @@ cd ${trex_dir}
 # echo "Starting the TRex console"
 cd ${git_base_path}/scripts
 echo
-echo "To start a TRex workload, type: ./trex-load-64byte-baseline.sh"
+echo "To start a TRex workload, type: ./trex-load-64byte-base.sh"
 echo
 echo "To launch the TRex Console, type: ${trex_dir}/trex-console -f"
 echo 
