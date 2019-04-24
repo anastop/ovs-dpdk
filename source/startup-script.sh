@@ -5,6 +5,7 @@ source /etc/0-ovs-dpdk-global-variables.sh
 
 #Clear any accidentally mounted points to /mnt
 umount /mnt
+mkdir /mnt/huge
 
 cp ${git_base_path}/debug/update_ovs-dpdk-lab.sh /root
 
