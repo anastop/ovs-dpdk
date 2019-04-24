@@ -1,4 +1,5 @@
 #!/bin/bash
+source /etc/0-ovs-dpdk-global-variables.sh
 
 taskset -pc -a $1
 taskset -pc -a ${cpu_vm2_core0},${cpu_vm2_core1} $1
