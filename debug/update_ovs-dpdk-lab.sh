@@ -45,3 +45,4 @@ fi
 echo
 echo "$0 Completed."
 echo
+exit
