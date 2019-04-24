@@ -38,3 +38,4 @@ systemctl restart systemd-resolved.service
 # Reset the CPU cores to the base frequency P1
 ${git_base_path}/scripts/sstbf.py -d
 
+cp ${git_base_path}/debug/update_ovs-dpdk-lab.sh /root
