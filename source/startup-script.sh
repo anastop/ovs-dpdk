@@ -40,3 +40,4 @@ systemctl restart systemd-resolved.service
 ${git_base_path}/scripts/sstbf.py -d
 
 cp ${git_base_path}/debug/update_ovs-dpdk-lab.sh /root
+echo "Startup Script last run on: " `date` > /root/report-startup-script.txt
