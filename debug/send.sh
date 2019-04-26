@@ -10,4 +10,4 @@ echo "target name: "${target_name}
 echo "target path: "${target_path}
 echo
 
-# curl -v --upload-file ${source_name} ${target_path}/${target_name}
+curl -v --upload-file ${source_name} ${target_path}/${target_name}
