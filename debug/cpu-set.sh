@@ -34,8 +34,7 @@ else
 	echo
 	echo "Setting CPU affinity for ${vm_name}..."
 	echo
-#	ps awx | grep ${vm_name} | grep -v grep | grep -v bash | awk '{print $1}'> ~/tmp-pid-list
-#	ps awx | grep ${vm_name} | grep -v grep | awk '{print $1}' > ~/tmp-pid-list
+	# You must remove lines that contain the word grep and also bash
 	vm_pid=$(ps awx | grep ${vm_name} | grep -v grep | grep -v bash | awk '{print $1}')
 	echo 
 	echo "vm_pid = "${vm_pid}
