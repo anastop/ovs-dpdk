@@ -79,15 +79,16 @@ else
 	echo
 fi
 cd ${trex_dir}
-#./trex_daemon_server start
-echo "run ./trex-console --batch ${git_base_path}/configs/trex/trex-init-script.conf"
+./trex_daemon_server start
+${trex_dir}/trex-console --batch ${git_base_path}/configs/trex/trex-init-script.conf
+
 # echo
 # read -r -p "Press the ENTER key to launch the TRex console." key
 # echo
 # echo "Starting the TRex console"
 # cd ${git_base_path}/scripts
 echo
-echo "To start a TRex workload, type: ./trex-load-64byte-base.sh"
+echo "To start a TRex workload, type: ${trex_dir}/trex-load-64byte-base.sh"
 echo
-echo "To launch the TRex Console, type: ${trex_dir}/trex-console -f"
+echo "To launch the TRex Console, type: cd ${trex_dir}; ./trex-console -f"
 echo 
