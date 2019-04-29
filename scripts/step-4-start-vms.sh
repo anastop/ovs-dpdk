@@ -61,6 +61,9 @@ echo "VNC: ${vm_vnc}"
 echo "ssh root@localhost -p ${vm_ssh}"
 echo "username: root"
 echo "password: root245"
+echo
+echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
+echo
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 fi
 
@@ -125,6 +128,9 @@ echo "VNC: ${vm_vnc}"
 echo "ssh root@localhost -p ${vm_ssh}"
 echo "username: root"
 echo "password: root245"
+echo
+echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
+echo
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 fi
 echo
