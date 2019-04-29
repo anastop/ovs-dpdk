@@ -45,12 +45,12 @@ else
 	taskset -pc ${vm_cpu_core1} ${vm_cpu1_pid} > /dev/null 2>&1
 	taskset -pc ${vm_cpu_core2} ${vm_cpu2_pid} > /dev/null 2>&1
 	taskset -pc ${vm_cpu_core3} ${vm_cpu3_pid} > /dev/null 2>&1
-	echo "${vm_name} Parent Process" $(taskset -pc ${vm_pid} | awk '{$1=$2=""; print $0}')
-	echo "------------------------------------------------"
-	echo "${vm_name} KVM CPU Core 0" $(taskset -pc ${vm_cpu0_pid} | awk '{$1=$2=""; print $0}')
-	echo "${vm_name} KVM CPU Core 1" $(taskset -pc ${vm_cpu1_pid} | awk '{$1=$2=""; print $0}')
-	echo "${vm_name} KVM CPU Core 2" $(taskset -pc ${vm_cpu2_pid} | awk '{$1=$2=""; print $0}')
-	echo "${vm_name} KVM CPU Core 3" $(taskset -pc ${vm_cpu3_pid} | awk '{$1=$2=""; print $0}')
+	echo "${vm_name} Parent Process (PID ${vm_pid})" $(taskset -pc ${vm_pid} | awk '{$1=$2=""; print $0}')
+	echo "------------------------------------------------------------"
+	echo "${vm_name} KVM CPU Core 0 (PID ${vm_cpu0_pid})" $(taskset -pc ${vm_cpu0_pid} | awk '{$1=$2=""; print $0}')
+	echo "${vm_name} KVM CPU Core 1 (PID ${vm_cpu1_pid})" $(taskset -pc ${vm_cpu1_pid} | awk '{$1=$2=""; print $0}')
+	echo "${vm_name} KVM CPU Core 2 (PID ${vm_cpu2_pid})" $(taskset -pc ${vm_cpu2_pid} | awk '{$1=$2=""; print $0}')
+	echo "${vm_name} KVM CPU Core 3 (PID ${vm_cpu3_pid})" $(taskset -pc ${vm_cpu3_pid} | awk '{$1=$2=""; print $0}')
 	echo
 
 fi
