@@ -35,7 +35,7 @@ else
 	echo "Setting CPU affinity for ${vm_name}..."
 	echo
 	vm_list=$(ps awx | grep ${vm_name} | grep -v grep)
-	vm_pid=echo ${vm_list} | awk '{print $1}'
+	vm_pid=$(awk '{print $1}' < ${vm_list})
 	echo 
 	echo "vm_pid = "${vm_pid}
 	echo
