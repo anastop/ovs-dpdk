@@ -12,7 +12,7 @@ vm_1_cpu0_pid=`top -n 1 -H -p ${vm_1_pid} | grep "CPU 0" | awk '{print $1}'`
 vm_1_cpu1_pid=`top -n 1 -H -p ${vm_1_pid} | grep "CPU 1" | awk '{print $1}'`
 vm_1_cpu2_pid=`top -n 1 -H -p ${vm_1_pid} | grep "CPU 2" | awk '{print $1}'`
 vm_1_cpu3_pid=`top -n 1 -H -p ${vm_1_pid} | grep "CPU 3" | awk '{print $1}'`
-echo vm_1_cpu0_pid is ${vm_1_cpu0_pid}
+echo vm_1_cpu0_pid is ${vm_1_cpu0_pid} > /root/tmp1.txt
 echo vm_1_cpu1_pid is ${vm_1_cpu1_pid}
 echo vm_1_cpu2_pid is ${vm_1_cpu2_pid}
 echo vm_1_cpu3_pid is ${vm_1_cpu3_pid}
@@ -35,7 +35,7 @@ vm_2_cpu2_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 2" | awk '{print $1}' | tr
 vm_2_cpu3_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 3" | awk '{print $1}' | tr -dc '[[:digit:]]'`
 # tr -dc '[[:print:]]' <<< "${vm_1_cpu0_pid}"
 
-echo vm_2_cpu0_pid is ${vm_2_cpu0_pid}
+echo vm_2_cpu0_pid is ${vm_2_cpu0_pid} > /root/tmp2.txt
 echo vm_2_cpu1_pid is ${vm_2_cpu1_pid}
 echo vm_2_cpu2_pid is ${vm_2_cpu2_pid}
 echo vm_2_cpu3_pid is ${vm_2_cpu3_pid}
