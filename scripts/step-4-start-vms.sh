@@ -55,6 +55,9 @@ taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} $
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} & > /dev/null 2>&1
+
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
+sleep 3
 echo
 echo "${vm_name} started!"
 echo "VNC: ${vm_vnc}"
@@ -64,17 +67,9 @@ echo "password: root245"
 echo
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 echo
-sleep 5
-# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 fi
 
-echo
-echo
-echo
-echo
-echo
-echo
 echo
 
 fs_path=${git_base_path}/configs/vpp
@@ -124,6 +119,8 @@ taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} $
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} & > /dev/null 2>&1
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
+sleep 3
 echo
 echo "${vm_name} started!"
 echo "VNC: ${vm_vnc}"
@@ -133,8 +130,6 @@ echo "password: root245"
 echo
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 echo
-sleep 5
-# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 fi
 echo
