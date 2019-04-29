@@ -1,7 +1,17 @@
 #!/bin/bash
-source /etc/0-ovs-dpdk-global-variables.sh
+
+# --------------------------------------------------------
+# CPU Affinity Configuration Script for QEMU VMs
+# Written by Brian Eiler
+# Version 1.0 (2019-04-29)
+#
+# Note: This is written for 4 CPUs per VM.
+# --------------------------------------------------------
 
 if [ "$#" -ne 5 ]; then
+    echo
+    echo "CPU Affinity Configuration Script for QEMU VMs"
+    echo "------------------------------------------------"
     echo
     echo "You must enter exactly 5 command line arguments"
     echo
