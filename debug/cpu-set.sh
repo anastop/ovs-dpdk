@@ -31,13 +31,10 @@ else
 	vm_cpu_core2=$4
 	vm_cpu_core3=$5
 
-	echo
-	echo "Setting CPU affinity for ${vm_name}..."
-	echo
 	# You must remove lines that contain the word grep and also bash
 	vm_pid=$(ps awx | grep ${vm_name} | grep -v grep | grep -v bash | awk '{print $1}')
-	echo 
-	echo "vm_pid = "${vm_pid}
+	echo
+	echo "Setting CPU affinity for ${vm_name} with PID ${vm_pid}"
 	echo
 	vm_cpu0_pid=$(top -b -n 1 -H -p ${vm_pid} | grep "CPU 0" | awk '{print $1}')
 	vm_cpu1_pid=$(top -b -n 1 -H -p ${vm_pid} | grep "CPU 1" | awk '{print $1}')

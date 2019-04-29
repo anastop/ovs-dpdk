@@ -26,7 +26,11 @@ vm_nic_2_id=char2
 vm_nic_2_hostpath=/usr/local/var/run/openvswitch/vhost-client-1
 vm_nic_2_net=net2
 vm_nic_2_mac=00:02:00:00:00:02
-
+echo
+echo
+echo
+echo
+echo
 echo
 echo "Powering on ${vm_name}..."
 if [ ! -f ${vm_disk} ];
@@ -56,7 +60,7 @@ taskset -c ${cpu_vm1_core0},${cpu_vm1_core1},${cpu_vm1_core2},${cpu_vm1_core3} $
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} & > /dev/null 2>&1
 
-# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting
 sleep 3
 echo
 echo "${vm_name} started!"
@@ -65,6 +69,7 @@ echo "ssh root@localhost -p ${vm_ssh}"
 echo "username: root"
 echo "password: root245"
 echo
+sleep 1
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 echo
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
@@ -119,7 +124,7 @@ taskset -c ${cpu_vm2_core0},${cpu_vm2_core1},${cpu_vm2_core2},${cpu_vm2_core3} $
 	-netdev type=vhost-user,id=${vm_nic_2_net},chardev=${vm_nic_2_id},vhostforce \
 	-device virtio-net-pci,netdev=${vm_nic_2_net},mac=${vm_nic_2_mac},csum=off,gso=off,guest_tso4=off,guest_tso6=off,guest_ecn=off,mrg_rxbuf=off \
 	-vnc :${vm_vnc} & > /dev/null 2>&1
-# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting
 sleep 3
 echo
 echo "${vm_name} started!"
@@ -128,6 +133,7 @@ echo "ssh root@localhost -p ${vm_ssh}"
 echo "username: root"
 echo "password: root245"
 echo
+sleep 1
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 echo
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
