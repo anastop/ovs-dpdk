@@ -88,7 +88,9 @@ ${trex_dir}/trex-console --batch ${git_base_path}/configs/trex/trex-init-script.
 # echo "Starting the TRex console"
 # cd ${git_base_path}/scripts
 echo
-echo "To start a TRex workload, type: ${trex_dir}/trex-load-64byte-base.sh"
+echo "Step 1: Launch a workload:"
+echo "        ${git_base_path}/beta/trex-load-64byte-base.sh"
 echo
-echo "To launch the TRex Console, type: cd ${trex_dir}; ./trex-console -f"
+echo "Step 2: Launch the TRex Console:"
+echo "        ${git_base_path}/beta/trex-console.sh"
 echo 
