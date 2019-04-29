@@ -31,7 +31,7 @@ taskset -pc ${cpu_vm2_core2} ${vm_2_cpu2_pid} > /dev/null 2>&1
 taskset -pc ${cpu_vm2_core3} ${vm_2_cpu3_pid} > /dev/null 2>&1
 
 echo "New CPU affinity for VPP-VM2:"
-echo "VPP-VM2 Parent Process " $(taskset -pc -a ${vm_2_pid} | awk '{$1=$2=""; print $0}')
+echo "VPP-VM2 Parent Process " $(taskset -pc ${vm_2_pid} | awk '{$1=$2=""; print $0}')
 echo "VPP-VM2 KVM CPU Core 0 " $(taskset -pc ${vm_2_cpu0_pid} | awk '{$1=$2=""; print $0}')
 echo "VPP-VM2 KVM CPU Core 1 " $(taskset -pc ${vm_2_cpu1_pid} | awk '{$1=$2=""; print $0}')
 echo "VPP-VM2 KVM CPU Core 2 " $(taskset -pc ${vm_2_cpu2_pid} | awk '{$1=$2=""; print $0}')
