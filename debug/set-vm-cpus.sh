@@ -29,10 +29,10 @@ echo "Setting CPU affinity for VPP-VM2."
 # qemu-affinity -k 2:${cpu_vm2_core2} 3:${cpu_vm2_core3} -- ${vm_2_pid}
 # taskset -pc -a ${vm_2_pid}
 vm_2_pid=`ps awx | grep VPP-VM2 | grep -v grep | awk '{print $1}'`
-vm_2_cpu0_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 0" | awk '{print $1}' | tr -dc '[[:digit:]]'`
-vm_2_cpu1_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 1" | awk '{print $1}' | tr -dc '[[:digit:]]'`
-vm_2_cpu2_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 2" | awk '{print $1}' | tr -dc '[[:digit:]]'`
-vm_2_cpu3_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 3" | awk '{print $1}' | tr -dc '[[:digit:]]'`
+vm_2_cpu0_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 0" | awk '{print $1}' | tr -d '[[:cntrl:]]'`
+vm_2_cpu1_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 1" | awk '{print $1}' | tr -d '[[:cntrl:]]'`
+vm_2_cpu2_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 2" | awk '{print $1}' | tr -d '[[:cntrl:]]'`
+vm_2_cpu3_pid=`top -n 1 -H -p ${vm_2_pid} | grep "CPU 3" | awk '{print $1}' | tr -d '[[:cntrl:]]'`
 # tr -dc '[[:print:]]' <<< "${vm_1_cpu0_pid}"
 
 echo vm_2_cpu0_pid is ${vm_2_cpu0_pid} > /root/tmp2.txt
