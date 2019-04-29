@@ -64,6 +64,8 @@ echo "password: root245"
 echo
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 echo
+sleep 5
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm1_core0} ${cpu_vm1_core1} ${cpu_vm1_core2} ${cpu_vm1_core3}
 fi
 
@@ -131,6 +133,8 @@ echo "password: root245"
 echo
 echo "Running: "${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 echo
+sleep 5
+# You must let the QEMU process start before setting the CPU affinity. Hence the waiting 5 seconds
 ${git_base_path}/debug/cpu-set.sh ${vm_name} ${cpu_vm2_core0} ${cpu_vm2_core1} ${cpu_vm2_core2} ${cpu_vm2_core3}
 fi
 echo
