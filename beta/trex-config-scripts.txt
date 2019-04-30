@@ -1,0 +1,130 @@
+rm /etc/rc.local; init 6
+
+cd $git_base_path; git pull
+./beta/start-all.sh
+
+cd trex
+./trex-console
+
+
+-----------------------------------
+(PAIR 1 and 2 NORMAL)
+-----------------------------------
+[icn servers: 01, 02, 04, 05, 06, 07, 08, 09, 10
+===================================
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p3
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
+
+
+-----------------------------------
+(PAIR 1 FLIPPED / PAIR 2 NORMAL)
+-----------------------------------
+[icn03
+===================================
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 1 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p3
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
+
+
+-----------------------------------
+(PAIR 1 NORMAL / PAIR 2 FLIPPED)
+-----------------------------------
+[icn13, icn14
+===================================
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.4.1.2 --dst 192.4.1.1
+l3 -p 3 --src 192.3.1.2 --dst 192.3.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p2
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p2
+
+
+-----------------------------------
+(BOTH PAIR 1 FLIPPED / PAIR 2 FLIPPED)
+-----------------------------------
+[icn11, icn12,
+===================================
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 1 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 2 --src 192.4.1.2 --dst 192.4.1.1
+l3 -p 3 --src 192.3.1.2 --dst 192.3.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p2
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p2
+
+
+
+
+
+ssh root@icn06 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -a'
+ssh root@icn09 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -a'
+ssh root@icn10 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -a'
+ssh root@icn16 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -a'
+
+
+CPU Count = 80
+P1 Frequency = 2300MHz
+--------------------------------------------------------------------------------------------
+We have 24 high priority cores according to sysfs base_frequency.
+
+
+The list of high priority cores are:
+6, 7, 11, 13, 14, 15, 21, 26, 27, 28, 34, 36, 46, 47, 51, 53, 54, 55, 61, 66, 67, 68, 74, 76
+
+
+These cores are grouped by NUMA node, and paired with their Hyperthreaded 'sister core' as follows:
+---------------------------------------------------------------------------------------------------
+NUMA 1: 6/46 7/47 11/51 13/53 14/54 15/55 
+
+NUMA 2: 21/61 26/66 27/67 28/68 34/74 36/76 
+
