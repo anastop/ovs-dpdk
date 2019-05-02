@@ -18,6 +18,10 @@ MIN_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 driver = ""
 cpucount=0
 P1cores = []
+numa1_cores_low = []
+numa1_cores_high = []
+numa2_cores_low = []
+numa2_cores_high = []
 
 
 
@@ -325,28 +329,27 @@ def inspect_cpu_cores():
 			print("Core " + str(core).rjust(3) + ":  Base Frequency: " + str(base).rjust(4) + "MHz  |  Actual Speeds --> Minimum: " + str(min/1000).rjust(4) + "MHz / Maximum: " + str(max/1000).rjust(4) + "MHz")
 
 	# Print the core listing
-	lim1 = len(P1cores)
-	lim2 = len(P1cores)/2
-	lim4 = len(P1cores)/4
-	step = lim4 * 2
-	numa1 = ""
-	numa2 = ""
+	lim_p1_cores_2 = len(P1cores)/2
+	lim_p1_cores_4 = len(P1cores)/4
+	step_p1_cores_to_ht = lim_p1_cores_4 * 2
+	numa_1_p1_cores = ""
+	numa_2_p1_cores = ""
 	
 	# iterate through NUMA node 1 to find the hyperthreaded pairs
-	for i in range(0,lim4):
-		j = i + step
+	for i in range(0,lim_p1_cores_4):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
 		c = a + "/" + b
-		numa1 = numa1 + c + " "
+		numa_1_p1_cores = numa_1_p1_cores + c + " "
 	
 	# iterate through NUMA node 2 to find the hyperthreaded pairs
-	for i in range(lim4,lim2):
-		j = i + step
+	for i in range(lim_p1_cores_4,lim_p1_cores_2):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
 		c = a + "/" + b
-		numa2 = numa2 + c + " "
+		numa_2_p1_cores = numa_2_p1_cores + c + " "
 
 	print("--------------------------------------------------------------------------------------------")
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
@@ -358,9 +361,9 @@ def inspect_cpu_cores():
 	print()
 	print("These cores are grouped by NUMA node, and paired with their Hyperthreaded 'sister core' as follows:")
 	print("---------------------------------------------------------------------------------------------------")
-	print("NUMA 1: " + numa1)
+	print("NUMA 1: " + numa_1_p1_cores)
 	print()
-	print("NUMA 2: " + numa2)
+	print("NUMA 2: " + numa_2_p1_cores)
 	print()
 
 
@@ -398,28 +401,27 @@ def inspect_brief():
 		 	P1hi = P1hi + 1
 
 	# Print the core listing
-	lim1 = len(P1cores)
-	lim2 = len(P1cores)/2
-	lim4 = len(P1cores)/4
-	step = lim4 * 2
-	numa1 = ""
-	numa2 = ""
+	lim_p1_cores_2 = len(P1cores)/2
+	lim_p1_cores_4 = len(P1cores)/4
+	step_p1_cores_to_ht = lim_p1_cores_4 * 2
+	numa_1_p1_cores = ""
+	numa_2_p1_cores = ""
 	
 	# iterate through NUMA node 1 to find the hyperthreaded pairs
-	for i in range(0,lim4):
-		j = i + step
+	for i in range(0,lim_p1_cores_4):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
 		c = a + "/" + b
-		numa1 = numa1 + c + " "
+		numa_1_p1_cores = numa_1_p1_cores + c + " "
 	
 	# iterate through NUMA node 2 to find the hyperthreaded pairs
-	for i in range(lim4,lim2):
-		j = i + step
+	for i in range(lim_p1_cores_4,lim_p1_cores_2):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
 		c = a + "/" + b
-		numa2 = numa2 + c + " "
+		numa_2_p1_cores = numa_2_p1_cores + c + " "
 
 	print("--------------------------------------------------------------------------------------------")
 	print("We have " + str(P1hi) + " high priority cores according to sysfs base_frequency.")
@@ -431,9 +433,9 @@ def inspect_brief():
 	print()
 	print("These cores are grouped by NUMA node, and paired with their Hyperthreaded 'sister core' as follows:")
 	print("---------------------------------------------------------------------------------------------------")
-	print("NUMA 1: " + numa1)
+	print("NUMA 1: " + numa_1_p1_cores)
 	print()
-	print("NUMA 2: " + numa2)
+	print("NUMA 2: " + numa_2_p1_cores)
 	print()
 
 
@@ -475,31 +477,49 @@ def create_env_vars():
 		#Create an array containing the base frequency of each core. The array index is the core ID
 		core_base_freq.append(base)
 
+	# Auto-assign cores for NUMA 1 to ENV variables
+	lim_all_cores_2 = len(core_base_freq)/2
+	lim_all_cores_4 = len(core_base_freq)/4
+	step_all_cores_to_ht = lim_all_cores_4 * 2
+	# Find the high and low cores in NUMA node 1 - Skip the first core
+	for i in range(1, lim_all_cores_4):
+		if core_base_freq[i] < high_perf_core:
+			numa1_cores_low.append(i)
+		else 
+			numa1_cores_high.append(i)
+	# Find the high and low cores in NUMA node 2 - Skip the first core
+	for i in range((lim_all_cores_4 + 1), lim_all_cores_2):
+		if core_base_freq[i] < high_perf_core:
+			numa2_cores_low.append(i)
+		else 
+			# Add the core and its hyperthread peer
+			numa2_cores_high.append(i)
+			numa2_cores_high.append(i + lim_all_cores_2)
+		
 	# Build the core listing
-	lim1 = len(P1cores)
-	lim2 = len(P1cores)/2
-	lim4 = len(P1cores)/4
-	step = lim4 * 2
-	numa1a = ""
-	numa1b = ""
-	numa2a = ""
-	numa2b = ""
+	lim_p1_cores_2 = len(P1cores)/2
+	lim_p1_cores_4 = len(P1cores)/4
+	step_p1_cores_to_ht = lim_p1_cores_4 * 2
+	numa_1_p1_cores_a = ""
+	numa_1_p1_cores_b = ""
+	numa_2_p1_cores_a = ""
+	numa_2_p1_cores_b = ""
 	
 	# iterate through NUMA node 1 to find the hyperthreaded pairs
-	for i in range(0,lim4):
-		j = i + step
+	for i in range(0,lim_p1_cores_4):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
-		numa1a = numa1a + a + " "
-		numa1b = numa1b + b + " "
+		numa_1_p1_cores_a = numa_1_p1_cores_a + a + " "
+		numa_1_p1_cores_b = numa_1_p1_cores_b + b + " "
 
 	# iterate through NUMA node 2 to find the hyperthreaded pairs
-	for i in range(lim4,lim2):
-		j = i + step
+	for i in range(lim_p1_cores_4,lim_p1_cores_2):
+		j = i + step_p1_cores_to_ht
 		a = str(P1cores[i])
 		b = str(P1cores[j])
-		numa2a = numa2a + a + " "
-		numa2b = numa2b + b + " "
+		numa_2_p1_cores_a = numa_2_p1_cores_a + a + " "
+		numa_2_p1_cores_b = numa_2_p1_cores_b + b + " "
 	
 	# Create the output for the BASH shell environment variables
 	print("#")
@@ -515,14 +535,53 @@ def create_env_vars():
 	print("CPU_FREQ_LOW_CORE=" + str(standard_core))
 	print("CPU_P1_FREQ=" + str(P1))
 	print("CPU_HIGH_PERF_CORES=(" + ' '.join(map(str, P1cores)) + ")")
-	print("CPU_NUMA1_HIGH_CORES=(" + numa1a + numa1b + ")")
-	print("CPU_NUMA2_HIGH_CORES=(" + numa2a + numa2b + ")")
+	print("CPU_NUMA1_HIGH_CORES=(" + numa_1_p1_cores_a + numa_1_p1_cores_b + ")")
+	print("CPU_NUMA2_HIGH_CORES=(" + numa_2_p1_cores_a + numa_2_p1_cores_b + ")")
 	print("CPU_COUNT=" + str(cpucount))
 	print()
 	print()
+	# Use a standard core in NUMBA node 1
+	print("cpu_trex_port0=" + str(numa1_cores_low[0]))
+	print("cpu_trex_port1=" + str(numa1_cores_low[1]))
+	print("cpu_trex_port2=" + str(numa1_cores_low[2]))
+	print("cpu_trex_port3=" + str(numa1_cores_low[3]))
+	print("cpu_trex_port4=" + str(numa1_cores_low[4]))
+	print("cpu_trex_port5=" + str(numa1_cores_low[5]))
+	print("cpu_trex_port6=" + str(numa1_cores_low[6]))
+	print("cpu_trex_port7=" + str(numa1_cores_low[7]))
+	print("cpu_trex_master=" + str(numa1_cores_low[8]))
+	print("cpu_trex_latency=" + str(numa1_cores_low[9]))
+	
+	# Use a standard core in NUMBA node 2
+	print("cpu_vm1_core0=" + str(numa2_cores_low[0]))
+	print("cpu_vm1_core1=" + str(numa2_cores_low[1]))
+	print("cpu_vm1_core2=" + str(numa2_cores_low[2]))
+	print("cpu_vm1_core3=" + str(numa2_cores_low[3]))
+	print("cpu_vm2_core0=" + str(numa2_cores_low[4]))
+	print("cpu_vm2_core1=" + str(numa2_cores_low[5]))
+	print("cpu_vm2_core2=" + str(numa2_cores_low[6]))
+	print("cpu_vm2_core3=" + str(numa2_cores_low[7]))
 
+	# Use a high performance core in NUMA node 2 and within the OVS PMD CPU bit mask
+	print("cpu_ovs_dpdk0=" + str(numa2_cores_high[0]))
+	print("cpu_ovs_vhost0=" + str(numa2_cores_high[1]))
+	print("cpu_ovs_dpdk1=" + str(numa2_cores_high[2]))
+	print("cpu_ovs_vhost1=" + str(numa2_cores_high[3]))
+	print("cpu_ovs_dpdk2=" + str(numa2_cores_high[4]))
+	print("cpu_ovs_vhost2=" + str(numa2_cores_high[5]))
+	print("cpu_ovs_dpdk3=" + str(numa2_cores_high[6]))
+	print("cpu_ovs_vhost3=" + str(numa2_cores_high[7]))
 
-
+	#Set the OVS PMD thread mask to include the CPU cores selected above.
+	mask=(1 << numa2_cores_high[0])+(1 << numa2_cores_high[1])+(1 << numa2_cores_high[2])+(1 << numa2_cores_high[3])+(1 << numa2_cores_high[4])+(1 << numa2_cores_high[5])+(1 << numa2_cores_high[6])+(1 << numa2_cores_high[7])
+	pmd_mask=hex(mask)
+	
+	#Set the OVS control plane to use the first core on NUMA node 2
+	lcpu_mask=hex(lim_all_cores_4)
+	print("cpu_ovs_lcpu_mask=" + str(lcpu_mask))
+	print("cpu_ovs_pmd_mask=" + str(pmd_mask))
+	print()
+	print()
 
 def range_expand(s):
     r = []
