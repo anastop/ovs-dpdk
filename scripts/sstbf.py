@@ -548,7 +548,7 @@ def create_env_vars():
 	print("CPU_NUMA2_HIGH_CORES=(" + numa_2_p1_cores_a + numa_2_p1_cores_b + ")")
 	print("CPU_COUNT=" + str(cpucount))
 	print()
-	print()
+	print("# These variables assign CPU cores to services")
 	# Use a standard core in NUMBA node 1
 	print("cpu_trex_port0=" + str(numa1_cores_low[0]))
 	print("cpu_trex_port1=" + str(numa1_cores_low[1]))
