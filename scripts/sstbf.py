@@ -521,6 +521,15 @@ def create_env_vars():
 		numa_2_p1_cores_a = numa_2_p1_cores_a + a + " "
 		numa_2_p1_cores_b = numa_2_p1_cores_b + b + " "
 	
+	
+	#Set the OVS PMD thread mask to include the CPU cores selected above.
+	pmd_bin_mask=(1 << numa2_cores_high[0])+(1 << numa2_cores_high[1])+(1 << numa2_cores_high[2])+(1 << numa2_cores_high[3])+(1 << numa2_cores_high[4])+(1 << numa2_cores_high[5])+(1 << numa2_cores_high[6])+(1 << numa2_cores_high[7])
+	pmd_hex_mask=hex(pmd_bin_mask)
+	
+	#Set the OVS control plane to use the first core on NUMA node 2
+	lcpu_bin_mask=(1 << lim_all_cores_4)
+	lcpu_hex_mask=hex(lcpu_bin_mask)
+	
 	# Create the output for the BASH shell environment variables
 	print("#")
 	print("#")
@@ -572,14 +581,8 @@ def create_env_vars():
 	print("cpu_ovs_dpdk3=" + str(numa2_cores_high[6]))
 	print("cpu_ovs_vhost3=" + str(numa2_cores_high[7]))
 
-	#Set the OVS PMD thread mask to include the CPU cores selected above.
-	mask=(1 << numa2_cores_high[0])+(1 << numa2_cores_high[1])+(1 << numa2_cores_high[2])+(1 << numa2_cores_high[3])+(1 << numa2_cores_high[4])+(1 << numa2_cores_high[5])+(1 << numa2_cores_high[6])+(1 << numa2_cores_high[7])
-	pmd_mask=hex(mask)
-	
-	#Set the OVS control plane to use the first core on NUMA node 2
-	lcpu_mask=hex(lim_all_cores_4)
-	print("cpu_ovs_lcpu_mask=" + str(lcpu_mask))
-	print("cpu_ovs_pmd_mask=" + str(pmd_mask))
+	print("cpu_ovs_lcpu_mask=" + str(lcpu_hex_mask))
+	print("cpu_ovs_pmd_mask=" + str(pmd_hex_mask))
 	print()
 	print()
 
