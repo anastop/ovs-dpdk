@@ -10,7 +10,9 @@ update-grub
 
 modprobe -rv ipmi_si
 modprobe -rv ipmi_devintf
-systemctl stop openipmi
-systemctl start openipmi
+
+apt remove -y openipmi
+apt install -y openipmi
+systemctl restart openipmi
 
 init 6

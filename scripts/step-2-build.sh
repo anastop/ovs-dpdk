@@ -71,8 +71,8 @@ echo "Done Setting up the Startup script"
 echo
 echo
 echo "Setting up the GRUB boot loader"
-cp -f ${git_base_path}/source/grub /etc/default/grub
-update-grub
+# cp -f ${git_base_path}/source/grub /etc/default/grub
+# update-grub
 echo
 echo "Done Setting up the GRUB boot loader"
 echo
