@@ -581,8 +581,8 @@ def create_env_vars():
 	print("cpu_ovs_dpdk3=" + str(numa2_cores_high[6]))
 	print("cpu_ovs_vhost3=" + str(numa2_cores_high[7]))
 
-	print("cpu_ovs_lcpu_mask=" + str(lcpu_hex_mask))
 	print("cpu_ovs_pmd_mask=" + str(pmd_hex_mask))
+	print("cpu_ovs_lcpu_mask=" + str(lcpu_hex_mask))
 	print()
 	print()
 
