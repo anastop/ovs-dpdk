@@ -485,13 +485,13 @@ def create_env_vars():
 	for i in range(1, lim_all_cores_4):
 		if core_base_freq[i] < high_perf_core:
 			numa1_cores_low.append(i)
-		else 
+		else:
 			numa1_cores_high.append(i)
 	# Find the high and low cores in NUMA node 2 - Skip the first core
 	for i in range((lim_all_cores_4 + 1), lim_all_cores_2):
 		if core_base_freq[i] < high_perf_core:
 			numa2_cores_low.append(i)
-		else 
+		else:
 			# Add the core and its hyperthread peer
 			numa2_cores_high.append(i)
 			numa2_cores_high.append(i + lim_all_cores_2)
