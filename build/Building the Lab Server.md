@@ -1,4 +1,4 @@
-# 2.0 - Building a New Lab Server
+# Building a New Lab Server
 
 This set of instructions walks you through building a lab server from a fresh installation through to the point the student may logon and execute the configuration scripts for each lab.
 After a student completes a lab, they must only reboot the host to reset the configuration for the next lab. 
@@ -56,31 +56,25 @@ ssh root@<hostname>
 This git repo contains a set of scripts that will be uploaded to the lab server to aid in the server configuration. You will then remotely execute some of these scripts via SSH to complete the setup process. 
 
 **Note:**
-> You may wish to clone the git repository to your local workstation (or your jump box) so that you have easy access to the `/pre-scripts` directory and its contents.
+> You may wish to clone the git repository to your local workstation (or your jump box) so that you have easy access to the `/build/pre-scripts` directory and its contents.
 > To clone the repo to your current directory use the commend: `git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab` 
 > This will create a folder called `ovs-dpdk-lab` and synchronize the git repo to that folder.
 > To update this folder in the future, enter the directory and then type `git pull`. Your workstation will automatically download the newest version of the scripts and documentation.
 
 
 ### Edit the Pre-scripts
-All the scripts in this repo rely upon the file `0-ovs-dpdk-global-variables.sh`. The generic / template version of this file is located at `/pre-scripts/0-ovs-dpdk-global-variables.sh`.
+All the scripts in this repo rely upon the file `0-ovs-dpdk-global-variables.sh`. The generic template version of this file is located at `/build/pre-scripts/0-ovs-dpdk-global-variables.sh`.
 You **ABSOLUTELY MUST** edit this file to adjust the destination directories and other particulars of your configuration and system.
-Examples include:
-* The CPU cores of your host
-* The directory paths you wish to use
-* The machine-specific CPU core IDs for the high-power cores. (These are unique to each host)
-
-We advise updating the paths and general parameters (everything but the machine-specific core IDs) before pushing these scripts to your lab servers. Once you have pushed the scripts files to each lab server, you may then logon to the individual lab server, determine its specific CPU core mapping, and then adjust the pre-script accordingly as noted in the steps below.
 
 
 ### Upload the scripts
 After you have adjusted the file `/pre-scripts/0-ovs-dpdk-global-variables.sh` to match your desired folder paths, you may upload the scripts to your lab servers using these steps.
 
-1. As noted above, you must first either clone this git repo to your workstation, or download the shell scripts contained in the `/pre-scripts` directory of this repo. For these instructions, we will assume that the script files are on your workstation and are located in the `./pre-scripts` subdirectory of your current working directory.
+1. As noted above, you must first either clone this git repo to your workstation, or download the shell scripts contained in the `/build/pre-scripts` directory of this repo. For these instructions, we will assume that the script files are on your workstation and are located in the `./build/pre-scripts` subdirectory of your current working directory.
 
 2. Use SCP to copy the files to the lab server.
 ```
-scp ./pre-scripts/*.sh root@<hostname>:~
+scp ./build/pre-scripts/*.sh root@<hostname>:~
 ```
 
 ### Execute the pre-scripts
@@ -97,8 +91,35 @@ You will now use SSH to remotely execute the pre-scripts. Alternatively, you may
 
 
 # Initial Setup Completed!
-To complete the configuration of the lab server, please refer to the next guide in the `/docs` directory. It is entitled **"3.0 Configuring the Lab Server"**.
+To complete the configuration of the lab server, follow these tasks.
 
+
+## Download and Install the remaining components
+There are build scripts that perform many of the remaining steps for you. These scripts are only run one time and should NOT be run again unless the server has been rebuilt.
+
+Logon to the host as root via SSH:
+```
+ssh root@<hostname>
+```
+
+1. Run the first build script to download the remaining files from the Internet.
+```
+cd ${git_base_path}
+git pull
+./build/install.sh
+```
+2. Reboot the server as directed by the script. 
+
+
+## Review/Adjust the Global Variables
+Logon to your lab server and verify that the custom script file `/etc/0-ovs-dpdk-global-variables.sh` matched the CPU cores in your server. Each server **WILL** be different, and the installation script attempts to auto-detect and map the cores, but it will fail if hyper-threading is disabled due to the difference in the core count. Also, make no assumptions about the CPU core IDs of the high performance cores between hosts, as they are set on a per-chip basis at the factory and cannot be modified.
+Additionally, the server must have certain BIOS settings enabled to expose these cores. These BIOS instructions are not provided in this Git Repo at this time.
+
+
+
+# Lab Server Configuration Completed!
+The lab server is ready for the lab exercise. 
+Please refer to the next guide in the `/lab` directory. The guide is entitled **"SST-BF Lab Guide.md"**.
 
 
 

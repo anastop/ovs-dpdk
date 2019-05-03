@@ -1,4 +1,4 @@
-# 1.0 - Accessing the Lab
+# Accessing the Lab
 This guide will help you configure your workstation to setup an SSH tunnel to the lab "jump server". You will then use this SSH tunnel to access your lab server(s). The SSH tunnel is an encrypted session that has the ability to encapsulate many different streams of traffic, including HTTP, DNS, and even other SSH logon sessions. This is accomplished using port redirection on your local workstation.
 The script below will assign a high-numbered TCP port to various IP addresses and port combinations that exist within the lab environment. This tells your SSH client to redirect a connection to that high-numbered port to the corresponding server and port within the lab environment. This allows the lab server team to only expose SSH to the Internet, yet still allows you to access all the necessary ports in the lab without installing a special VPN client.
 

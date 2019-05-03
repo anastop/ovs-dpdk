@@ -1,4 +1,4 @@
-# 4.0 - Deploying a VM for the client
+# Deploying a VM for the client
 These steps include the deployment process for the client VM, an Ubuntu Desktop running on KVM.
 
 Current state assumption:
