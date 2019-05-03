@@ -4,7 +4,7 @@
 source /etc/0-ovs-dpdk-global-variables.sh
 
 # Shutdown all services not relevant to the test. This may also disable IPMI/RMM access to the server until it is rebooted.
-${git_base_path}/scripts/stop_services.sh > /dev/null
+${git_base_path}/scripts/stop_services.sh > /dev/null 2>&1
 
 
 export vhost_socket_path=/usr/local/var/run/openvswitch/vhost-client
@@ -20,7 +20,7 @@ python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC6}
 python $DPDK_DIR/usertools/dpdk-devbind.py --bind=igb_uio ${PCI_ADDR_NIC7}
 
 # terminate OVS
-pkill -9 ovs
+#pkill -9 ovs
 rm -rf /usr/local/var/run/openvswitch
 rm -rf /usr/local/etc/openvswitch/
 rm -rf /usr/local/var/log/openvswitch
