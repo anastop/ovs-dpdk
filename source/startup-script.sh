@@ -16,9 +16,9 @@ cat /proc/sys/kernel/randomize_va_space
 service iptables stop
 cat /proc/sys/net/ipv4/ip_forward
 ufw disable
-pkill -9 crond
-pkill -9 atd
-pkill -9 cron
+#pkill -9 crond
+#pkill -9 atd
+#pkill -9 cron
 
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
