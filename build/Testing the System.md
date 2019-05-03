@@ -23,7 +23,7 @@ If TRex can resolve the destination gateway address of each of its ports, you kn
 - [x] The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
 - [x] Finally TRex correctly received and parsed the response. (the OVS port forwarding is working both directions, and the packet wasn't malformed)
 
-Follow these steps:
+**Follow these steps:**
 1. Logon to the server as root.
 ```
 ssh root@<hostname>
@@ -33,6 +33,7 @@ ssh root@<hostname>
 ```
 ${git_base_path}/lab/start-all.sh
 ```
+&nbsp;
 
 ### Reviewing the Results
 
