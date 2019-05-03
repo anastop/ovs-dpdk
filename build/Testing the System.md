@@ -15,8 +15,9 @@ There are two tests you can run to confirm that your network cabling is correct 
 &nbsp;
 
 ## Simple Test
-As noted above, this test only confirms that the NICs are wired correctly and relies upon TRex to send an ARP for a specific IP down each of the ports. If the cables are wired correctly, the OVS will forward that ARP packet to exactly one NIC of one of the VMs. If that VM replies, and the address is resolved, your cabling is correct.  This test can help you also if you have flipped your cables around. See the note below these steps for more information.
-If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because:
+This test only confirms that the NICs are wired correctly. A failure typically indicates that you have network cabling flipped.
+
+If TRex can resolve the destination gateway address of each of its ports, you know that packets are flowing because:
 1. TRex sent the ARP broadcast packet for 192.1.1.1
 2. The VPP Router received the packet through the OVS (your OVS port forwarding is working)
 3. The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
