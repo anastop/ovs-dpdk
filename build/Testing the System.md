@@ -3,9 +3,9 @@
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-* **[SIMPLE TEST:](#simple-test)** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
+* **[SIMPLE TEST:](#simple-test)** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly.
 
-* **[INVASIVE TEST:](#invasive-test)** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
+* **[INVASIVE TEST:](#invasive-test)** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. 
 
 &nbsp;
 
@@ -18,10 +18,10 @@ There are two tests you can run to confirm that your network cabling is correct 
 This test only confirms that the NICs are wired correctly. A failure typically indicates that you have network cabling flipped.
 
 If TRex can resolve the destination gateway address of each of its ports, you know that packets are flowing because:
-- [x] TRex sent the ARP broadcast packet for 192.1.1.1
-- [x] The VPP Router received the packet through the OVS (your OVS port forwarding is working)
-- [x] The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
-- [x] Finally TRex correctly received and parsed the response. (the OVS port forwarding is working both directions, and the packet wasn't malformed)
+- [x] TRex sent the ARP broadcast packet for 192.1.1.1 (This IP is an example for port 0.)
+- [x] The VPP Router received the packet through the OVS (This indicates that your OVS port forwarding is working.)
+- [x] The VPP Router parsed and responded to the request (This indicates that the router is working, and you are cabled to the correct port.)
+- [x] Finally TRex correctly received and parsed the response. (This indicates that the OVS port forwarding is working both directions, and that the packet wasn't malformed in transit.)
 
 **Follow these steps:**
 1. Logon to the server as root.
