@@ -3,9 +3,9 @@
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-**- [SIMPLE TEST:](#simple-test)** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
+- [ ] **[SIMPLE TEST:](#simple-test)** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
 
-**- [INVASIVE TEST:](#invasive-test)** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
+- [ ] **[INVASIVE TEST:](#invasive-test)** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
 
 &nbsp;
 
