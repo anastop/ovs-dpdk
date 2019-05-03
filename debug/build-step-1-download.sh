@@ -48,7 +48,6 @@ ${git_base_path}/scripts/sstbf.py -d
 # Append the output to our global variable files - both the live version in /etc and the backup copy in /pre-scripts.
 # Remember, these values are unique to this motherboard and cannot be copied to another host. The Core ID mappings WILL be different.
 ${git_base_path}/scripts/sstbf.py -c >> /etc/0-ovs-dpdk-global-variables.sh
-${git_base_path}/scripts/sstbf.py -c >> ${git_base_path}/pre-scripts/0-ovs-dpdk-global-variables.sh
 
 # Because we updated the file, we need to re-run the source command to update our shell with the new variables
 source /etc/0-ovs-dpdk-global-variables.sh
