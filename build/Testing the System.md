@@ -3,9 +3,9 @@
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-**- SIMPLE:** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
+**- [SIMPLE TEST:](#simple-test)** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
 
-**- [INVASIVE TEST](#invasive-test):** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
+**- [INVASIVE TEST:](#invasive-test)** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
 
 &nbsp;
 
@@ -14,7 +14,7 @@ There are two tests you can run to confirm that your network cabling is correct 
 
 &nbsp;
 
-## Simple Test
+## SIMPLE TEST
 This test only confirms that the NICs are wired correctly. A failure typically indicates that you have network cabling flipped.
 
 If TRex can resolve the destination gateway address of each of its ports, you know that packets are flowing because:
@@ -61,7 +61,7 @@ Continue troubleshooting using the [Invasive Test](#invasive-test) below.
 
 &nbsp;
 
-## Invasive Test
+## INVASIVE TEST
 This test you will use two SSH sessions to evaluate the status of the ports while sending/receiving traffic. This test is typically only used when TRex is unable to resolve the destination IP address on one or more of its ports. The test will show you if the ports are sending and receiving traffic properly.
 * Open another SSH connection to the host (you will have two windows).
 * In the second window, display the OVS port flows.
