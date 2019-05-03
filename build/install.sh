@@ -110,7 +110,7 @@ echo
 echo "Done Installing TRex."
 echo
 echo
-echo "Setting up the Startup Scrip and system parameters..."
+echo "Setting up the Startup Script and system parameters..."
 echo "@reboot root ${git_base_path}/source/startup-script.sh" >> /etc/crontab
 echo
 echo "#Disable Address Space Layout Randomization (ASLR)" > /etc/sysctl.d/aslr.conf
