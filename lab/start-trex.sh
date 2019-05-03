@@ -11,26 +11,27 @@ source /etc/0-ovs-dpdk-global-variables.sh
 yaml_source="${git_base_path}/configs/trex/trex_cfg.yaml"
 yaml_file="/etc/trex_cfg.yaml"
 
+# If the TRex config file doesn't exist, create it.
+if [ ! -f ${yaml_file} ]; then
+	# Copy in the source yaml with variable placeholders for the CPU core numbers
+	cp ${yaml_source} ${yaml_file}
 
-# Copy in the source yaml with variable placeholders for the CPU core numbers
-cp ${yaml_source} ${yaml_file}
-
-# Replace the variables in the YAML file for CPU cores
-sed -i -e 's/PCI_ADDR_NIC0/'"${PCI_ADDR_NIC0}"'/g' \
-     -e 's/PCI_ADDR_NIC1/'"${PCI_ADDR_NIC1}"'/g' \
-     -e 's/PCI_ADDR_NIC2/'"${PCI_ADDR_NIC2}"'/g' \
-     -e 's/PCI_ADDR_NIC3/'"${PCI_ADDR_NIC3}"'/g' \
-     -e 's/cpu_trex_port0/'"${cpu_trex_port0}"'/g' \
-     -e 's/cpu_trex_port1/'"${cpu_trex_port1}"'/g' \
-     -e 's/cpu_trex_port2/'"${cpu_trex_port2}"'/g' \
-     -e 's/cpu_trex_port3/'"${cpu_trex_port3}"'/g' \
-     -e 's/cpu_trex_port4/'"${cpu_trex_port4}"'/g' \
-     -e 's/cpu_trex_port5/'"${cpu_trex_port5}"'/g' \
-     -e 's/cpu_trex_port6/'"${cpu_trex_port6}"'/g' \
-     -e 's/cpu_trex_port7/'"${cpu_trex_port7}"'/g' \
-     -e 's/cpu_trex_master/'"${cpu_trex_master}"'/g' \
-     -e 's/cpu_trex_latency/'"${cpu_trex_latency}"'/g' ${yaml_file}
-
+	# Replace the variables in the YAML file for CPU cores
+	sed -i -e 's/PCI_ADDR_NIC0/'"${PCI_ADDR_NIC0}"'/g' \
+		 -e 's/PCI_ADDR_NIC1/'"${PCI_ADDR_NIC1}"'/g' \
+		 -e 's/PCI_ADDR_NIC2/'"${PCI_ADDR_NIC2}"'/g' \
+		 -e 's/PCI_ADDR_NIC3/'"${PCI_ADDR_NIC3}"'/g' \
+		 -e 's/cpu_trex_port0/'"${cpu_trex_port0}"'/g' \
+		 -e 's/cpu_trex_port1/'"${cpu_trex_port1}"'/g' \
+		 -e 's/cpu_trex_port2/'"${cpu_trex_port2}"'/g' \
+		 -e 's/cpu_trex_port3/'"${cpu_trex_port3}"'/g' \
+		 -e 's/cpu_trex_port4/'"${cpu_trex_port4}"'/g' \
+		 -e 's/cpu_trex_port5/'"${cpu_trex_port5}"'/g' \
+		 -e 's/cpu_trex_port6/'"${cpu_trex_port6}"'/g' \
+		 -e 's/cpu_trex_port7/'"${cpu_trex_port7}"'/g' \
+		 -e 's/cpu_trex_master/'"${cpu_trex_master}"'/g' \
+		 -e 's/cpu_trex_latency/'"${cpu_trex_latency}"'/g' ${yaml_file}
+fi
 
 echo "Starting the TRex server"
 
@@ -89,8 +90,8 @@ ${trex_dir}/trex-console --batch ${git_base_path}/configs/trex/trex-init-script.
 # cd ${git_base_path}/scripts
 echo
 echo "Step 1: Launch a workload:"
-echo "        ${git_base_path}/beta/trex-load-64byte-base.sh"
+echo "        ${git_base_path}/scripts/trex-load-64byte-base.sh"
 echo
 echo "Step 2: Launch the TRex Console:"
-echo "        ${git_base_path}/beta/trex-console.sh"
+echo "        ${git_base_path}/scripts/trex-console.sh"
 echo 

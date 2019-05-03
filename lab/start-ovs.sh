@@ -3,6 +3,10 @@
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
+# Shutdown all services not relevant to the test. This may also disable IPMI/RMM access to the server until it is rebooted.
+${git_base_path}/scripts/stop_services.sh > /dev/null
+
+
 export vhost_socket_path=/usr/local/var/run/openvswitch/vhost-client
 
 
@@ -77,11 +81,6 @@ $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-client-3 -- set Interface vhost-
 	options:vhost-server-path=${vhost_socket_path}-3 \
 	other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost3}"
 
-# $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user0 -- set Interface vhost-user0 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost0}"
-# $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user1 -- set Interface vhost-user1 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost1}"
-# $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user2 -- set Interface vhost-user2 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost2}"
-# $OVS_DIR/utilities/ovs-vsctl add-port br0 vhost-user3 -- set Interface vhost-user3 type=dpdkvhostuser other_config:pmd-rxq-affinity="0:${cpu_ovs_vhost3}"
-
 # $OVS_DIR/utilities/ovs-vsctl show
 # $OVS_DIR/utilities/ovs-appctl dpif-netdev/pmd-rxq-show
 
@@ -95,8 +94,7 @@ $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=6,idle_timeout=0,action=output
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=7,idle_timeout=0,action=output:3
 $OVS_DIR/utilities/ovs-ofctl add-flow br0 in_port=8,idle_timeout=0,action=output:4
 
-$OVS_DIR/utilities/ovs-ofctl dump-flows br0
-
+# $OVS_DIR/utilities/ovs-ofctl dump-flows br0
 
 echo
 echo "Done"
