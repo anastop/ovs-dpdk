@@ -87,7 +87,7 @@ You will now use SSH to remotely execute the pre-scripts. Alternatively, you may
 
 3. Run the package installation script: `ssh root@<hostname> './2-package_download.sh'`
 
-
+&nbsp;
 
 
 # Initial Setup Completed!
@@ -119,7 +119,7 @@ Additionally, the server must have certain BIOS settings enabled to expose these
 
 # Lab Server Configuration Completed!
 The lab server is ready for the lab exercise. 
-Please refer to the next guide in the `/lab` directory. The guide is entitled **"SST-BF Lab Guide.md"**.
+Please refer to the next guide: [SST-BF Lab Guide](/lab/SST-BF Lab Guide.md)
 
 
 
