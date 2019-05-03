@@ -7,10 +7,10 @@ There are two tests you can run to confirm that your network cabling is correct 
 
 2. **INVASIVE**: This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets.
 
-**TIP!**
-> These tests should be run after a clean reboot. If you don't know the last time this host was rebooted, do so before running the test. Type `init 6` after logging into the host to reboot it.
+&nbsp;
 
-Also note that we will use the server ICN16 as our example.
+**IMPORTANT!**
+> These tests should be run after a clean reboot. If you don't know the last time this host was rebooted, do so before running the test. Type `init 6` after logging into the host to reboot it.
 
 &nbsp;
 
@@ -19,7 +19,7 @@ As noted above, this test only confirms that the NICs are wired correctly and re
 
 1. Logon to the server as root.
 ```
-ssh root@icn16
+ssh root@<hostname>
 ```
 
 2. Run the script to start all services (DPDK, OVS, and TRex). This script will take about 2 minutes to complete, at which time the TRex Console will be displaying the status of its ARP resolution.
@@ -58,7 +58,7 @@ This test you will use two SSH sessions to evaluate the status of the ports whil
 
 1. Start another SSH terminal window, and logon to the host. Do NOT disconnect the first terminal window.
 ```
-ssh root@icn16
+ssh root@<hostname>
 ```
 2. In the second terminal window, run the following command to dump the OVS flows to the screen. This command can be cancelled at anytime by pressing `Ctrl+C`, which will return you to the Bash shell.
 ```
