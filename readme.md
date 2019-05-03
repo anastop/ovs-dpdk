@@ -27,13 +27,13 @@ This configuration will produce
 
 
 ## Student Lab Docs
-Follow the numbered guide document(s) in the `/lab` folder of this repository.
+Follow the `SST-BF Lab Guide.md` document in the `/lab` folder of this repository.
 
 
 
 
 ## Lab Setup and Build Docs
-Follow the numbered guide document(s) in the `/build` folder of this repository.
+Follow the `Building the Lab Server.md` document in the `/build` folder of this repository.
 
 
 
