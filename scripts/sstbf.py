@@ -478,6 +478,7 @@ def create_env_vars():
 		core_base_freq.append(base)
 
 	# Auto-assign cores for NUMA 1 to ENV variables
+	lim_all_cores_1 = len(core_base_freq)
 	lim_all_cores_2 = len(core_base_freq)/2
 	lim_all_cores_4 = len(core_base_freq)/4
 	step_all_cores_to_ht = lim_all_cores_4 * 2
@@ -547,6 +548,19 @@ def create_env_vars():
 	print("CPU_NUMA1_HIGH_CORES=(" + numa_1_p1_cores_a + numa_1_p1_cores_b + ")")
 	print("CPU_NUMA2_HIGH_CORES=(" + numa_2_p1_cores_a + numa_2_p1_cores_b + ")")
 	print("CPU_COUNT=" + str(cpucount))
+	print()
+	print("CPU_NUMA1_CORE_RANGE_BEGIN=0")
+	print("CPU_NUMA1_CORE_RANGE_END=" + str(lim_all_cores_4 - 1))
+	print("CPU_NUMA1_HT_CORE_RANGE_BEGIN=" + str(lim_all_cores_2))
+	print("CPU_NUMA1_HT_CORE_RANGE_END=" + str(lim_all_cores_4 + lim_all_cores_2 - 1))
+	print()
+	print("CPU_NUMA2_CORE_RANGE_BEGIN=" + str(lim_all_cores_4))
+	print("CPU_NUMA2_CORE_RANGE_END=" + str(lim_all_cores_2 - 1))
+	print("CPU_NUMA2_HT_CORE_RANGE_BEGIN=" + str(lim_all_cores_4 + lim_all_cores_2))
+	print("CPU_NUMA2_HT_CORE_RANGE_END=" + str(lim_all_cores_1 - 1))
+	print()
+	# Isolate all cores except 0 and its HT peer  -- eg. core 40 in a 20-core system
+	print("CPU_CORES_TO_ISOLATE=\"1-" + str(lim_all_cores_2 - 1) + "," + str(lim_all_cores_2 + 1)) + "-" + str(lim_all_cores_1 - 1) + "\"")
 	print()
 	print("# These variables assign CPU cores to services")
 	# Use a standard core in NUMBA node 1
