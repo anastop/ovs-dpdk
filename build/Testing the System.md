@@ -1,9 +1,9 @@
-# Testing the lab configuration
+# Testing the Lab Configuration
 
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-1. **SIMPLE**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because ARP worked.
+1. **SIMPLE**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because TRex sent the ARP broadcast, the VPP Router responded to the request, and TRex correctly received and parsed the response.
 
 2. **INVASIVE**: This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets.
 
