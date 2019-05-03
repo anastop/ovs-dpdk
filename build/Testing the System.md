@@ -9,6 +9,11 @@ There are two tests you can run to confirm that your network cabling is correct 
 
 &nbsp;
 
+## Wiring Diagram
+The test lab wiring should be configured per the diagram below.
+
+![test-doc_wiring-diagram](/images/test-doc_wiring-diagram.png)
+
 **IMPORTANT!**
 > These tests should be run after a clean reboot. If you don't know the last time this host was rebooted, do so before running the test. Type `init 6` after logging into the host to reboot it.
 
@@ -39,14 +44,16 @@ ${git_base_path}/lab/start-all.sh
 
 #### SUCCESSFUL TEST
 Below is a screenshot of a successful test. All ports resolved the destination address.
+
 ![test-doc_test-simple_initial-screen_good](/images/test-doc_test-simple_initial-screen_good.png)
 
-Your wiring is correctly setup.
+This result indicates that your wiring is setup correctly as shown , and that the TRex
 
 &nbsp;
 
 #### FAILED TEST
 Below is a screenshot of a failed test. Note that in this case, port [0] was unable to resolve the destination gateway IP of 192.1.1.1, which is the IP address of the first network card assigned to the Virtual Machine VPP router. All ports must successfully resolve their destination addresses for the lab to function properly.
+
 ![test-doc_test-simple_initial-screen_bad](/images/test-doc_test-simple_initial-screen_bad.png)
 
 You have one or more problems with the system configuration, which could range from:
