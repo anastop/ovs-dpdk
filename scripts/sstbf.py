@@ -560,7 +560,7 @@ def create_env_vars():
 	print("CPU_NUMA2_HT_CORE_RANGE_END=" + str(lim_all_cores_1 - 1))
 	print()
 	# Isolate all cores except 0 and its HT peer  -- eg. core 40 in a 20-core system
-	print("CPU_CORES_TO_ISOLATE=\"1-" + str(lim_all_cores_2 - 1) + "," + str(lim_all_cores_2 + 1)) + "-" + str(lim_all_cores_1 - 1) + "\"")
+	print("CPU_CORES_TO_ISOLATE=\"1-" + str(lim_all_cores_2 - 1) + "," + str(lim_all_cores_2 + 1) + "-" + str(lim_all_cores_1 - 1) + "\"")
 	print()
 	print("# These variables assign CPU cores to services")
 	# Use a standard core in NUMBA node 1
