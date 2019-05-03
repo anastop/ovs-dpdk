@@ -3,8 +3,12 @@
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-1. **SIMPLE**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because TRex sent the ARP broadcast, the VPP Router responded to the request, and TRex correctly received and parsed the response.
-
+1. **SIMPLE**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because:
+	a. TRex sent the ARP broadcast packet for 192.1.1.1
+	b. The VPP Router received the packet through the OVS (your OVS port forwarding is working)
+	c. The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
+	d. Finally TRex correctly received and parsed the response. (the OVS port forwarding is working both directions, and the packet wasn't malformed)
+	
 2. **INVASIVE**: This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets.
 
 &nbsp;
