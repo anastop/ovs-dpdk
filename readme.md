@@ -8,7 +8,7 @@ This repository contains the code and tools to build a student lab machine. The 
  - TREX 2.56
  - And an Ubuntu 16.04 VM running VPP for routing
 
-This repository may be found at: https://github.com/brianeiler/ovs-dpdk
+This repository may be cloned from: https://github.com/brianeiler/ovs-dpdk.git
 
 ---------------------
 
