@@ -78,13 +78,35 @@ Additionally participants should have the following technical skills:
 ## Task 1: Review the server configuration
 > In this task you will review the server configuration, and learn how to adjust the core speeds manually
 > You will also learn how the core mappings are unique to each CPU chip
-1. Check the Linux kernel version
-2. Check the base frequency in the file System
+1. Check the Linux kernel version. It should be 4.20.
+```
+	uname -r
+```
+2. Check the base frequency of CPU 0 in the file System
+```
+	cat /sys/devices/system/cpu/cpu0/cpufreq/base_freq
+```
+3. Compare that to the current running frequency of CPU 0
+```
+	cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+```
 
 ##### That was the hard way. Let's try an easier approach!
-3. Run the python script to show the core configuration
-4. Run the command line arguments -b and -c at the CLI
-5. Examine the shell script used for environment variables
+4. Run a python script to show the core configuration
+```
+	${git_base_path}/scripts/sstbf.py
+```
+5. Run a command line arguments -b and -c at the CLI
+```
+	${git_base_path}/scripts/sstbf.py -b
+	
+	${git_base_path}/scripts/sstbf.py -c
+```
+
+6. Examine the shell script used for environment variables
+```
+	cat /etc/0-ovs-dpdk-global-variables.sh
+```
 
 &nbsp;
 
@@ -96,38 +118,95 @@ Additionally participants should have the following technical skills:
 >  - The VM VPP routers run on CPU 2, and also only on the low P1 cores.
 >  - The OVS dataplane processes run on CPU 2 and are pinned to the High P1 cores.
 > Therefore when Intel® SST-BF is activated, only the OVS dataplane is increased in performance, all other system and workload services remain on the Low P1 cores.
-1. Run a shell script to show the CPU affinity and core speeds of the processes (/debug/list-core-mapping.sh) (all show 2300MHz and equal)
-2. Activate SSTBF [Run the command "sstbf.py -a"]
-3. Run the shell script to show the change in the CPU core speeds of the processes. take special note of the OVS dataplane processes at 2700MHz.
-4. Deactivate SSTBF for our test [sstbf.py -d]
+1. Run a shell script to show the CPU affinity and core speeds of the processes. Note that all cores show 2300MHz and are therefore equal.
+```
+${git_base_path}/scripts/show-cores.sh
+```
+2. Activate Intel® SST-BF to increase the speed of the CPU cores assigned to the OVS data plane.
+```
+${git_base_path}/scripts/sstbf.py -a
+```
+3. Run the shell script again to show the change in the CPU core speeds of the processes. Take special note of the OVS dataplane processes running at 2700MHz.
+```
+${git_base_path}/scripts/show-cores.sh
+```
+4. Deactivate Intel® SST-BF so that we can perform addional comparisons.
+```
+${git_base_path}/scripts/sstbf.py -d
+```
 
 &nbsp;
 
 ## Task 3: Prepare the lab server for the workload test
 > In this task you will start the services for OVS, the VMs, and the TRex traffic generator.
 1. Start the OVS virtual switch process.
+```
+${git_base_path}/lab/start-ovs.sh
+```
 2. Start the QEMU virtual machines.
+```
+${git_base_path}/lab/start-qemu.sh
+```
 3. Start the TRex traffic generator service and set its network configuration parameters.
+```
+${git_base_path}/lab/start-trex.sh
+```
 
 &nbsp;
 
 ## Task 4: Perform the workload test and observe the impact of Intel® SST-BF
-> In this task you will launch a predefined TRex traffic generation script that streams a constant flow of 64 byte packets through the OVS to and from the VPP router VMs. You will start with a baseline configuration that maximizes the throughput of the oVS, but does not result in dropped packets. You will then load a higher demand workload that streams more traffic than the OVS can handle, resulting in packet loss. While this new workload is running, you will activate Intel® SST-BF on your server to increase the base frequency of the CPU cores assigned to the OVS dataplane. The increased CPU power allows the dataplane to handle the increase in traffic, which results in greater network throughput.
-1. Load the TRex baseline traffic profile and start the workload.
-2. View the traffic results in the TRex Console. You may use either the GUI on a Linux VM, or the TUI in the CLI of the lab server.
-3. Observe there is little to no packet loss between the transmitted and received counters.
-4. Now increase the traffic load by stopping the workload and loading the high demand traffic profile. Start the traffic generator.
-5. Return to the TRex GUI (or TUI) to observe the increase in packet loss due to the increased traffic profile.
-6. In the CLI of the lab server, run the "/scripts/sstbf.py -a" script to activate Intel® SST-BF.
-7. Return to the TRex GUI (or TUI) to observe the traffic rate has remained steady but the packet loss has dramatically decreased, resulting in greater network throughput.
+> In this task you will launch a predefined TRex traffic generation script that streams a constant flow of 64 byte packets through the OVS to and from the VPP router VMs. You will start with a baseline configuration that maximizes the throughput of the OVS, but does not result in dropped packets. You will then load a higher demand workload that streams more traffic than the OVS can handle, resulting in packet loss. While this new workload is running, you will activate Intel® SST-BF on your server to increase the base frequency of the CPU cores assigned to the OVS dataplane. The increased CPU power allows the dataplane to handle the increase in traffic, which results in greater network throughput.
+1. In the TRex Console (command line interface), load the TRex baseline traffic profiles to start the workload.
+```
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p3
+```
+2. Again, within the TRex Console, view the traffic results using the TRex User Interface (TUI). You may need to increase the vertical size of your terminal window for the TUI to display.
+```
+tui
+```
+3. Compare the number of transmitted packets to the number of received packets. They should be almost equal. This indicates very low or no packet loss. Record the total amount of transmitted and received packets. You will use this value in a comparison at the end of the lab.
+4. Now increase the traffic load by stopping the workload and loading the high demand traffic profile. 
+```
+stop
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
+```
+5. You should noticed the number of transmitted packets increasing, but the values no longer match the number of received packets. This indicates a percentage of packet loss because the OVS dataplane is running at full capacity and for this test we have configured it to drop packets that is unable to forward immediately.
+6. Start another SSH terminal window, and logon to your lab server. Do NOT disconnect the first terminal window.
+7. In the 2nd terminal window use the Python script to activate Intel® SST-BF on the CPUs.
+```
+${git_base_path}/scripts/sstbf.py -a
+```
+8. Return to your first terminal window (the one showing TRex). Note that the number of transmitted packets has remained the same, but we are now also receiving an equal amount of packets, which indicates that there is again low or no packet loss. Record the total amount of transmitted and received packets. 
+9. Compare the values that you recorded for the total received packets (from Step 2 and Step 8). You should see approximately a 10% increase in the throughput. This increase in throughput is a result of increasing the CPU frequency of the cores assigned to the OVS dataplane, which is allowing it to process a greater volume of traffic per second.
 
 &nbsp;
 
 ## Task 5: Reset the lab server configuration
 > In this task you will stop the TRex traffic generation and then reset the Intel® SST-BF settings.
-1. In the TRex GUI (or TUI), stop the current workload test.
-2. In the CLI of the lab server, run the "/scripts/sstbf.py -d" script to deactivate Intel® SST-BF.
-3. Run the "/debug/list-core-mapping.sh" script to confirm that all the cores are operating at 2300MHz.
+1. In the TRex User Interface (TUI), stop the current workload test, and quit the TUI. This will return you to the main TRex Console interface.
+```
+stop
+quit
+```
+2. Quit the TRex Console. This will return you to the Linux shell.
+```
+quit
+```
+3. In your 2nd terminal window use the Python script to activate Intel® SST-BF on the CPUs. Then exit and close that terminal window.
+```
+${git_base_path}/scripts/sstbf.py -d
+exit
+```
+4. Return to your first terminal window and run the following shell script to confirm that all the cores are operating at the base frequency, for example: 2300MHz.
+```
+${git_base_path}/scripts/show-cores.sh
+```
 
 &nbsp;
 
@@ -135,7 +214,7 @@ Additionally participants should have the following technical skills:
 > This task is optional and should only be performed if you have time remaining in the lab window.
 > In this task you will use the TRex GUI to customize the traffic profiles to change the packets per second and the packet payload size, and then compare the performance with Intel® SST-BF active and inactive.
 
-> **IMPORTANT**: At this time you must use the TRex GUI to perform the additional tests because the traffic profiles have not yet been created for the CLI-based TRex TUI.
+> **IMPORTANT**: At this time you must use the TRex GUI using a Linux desktop to perform the additional tests because the traffic profiles have not yet been created for the CLI-based TRex TUI.
 1. In the TRex GUI, edit the profile attached to each port.
 2. You may then alter the stream configuration, adjusting the packets per second and/or the packet payload size.
 3. When you have configured each port as desired, start the traffic generation process and review the results in the dashboard charts.
@@ -148,7 +227,6 @@ Additionally participants should have the following technical skills:
 10. Finally, when you are finished, run the lab reset steps in Task 5 to prepare your lab server for future lab activities.
 
 &nbsp;
-
 
 &nbsp;
 
