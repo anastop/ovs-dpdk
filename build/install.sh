@@ -2,6 +2,11 @@
 
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
+
+# Wake up DNS
+${git_base_path}/debug/restart-dns.sh
+sleep 2
+
 modprobe msr
 # Cleanup pre-setup files -- the updated versions are kept in the ${git_base_path}/pre-scripts folder
 rm /root/1-kernel_upgrade.sh
