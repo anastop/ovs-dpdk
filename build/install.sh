@@ -123,10 +123,10 @@ echo "Done Setting up the Startup script"
 echo
 echo
 echo "Setting up the GRUB boot loader"
-sed -i -e '/^GRUB_CMDLINE_LINUX/ s/"$/ default_hugepagesz=1G hugepagesz=1G hugepages=48 hugepagesz=2MB hugepages=16384"/' /etc/default/grub
-sed -i -e "/^GRUB_CMDLINE_LINUX/ s/\"\$/ isolcpus=${CPU_CORES_TO_ISOLATE}\"/" /etc/default/grub
-sed -i -e "/^GRUB_CMDLINE_LINUX/ s/\"\$/ rcu_nocbs=${CPU_CORES_TO_ISOLATE}\"/" /etc/default/grub
-sed -i -e '/^GRUB_CMDLINE_LINUX/ s/"$/ nmi_watchdog=0 audit=0 nosoftlockup processor.max_cstate=1 intel_idle.max_cstate=1 hpet=disable mce=off tsc=reliable numa_balancing=disable"/' /etc/default/grub
+sed -i -e '/^GRUB_CMDLINE_LINUX_DEFAULT/ s/"$/ default_hugepagesz=1G hugepagesz=1G hugepages=48 hugepagesz=2MB hugepages=16384"/' /etc/default/grub
+sed -i -e "/^GRUB_CMDLINE_LINUX_DEFAULT/ s/\"\$/ isolcpus=${CPU_CORES_TO_ISOLATE}\"/" /etc/default/grub
+sed -i -e "/^GRUB_CMDLINE_LINUX_DEFAULT/ s/\"\$/ rcu_nocbs=${CPU_CORES_TO_ISOLATE}\"/" /etc/default/grub
+sed -i -e '/^GRUB_CMDLINE_LINUX_DEFAULT/ s/"$/ nmi_watchdog=0 audit=0 nosoftlockup processor.max_cstate=1 intel_idle.max_cstate=1 hpet=disable mce=off tsc=reliable numa_balancing=disable"/' /etc/default/grub
 update-grub
 echo
 echo "Done Setting up the GRUB boot loader"
