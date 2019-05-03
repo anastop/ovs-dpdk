@@ -56,14 +56,15 @@ ssh root@<hostname>
 This git repo contains a set of scripts that will be uploaded to the lab server to aid in the server configuration. You will then remotely execute some of these scripts via SSH to complete the setup process. 
 
 **Note:**
-> You may wish to clone the git repository to your local workstation (or your jump box) so that you have easy access to the `/build/pre-scripts` directory and its contents.
-> To clone the repo to your current directory use the commend: `git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab` 
-> This will create a folder called `ovs-dpdk-lab` and synchronize the git repo to that folder.
+> You should clone the git repository to your local workstation (or your jump box) so that you have easy access to the `/build/pre-scripts` directory and its contents.
+
+1. Clone this repo to your current directory using the commend below. This will create a folder called `ovs-dpdk-lab` and synchronize the git repo to that folder.
+```
+git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab
+```
 > To update this folder in the future, enter the directory and then type `git pull`. Your workstation will automatically download the newest version of the scripts and documentation.
 
-
-### Edit the Pre-scripts
-All the scripts in this repo rely upon the file `0-ovs-dpdk-global-variables.sh`. The generic template version of this file is located at `/build/pre-scripts/0-ovs-dpdk-global-variables.sh`.
+2. Edit the Pre-scripts. All the scripts in this repo rely upon the file `0-ovs-dpdk-global-variables.sh`. The generic template version of this file is located at `/build/pre-scripts/0-ovs-dpdk-global-variables.sh`.
 You **ABSOLUTELY MUST** edit this file to adjust the destination directories and other particulars of your configuration and system.
 
 
