@@ -137,3 +137,5 @@ echo
 echo
 read -r -p "Check the screen for errors. If all OK, press the ENTER key to REBOOT. Press Ctrl-C to abort the script." key
 echo
+init 6
+
