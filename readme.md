@@ -27,23 +27,27 @@ This configuration will produce
 
 
 ## Student Lab Docs
-Follow the numbered guide documents in the `/lab-docs` folder of this repository.
+Follow the numbered guide document(s) in the `/lab` folder of this repository.
 
 
 
 
 ## Lab Setup and Build Docs
-Follow the numbered guide documents in the `/build-docs` folder of this repository.
+Follow the numbered guide document(s) in the `/build` folder of this repository.
 
 
 
 
 
 ## Caveats
-The primary purpose of this lab configuration is to demonstrate the performance of specific Intel CPU features while running a synthetic network workload. Certain CPU features rely on specific CPU core IDs which may differ from host to host. Therefore the initial configuration of this setup requires you to edit a global environment variable file and upload it to your /etc directory on the lab server. This environment variable file contains a sample bit mask for the special cores, and is meant for you to manually edit the values to match your system and the desired CPU core affinity of the services.
+The primary purpose of this lab configuration is to demonstrate the performance of specific Intel CPU features while running a synthetic network workload. Certain CPU features rely on specific CPU core IDs which may differ from host to host. The installation script attempts to identify and automatically assign the appropriate CPU cores; however you should still carefully review the configuration file as noted in the build guides.
+
+The entire configuration of scripts relies on a global environment variable file that is copied to the lab server's /etc directory. This environment variable file contains the bit masks and CPU core assignments as well as paths to different services on the lab server. Be sure to verify the settings match your environment before running the lab.
 
 In this lab, the TRex traffic generator is hard coded to operate on the first NUMA node (CPU 1), and the OVS and Virtual Machines are exclusively use the second NUMA node (CPU 2). This assures a separation between the load generation and the system being tested.
 
-Currently the scripts pull two source files from a shared Dropbox location. Soon these links will be changed to permanent public source areas, therefore do not copy this repository. Clone it. And then plan to periodically run `git pull` to get the most recent changes to the scripts.
+Currently the build script pulls one source file from a shared Dropbox location. This will be changed to a more permanent location in the future, therefore do not "fork" or copy this repository. Clone it. And then plan to periodically run `git pull` to download the most recent changes to the scripts.
 
 
+No warranty is provided, but if you find bugs, let me know.
+-Brian
