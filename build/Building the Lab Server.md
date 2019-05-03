@@ -87,7 +87,6 @@ You will now use SSH to remotely execute the pre-scripts. Alternatively, you may
 
 3. Run the package installation script: `ssh root@<hostname> './2-package_download.sh'`
 
-4. If there are no errors, run the git hub script:  `ssh root@<hostname> './3-github_clone.sh'`
 
 
 
@@ -106,10 +105,10 @@ ssh root@<hostname>
 1. Run the first build script to download the remaining files from the Internet.
 ```
 cd ${git_base_path}
-git pull
 ./build/install.sh
 ```
-2. Reboot the server as directed by the script. 
+2. Review the command history for errors and if OK, reboot the server as directed by the script. 
+
 
 
 ## Review/Adjust the Global Variables
