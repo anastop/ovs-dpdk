@@ -1,0 +1,127 @@
+# This is a text document, not a shell script
+
+# The commands listed below are intended for troubleshooting use only.
+# These are primarily TRex commands to test the cable connectivity
+
+
+# To start the lab, run the following commands
+# TRex will automatically start and attempt to load the normal configuration.
+# If you see errors regarding resolving the designation address of any port,
+# copy/paste the commands below into TRex console to adjust the IP. 
+# Most problems are related to having the loopback cables misconnected. 
+# Other problems may include drivers, firmware, or a bad cable (or NIC).
+
+cd $git_base_path; git pull
+./start-lab.sh
+
+
+# To test the SST-BF functionality, load the "vpp-64B-high" yaml files as shown below.
+# This will generate a load that the normal CPU frequency can't handle, so it will drop packets.
+# Then execute the sstbf.py script to increase the OVS data plane speeds.
+# The Transmit and Received packet numbers should equalize with SST-BF active while running the high load.
+
+
+# You can remotely run the SST-BF script via ssh using this command as an example:
+
+ssh root@icn06 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -a'
+
+# The "-a" argument activates SST-BF, whereas the "-d" argument deactivates SST-BF.
+# Be sure to deactivate SST-BF when you are done, so as to prepare the server for your next test.
+
+ssh root@icn06 '/root/update_ovs-dpdk-lab.sh /opt/ovs-dpdk-lab/scripts/sstbf.py -d'
+
+
+
+# TRex commands follow:
+
+-----------------------------------
+(PAIR 1 and 2 NORMAL)
+-----------------------------------
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p3
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
+
+
+-----------------------------------
+(PAIR 1 FLIPPED / PAIR 2 NORMAL)
+-----------------------------------
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 1 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p3
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p2
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
+
+
+-----------------------------------
+(PAIR 1 NORMAL / PAIR 2 FLIPPED)
+-----------------------------------
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.4.1.2 --dst 192.4.1.1
+l3 -p 3 --src 192.3.1.2 --dst 192.3.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p2
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p0 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p1
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p2
+
+
+-----------------------------------
+(BOTH PAIR 1 FLIPPED / PAIR 2 FLIPPED)
+-----------------------------------
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 1 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 2 --src 192.4.1.2 --dst 192.4.1.1
+l3 -p 3 --src 192.3.1.2 --dst 192.3.1.1
+service -a --off
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p3.yaml --force -p2
+
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p0.yaml --force -p1 
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p1.yaml --force -p0
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p2.yaml --force -p3
+start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p2
+
+
+
+
+
