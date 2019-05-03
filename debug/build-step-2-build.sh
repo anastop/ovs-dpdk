@@ -64,8 +64,15 @@ echo
 read -r -p "Check for errors. If all OK, press the ENTER key to continue. Press Ctrl-C to abort the script." key
 echo
 echo
-echo "Setting up the Startup Script..."
+echo "Setting up the Startup Scrip and system parameters..."
 echo "@reboot root ${git_base_path}/source/startup-script.sh" >> /etc/crontab
+echo
+echo "#Disable Address Space Layout Randomization (ASLR)" > /etc/sysctl.d/aslr.conf
+echo "kernel.randomize_va_space=0" >> /etc/sysctl.d/aslr.conf
+echo "# Enable IPv4 Forwarding" > /etc/sysctl.d/ip_forward.conf
+echo "net.ipv4.ip_forward=0" >> /etc/sysctl.d/ip_forward.conf
+
+
 echo
 echo "Done Setting up the Startup script"
 echo
