@@ -18,10 +18,10 @@ There are two tests you can run to confirm that your network cabling is correct 
 This test only confirms that the NICs are wired correctly. A failure typically indicates that you have network cabling flipped.
 
 If TRex can resolve the destination gateway address of each of its ports, you know that packets are flowing because:
-1. TRex sent the ARP broadcast packet for 192.1.1.1
-2. The VPP Router received the packet through the OVS (your OVS port forwarding is working)
-3. The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
-4. Finally TRex correctly received and parsed the response. (the OVS port forwarding is working both directions, and the packet wasn't malformed)
+[x] TRex sent the ARP broadcast packet for 192.1.1.1
+[x] The VPP Router received the packet through the OVS (your OVS port forwarding is working)
+[x] The VPP Router parsed and responded to the request (the router is working, and you are cabled to the correct port.
+[x] Finally TRex correctly received and parsed the response. (the OVS port forwarding is working both directions, and the packet wasn't malformed)
 
 Follow these steps:
 1. Logon to the server as root.
