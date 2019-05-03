@@ -3,15 +3,14 @@
 
 There are two tests you can run to confirm that your network cabling is correct and that the traffic is correctly flowing in the lab.
 
-1. **Simple**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because ARP worked.
+1. **SIMPLE**:  This is a connectivity test that shows whether ARP works. If TRex can resolve the destination/gateway address on each of its ports, you know that packets are flowing because ARP worked.
 
-2. **Invasive**: This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets.
-
-We will use the server ICN16 as our example.
-
+2. **INVASIVE**: This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets.
 
 **TIP!**
 > These tests should be run after a clean reboot. If you don't know the last time this host was rebooted, do so before running the test. Type `init 6` after logging into the host to reboot it.
+
+Also note that we will use the server ICN16 as our example.
 
 &nbsp;
 
