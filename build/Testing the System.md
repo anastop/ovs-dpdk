@@ -5,7 +5,7 @@ There are two tests you can run to confirm that your network cabling is correct 
 
 **- SIMPLE:** This is a connectivity test that shows whether packets are flowing and if TRex can use ARP to identify the VM router workload correctly). 
 
-**- INVASIVE:** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
+**- [INVASIVE TEST](#invasive-test):** This is only needed if the first doesn’t work and you want to verify which ports are transmitting and receiving packets. It will 
 
 &nbsp;
 
@@ -35,22 +35,27 @@ ${git_base_path}/lab/start-all.sh
 ```
 &nbsp;
 
-### Reviewing the Results
+### Reviewing the Results:
 
 #### SUCCESSFUL TEST
 Below is a screenshot of a successful test. All ports resolved the destination address.
 ![test-doc_test-simple_initial-screen_good](/images/test-doc_test-simple_initial-screen_good.png)
+
 Your wiring is correctly setup.
+
+&nbsp;
 
 #### FAILED TEST
 Below is a screenshot of a failed test. Note that in this case, port [0] was unable to resolve the destination gateway IP of 192.1.1.1, which is the IP address of the first network card assigned to the Virtual Machine VPP router. All ports must successfully resolve their destination addresses for the lab to function properly.
 ![test-doc_test-simple_initial-screen_bad](/images/test-doc_test-simple_initial-screen_bad.png)
+
 You have one or more problems with the system configuration, which could range from:
 * Incorrect cabling (most likely)
 * Incorrect BIOS settings
 * Corrupt software installation
 * Hardware failure (least likely)
-Continue troubleshooting using the invasive test below.
+
+Continue troubleshooting using the [Invasive Test](#invasive-test) below.
 
 &nbsp;
 
