@@ -10,7 +10,7 @@ There are two tests you can run to confirm that your network cabling is correct 
 &nbsp;
 
 ## Wiring Diagram
-The test lab wiring should be configured per the diagram below.
+The test lab wiring should be configured per the diagram below. **Click the image to enlarge the diagram**
 
 ![test-doc_wiring-diagram](/images/test-doc_wiring-diagram.png)
 
