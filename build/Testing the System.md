@@ -135,6 +135,7 @@ ssh root@<hostname>
 ${git_base_path}/debug/dump-flows.sh
 ```
 The dump-flows command shows the "flows" or packet processing rules within the OVS. Unlike a traditional switch that either forwards or floods traffic based only upon a Forwarding Information Base (FIB), the OVS relies upon these flow rules to determine how to forward the traffic it receives.  If traffic matches a flow, the OVS performs the action listed in the flow; typically forwarding the packet to another port. In this configuration, the flows have only rules to push traffic from one port to another without regard for the type of packet received. For example, a packet received on port 1 will always be forwarded out of port 5. 
+
 This command also shows how many seconds have elapses since the OVS received a packet that matched a particular flow, indicated by the "idle_age" value. 0 indicates that the flow is currently active. 
 Refer to the image below for the OVS configuration and flow diagram.
 
@@ -145,7 +146,9 @@ Refer to the image below for the OVS configuration and flow diagram.
 #### FAILURE Example: TRex packets arrive at the OVS, but VM Routers do not reply
 ![test_doc-advanced-ovs_dump_flows-bad](/images/test_doc-advanced-ovs_dump_flows-bad.png)
 
-In this image, the physical NICs attached to the OVS are receiving the traffic from TRex, and the OVS has forwarded the traffic to the VMs' switch ports, but the VMs are not responding. You can determine this because:
+In this image, the physical NICs attached to the OVS are receiving the traffic from TRex, and the OVS has forwarded the traffic to the VMs' switch ports, but the VMs are not responding. 
+
+You can determine this because:
 * The first four lines, "in_port=1" through "in_port=4" are bound to the physical DPDK NICs in the OVS configuration.
 * The next four lines, "in_port=5" through "in_port=8" are bound to the virtual NICs of the VM routers. In our configuration, VPP-VM1 is connected to ports 5 and 6, whereas VPP-VM2 is connected to ports 7 and 8.
 * Also remember that the OVS only has 8 flows, and these flows strictly bind together the following ports 1:5, 2:6, 3:7, and 4:8. Traffic may flow bidirectionally between those ports, but to nowhere else. For example: traffic from port 1 will not be forwarded to any other port than port 5.
@@ -180,10 +183,10 @@ ${git_base_path}/debug/dump-ports.sh
 Note that the dump-ports command does not display the ports in numerical order; this is normal and does *NOT* indicate a problem. 
 
 Much like the port statistics on a physical switch, the dump-ports command shows a number of important statistics separated onto two lines: "rx" and "tx" for Receive (rx) and Transmit (tx). We will focus on the following fields:
-* "pkts"&nbsp; is the total number of packets transmitted (or received)
-* "bytes" is the total number of bytes transmitted (or received)
-* "drop"&nbsp; is the total number of packets dropped while attempting to transmit (or receive)
-* "errs"&nbsp; is the total number of errors encountered while attempting to transmit (or receive)
+* "**pkts**" is the total number of packets transmitted (or received)
+* "**bytes**" is the total number of bytes transmitted (or received)
+* "**drop**" is the total number of packets dropped while attempting to transmit (or receive)
+* "**errs**" is the total number of errors encountered while attempting to transmit (or receive)
 
 #### FAILURE Example: TRex packets arrive at the OVS, but VM Routers do not reply
 ![test_doc-advanced-ovs_dump_ports-bad](/images/test_doc-advanced-ovs_dump_ports-bad.png)
