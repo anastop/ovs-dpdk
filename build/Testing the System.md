@@ -10,7 +10,9 @@ There are two tests you can run to confirm that your network cabling is correct 
 &nbsp;
 
 ## Wiring Diagram
-The test lab wiring should be configured per the diagram below. **Click the image to enlarge the diagram**
+The test lab wiring should be configured per the diagram below. 
+
+**Click the image to enlarge the diagram**
 
 ![test_doc-diagram-physical_cabling](/images/test_doc-diagram-physical_cabling.png)
 
@@ -79,6 +81,8 @@ In these tests you will use two SSH sessions to evaluate the status of the ports
 ### Task 1: Force TRex to send traffic
 > In this task you will force TRex to send a stream of traffic out of ports 0-3. Per the traffic routing diagram below, you can see that the traffic forms two loops, whereby traffic leaving port 0 will return on port 1 (and vice-versa), and traffic leaving port 2 will return on port 3 (also vice-versa). 
 
+**Click the image to enlarge the diagram**
+
 ![test_doc-diagram-routing_topology](/images/test_doc-diagram-routing_topology.png)
 
 1. Launch the TRex console.
@@ -129,6 +133,7 @@ The dump-flows command shows the "flows" or packet processing rules within the O
 This command also shows how many seconds have elapses since the OVS received a packet that matched a particular flow, indicated by the "idle_age" value. 0 indicates that the flow is currently active. 
 Refer to the image below for the OVS configuration and flow diagram.
 
+**Click the image to enlarge the diagram**
 
 ![test_doc-diagram-ovs_flows](/images/test_doc-diagram-ovs_flows.png)
 
