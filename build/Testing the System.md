@@ -209,9 +209,9 @@ This is an example of all packets flowing properly.
 
 # Understanding the Results
 
-If TRex shows a port transmitting packets, the corresponding port in OVS should also show received (and therefore forwarded) packets to a VM. Thus, if TRex port 0 is transmitting, OVS should show packets being received on port 1 and transmitted on port 5.
+If TRex shows a port transmitting packets, the corresponding port in OVS should also show received. Thus, if TRex Port 2 is transmitting, OVS should show received packets on Port 3, which OVS will then transmit on Port 7 to the VM (VPP-VM2).
 
-If the VPP-VM1 is functioning, packets transmitted on OVS port 5 will be received within the VM on its interface "Gig0/4/0", whereby VPP will then parse and route the packet to its interace Gig0/5/0, causing OVS to show transmitted packets on OVS port 6.
+If the VPP-VM2 is functioning, packets transmitted to the VM on OVS port 7 will be received within the VM on its interface "Gig0/4/0", whereby VPP will then parse and route the packet to its interace Gig0/5/0, which is connected to OVS port 8. This will cause the OVS to show packets received on OVS port 8, and then transmitted on OVS port 4 (to TRex Port 3).
 
 **Example: If TRex is transmitting only on Port 0, you should see the following:**
 * TRex Console shows Transmitted packets on Port 0
