@@ -46,12 +46,14 @@ ${git_base_path}/lab/start-all.sh
 
 #### SUCCESSFUL TEST
 ![test_doc-simple-initial_screen-good](/images/test_doc-simple-initial_screen-good.png)
+
 Above is a screenshot of a successful test. All ports resolved the destination address. This result indicates that your wiring is setup correctly, and that TRex should be able to send traffic properly. 
 
 &nbsp;
 
 #### FAILED TEST
 ![test_doc-simple-initial_screen-bad](/images/test_doc-simple-initial_screen-bad.png)
+
 Above is a screenshot of a failed test. Note that in this case, port [0] was unable to resolve the destination gateway IP of 192.1.1.1, which is the IP address of the first network card assigned to the Virtual Machine VPP router. All ports must successfully resolve their destination addresses for the lab to function properly.
 
 You have one or more problems with the system configuration, which could range from:
