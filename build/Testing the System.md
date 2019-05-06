@@ -45,18 +45,14 @@ ${git_base_path}/lab/start-all.sh
 ### Reviewing the Results:
 
 #### SUCCESSFUL TEST
-Below is a screenshot of a successful test. All ports resolved the destination address.
-
 ![test_doc-simple-initial_screen-good](/images/test_doc-simple-initial_screen-good.png)
-
-This result indicates that your wiring is setup correctly as shown , and that the TRex
+Above is a screenshot of a successful test. All ports resolved the destination address. This result indicates that your wiring is setup correctly, and that TRex should be able to send traffic properly. 
 
 &nbsp;
 
 #### FAILED TEST
-Below is a screenshot of a failed test. Note that in this case, port [0] was unable to resolve the destination gateway IP of 192.1.1.1, which is the IP address of the first network card assigned to the Virtual Machine VPP router. All ports must successfully resolve their destination addresses for the lab to function properly.
-
 ![test_doc-simple-initial_screen-bad](/images/test_doc-simple-initial_screen-bad.png)
+Above is a screenshot of a failed test. Note that in this case, port [0] was unable to resolve the destination gateway IP of 192.1.1.1, which is the IP address of the first network card assigned to the Virtual Machine VPP router. All ports must successfully resolve their destination addresses for the lab to function properly.
 
 You have one or more problems with the system configuration, which could range from:
 * Incorrect cabling (most likely)
@@ -138,6 +134,7 @@ Refer to the image below for the OVS configuration and flow diagram.
 ![test_doc-diagram-ovs_flows](/images/test_doc-diagram-ovs_flows.png)
 
 #### FAILURE Example: TRex packets arrive at the OVS, but VM Routers do not reply
+![test_doc-advanced-ovs_dump_flows-bad](/images/test_doc-advanced-ovs_dump_flows-bad.png)
 
 In this image, the physical NICs attached to the OVS are receiving the traffic from TRex, and the OVS has forwarded the traffic to the VMs' switch ports, but the VMs are not responding. You can determine this because:
 * The first four lines, "in_port=1" through "in_port=4" are bound to the physical DPDK NICs in the OVS configuration.
@@ -152,14 +149,14 @@ In this image, the physical NICs attached to the OVS are receiving the traffic f
 * This result is typical when the OVS is dropping the transmitted frames from the VMs, and may be caused by a shortage or lack of 2MB huge memory pages.
 
 
-![test_doc-advanced-ovs_dump_flows-bad](/images/test_doc-advanced-ovs_dump_flows-bad.png)
+
 
 
 #### SUCCESS Example: Packets flowing properly
+![test_doc-advanced-ovs_dump_flows-good](/images/test_doc-advanced-ovs_dump_flows-good.png)
 
 In this image, all the flows are processing traffic, and the flows are nearly equal, meaning that the number of packets received by the VMs equals the number they return to TRex.
 
-![test_doc-advanced-ovs_dump_flows-good](/images/test_doc-advanced-ovs_dump_flows-good.png)
 
 &nbsp;
 
@@ -180,22 +177,25 @@ Much like the port statistics on a physical switch, the dump-ports command shows
 * "errs"&nbsp; is the total number of errors encountered while attempting to transmit (or receive)
 
 #### FAILURE Example: TRex packets arrive at the OVS, but VM Routers do not reply
+![test_doc-advanced-ovs_dump_ports-bad](/images/test_doc-advanced-ovs_dump_ports-bad.png)
 
 In this image we can see why the VM routers packets were not received by TRex. The OVS switch is dropping the frames.
 
-![test_doc-advanced-ovs_dump_ports-bad](/images/test_doc-advanced-ovs_dump_ports-bad.png)
 
 
 #### SUCCESSFUL Example: Packets flowing properly
+![test_doc-advanced-ovs_dump_ports-good](/images/test_doc-advanced-ovs_dump_ports-good.png)
 
 This is an example of all packets flowing properly.
 
-![test_doc-advanced-ovs_dump_ports-good](/images/test_doc-advanced-ovs_dump_ports-good.png)
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
-** Understanding the Results
+* Understanding the Results
 
 If TRex shows a port transmitting packets, the corresponding port in OVS should also show received (and therefore forwarded) packets to a VM. Thus, if TRex port 0 is transmitting, OVS should show packets being received on port 1 and transmitted on port 5.
 
