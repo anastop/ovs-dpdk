@@ -207,7 +207,7 @@ This is an example of all packets flowing properly.
 
 &nbsp;
 
-* Understanding the Results
+# Understanding the Results
 
 If TRex shows a port transmitting packets, the corresponding port in OVS should also show received (and therefore forwarded) packets to a VM. Thus, if TRex port 0 is transmitting, OVS should show packets being received on port 1 and transmitted on port 5.
 
