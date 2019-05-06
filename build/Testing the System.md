@@ -213,7 +213,7 @@ If TRex shows a port transmitting packets, the corresponding port in OVS should 
 
 If the VPP-VM1 is functioning, packets transmitted on OVS port 5 will be received within the VM on its interface "Gig0/4/0", whereby VPP will then parse and route the packet to its interace Gig0/5/0, causing OVS to show transmitted packets on OVS port 6.
 
-Example: If TRex is transmitting only on Port 0, you should see the following:
+**Example: If TRex is transmitting only on Port 0, you should see the following:**
 * TRex Console shows Transmitted packets on Port 0
 * TRex Console shows Received packets on Port 1
 * The OVS "dump-flows" command shows activity on OVS Ports 1 and 6 (attached to DPDK0 - and VPP-VM1 Gig0/6/0)
@@ -221,7 +221,7 @@ Example: If TRex is transmitting only on Port 0, you should see the following:
   * OVS Port 1 shows Received Packets increasing (picking packets up off the physical NIC cabled to TRex Port 0)
   * OVS Port 5 shows Transmitted Packets increasing (forwarding packets to the VPP-VM1:Gig0/5/0)
   * OVS Port 6 shows Received Packets increasing (after being routed by the VPP router to Gig0/6/0)
-  * OVS Port 2 shows Transmitted packets increasing (sending the packets to the physical NIC cabled to TRex Port 1.
+  * OVS Port 2 shows Transmitted packets increasing (sending the packets to the physical NIC cabled to TRex Port 1)
 
 
 
