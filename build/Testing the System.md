@@ -89,6 +89,13 @@ ${git_base_path}/scripts/trex-console.sh
 ```
 2. In the TRex Console (command line interface), load the TRex baseline traffic profiles to start the workload.
 ```
+portattr -a --prom on
+service -a
+l3 -p 0 --src 192.1.1.2 --dst 192.1.1.1
+l3 -p 1 --src 192.2.1.2 --dst 192.2.1.1
+l3 -p 2 --src 192.3.1.2 --dst 192.3.1.1
+l3 -p 3 --src 192.4.1.2 --dst 192.4.1.1
+service -a --off
 start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p0.yaml --force -p0 
 start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p1.yaml --force -p1
 start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-base-p2.yaml --force -p2
