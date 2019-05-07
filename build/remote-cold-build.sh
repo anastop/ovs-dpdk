@@ -55,7 +55,7 @@ if [ "$#" -ne 4 ]; then
     echo "Exiting..."
 	exit 1
 else
-	ssh-keygen -f "~/.ssh/known_hosts" -R ${prepserver}
+	ssh-keygen -f "$HOME/.ssh/known_hosts" -R ${prepserver}
 
 	echo 'echo "PermitRootLogin yes" >> /etc/ssh/sshd_config' > prep_unlock.sh
 	echo 'service sshd restart' >> prep_unlock.sh
