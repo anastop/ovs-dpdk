@@ -11,7 +11,7 @@ rootpass=$4
 # rootpass=password
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' sshpass |grep "install ok installed")
-echo Checking for somelib: $PKG_OK
+echo Checking for the package 'sshpass': $PKG_OK
 if [ "" == "$PKG_OK" ]; then
   echo
   echo "ERROR!  This script requires the package: sshpass"
