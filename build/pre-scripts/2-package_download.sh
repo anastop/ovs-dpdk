@@ -5,7 +5,7 @@ systemd-resolve --status > /root/install_phase_2.log 2>&1
 sleep 2
 
 # Copy the global variable file into place
-mv 0-ovs-dpdk-global-variables.sh /etc
+mv /root/0-ovs-dpdk-global-variables.sh /etc
 echo "source /etc/0-ovs-dpdk-global-variables.sh" >> /etc/bash.bashrc
 
 source /etc/0-ovs-dpdk-global-variables.sh
