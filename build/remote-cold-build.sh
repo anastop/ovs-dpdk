@@ -80,7 +80,7 @@ else
 	echo "Files copied. Executing first script: 1-kernel_upgrade.sh"
 	echo "${prepserver} will reboot after script execution."
 	echo 
-	echo "Installation logs for this first script may be found at ./install_${prepserver}_phase_1.log"
+	echo "To view the installation logs for this first script type: cat ./install_${prepserver}_phase_1.log"
 	echo "All subsequent logs will be on the host in /root"
 	echo 
 	echo "Please wait.. this may take a minute..."
