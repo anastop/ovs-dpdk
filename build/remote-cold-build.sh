@@ -64,16 +64,18 @@ else
 	echo "sh -c 'sleep 1; echo ${rootpass}' | script -qc 'su - root -c /home/${unprivuser}/prep_unlock.sh'" > prep_start.sh
 	echo >> prep_start.sh
 	chmod +x prep_start.sh
-
 	sshpass -p "${unprivpass}" scp ./prep_unlock.sh ${unprivuser}@${prepserver}:~
 	sshpass -p "${unprivpass}" scp ./prep_start.sh ${unprivuser}@${prepserver}:~
 	sshpass -p "${rootpass}" ssh -tt ${unprivuser}@${prepserver} bash -c "/home/${unprivuser}/prep_start.sh"
+	echo
+	echo "SSH reconfigured to accept root user connections."
+	echo
 
 	sshpass -p "${rootpass}" ssh-copy-id -i ~/.ssh/id_rsa.pub root@${prepserver}
 	sshpass -p "${rootpass}" ssh-copy-id -i ./keys/ivm_id_rsa.pub root@${prepserver}
 	
 	scp ./pre-scripts/*.sh root@${prepserver}:~
-	ssh root@<hostname> './1-kernel_upgrade.sh > /root/install_phase_1.log 2>&1'
+	ssh root@<hostname> './1-kernel_upgrade.sh' > /root/install_${prepserver}_phase_1.log 2>&1
 	
 	# Cleanup
 	# 	if [ -f ./prep_unlock.sh ]; then
