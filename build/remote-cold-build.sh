@@ -75,7 +75,7 @@ else
 	sshpass -p "${rootpass}" ssh-copy-id -f -i ./keys/ivm_id_rsa.pub root@${prepserver}
 	
 	scp ./pre-scripts/*.sh root@${prepserver}:~
-	ssh root@<hostname> './1-kernel_upgrade.sh' > /root/install_${prepserver}_phase_1.log 2>&1
+	ssh root@${prepserver} '/root/1-kernel_upgrade.sh' > /root/install_${prepserver}_phase_1.log 2>&1
 	
 	# Cleanup
 	# 	if [ -f ./prep_unlock.sh ]; then
