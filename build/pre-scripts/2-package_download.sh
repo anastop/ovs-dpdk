@@ -19,8 +19,13 @@ apt install -y tmux
 apt install -y screen
 apt remove -y unattended-upgrades
 
+rm /etc/rc.local
+
 git clone https://github.com/brianeiler/ovs-dpdk.git ${git_base_path}
 
 echo
 echo `hostname` has completed pre-setup. Logon and run ${git_base_path}/build/install.sh
 echo
+
+cd ${git_base_path}/build
+${git_base_path}/build/install.sh > /root/install_phase_3.log 2>&1
