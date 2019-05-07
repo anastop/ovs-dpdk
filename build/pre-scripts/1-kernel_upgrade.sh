@@ -19,4 +19,9 @@ apt remove -y openipmi
 apt install -y openipmi
 systemctl restart openipmi
 
+echo '#!/bin/sh' > /etc/rc.local
+echo '/root/2-package_download.sh' >> /etc/rc.local
+echo >> /etc/rc.local
+chmod +x /etc/rc.local
+
 init 6
