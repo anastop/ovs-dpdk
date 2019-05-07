@@ -75,6 +75,16 @@ else
 	sshpass -p "${rootpass}" ssh-copy-id -f -i ./keys/ivm_id_rsa.pub root@${prepserver}
 	
 	scp ./pre-scripts/*.sh root@${prepserver}:~
+	echo
+	echo
+	echo "Files copied. Executing first script: 1-kernel_upgrade.sh"
+	echo "${prepserver} will reboot after script execution."
+	echo 
+	echo "Installation logs for this first script may be found at ./install_${prepserver}_phase_1.log"
+	echo "All subsequent logs will be on the host in /root"
+	echo 
+	echo "Please wait.. this may take a minute..."
+	echo
 	ssh root@${prepserver} '/root/1-kernel_upgrade.sh' > ./install_${prepserver}_phase_1.log 2>&1
 	
 	# Cleanup
