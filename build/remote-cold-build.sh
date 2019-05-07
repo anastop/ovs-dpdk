@@ -72,7 +72,7 @@ else
 	sshpass -p "${rootpass}" ssh-copy-id -i ~/.ssh/id_rsa.pub root@${prepserver}
 	sshpass -p "${rootpass}" ssh-copy-id -i ./keys/ivm_id_rsa.pub root@${prepserver}
 	
-	scp ./build/pre-scripts/*.sh root@<hostname>:~
+	scp ./pre-scripts/*.sh root@${prepserver}:~
 	
 	# Cleanup
 	# 	if [ -f ./prep_unlock.sh ]; then
