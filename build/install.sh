@@ -4,14 +4,14 @@
 source /etc/0-ovs-dpdk-global-variables.sh
 
 # Wake up DNS
-${git_base_path}/debug/restart-dns.sh
+systemd-resolve --status
+#${git_base_path}/debug/restart-dns.sh
 sleep 2
 
 modprobe msr
 # Cleanup pre-setup files -- the updated versions are kept in the ${git_base_path}/pre-scripts folder
 rm /root/1-kernel_upgrade.sh
 rm /root/2-package_download.sh
-rm /root/3-github_clone.sh
 
 
 cd ${git_base_path}/source
@@ -134,7 +134,9 @@ echo
 echo "You must reboot to complete the installation."
 echo 
 echo
-read -r -p "Check the screen for errors. If all OK, press the ENTER key to REBOOT. Press Ctrl-C to abort the script." key
+# read -r -p "Check the screen for errors. If all OK, press the ENTER key to REBOOT. Press Ctrl-C to abort the script." key
 echo
+echo "Installation completed successfully."
+touch /root/install_complete.txt
 init 6
 
