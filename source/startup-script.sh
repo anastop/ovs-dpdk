@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Wake up DNS
+systemd-resolve --status
+sleep 2
+
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
@@ -58,5 +62,6 @@ mount -t hugetlbfs nodev /mnt/huge -o pagesize=2MB
 # Reset the CPU cores to the base frequency P1
 ${git_base_path}/scripts/sstbf.py -d
 
+cp ${git_base_path}/lab/start-all.sh /root
 cp ${git_base_path}/debug/update_ovs-dpdk-lab.sh /root
 echo "Startup Script last run on: " `date` > /root/report-startup-script.txt
