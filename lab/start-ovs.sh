@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Wake up DNS
+systemd-resolve --status
+sleep 2
+
 # Load the custom global environment variables
 source /etc/0-ovs-dpdk-global-variables.sh
 
