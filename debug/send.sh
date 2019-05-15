@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# Wake up DNS
+systemd-resolve --status > /dev/null 2>&1
+sleep 2
+
 source /etc/0-ovs-dpdk-global-variables.sh
 
 source_name=${1}
