@@ -183,10 +183,11 @@ start -f /opt/ovs-dpdk-lab/configs/trex/vpp-64B-high-p3.yaml --force -p3
 6. Start another SSH terminal window, and logon to your lab server. Do NOT disconnect the first terminal window.
 7. In the 2nd terminal window use the Python script to activate Intel® SST-BF on the CPUs.
 ```
-${git_base_path}/scripts/sstbf.py -a
+	cd ${git_base_path}/scripts
+	./sstbf.py -a
 ```
 8. Return to your first terminal window (the one showing TRex). Note that the number of transmitted packets has remained the same, but we are now also receiving an equal amount of packets, which indicates that there is again low or no packet loss. Record the total amount of transmitted and received packets. 
-9. Compare the values that you recorded for the total received packets (from Step 2 and Step 8). You should see approximately a 10% increase in the throughput. This increase in throughput is a result of increasing the CPU frequency of the cores assigned to the OVS dataplane, which is allowing it to process a greater volume of traffic per second.
+9. Compare the values that you recorded for the total received packets (from Step 2 and Step 8). You should see approximately a 15% increase in the throughput. This increase in throughput is a result of increasing the CPU frequency of the cores assigned to the OVS dataplane, which is allowing it to process a greater volume of traffic per second.
 
 &nbsp;
 
@@ -203,12 +204,13 @@ quit
 ```
 3. In your 2nd terminal window use the Python script to activate Intel® SST-BF on the CPUs. Then exit and close that terminal window.
 ```
-${git_base_path}/scripts/sstbf.py -d
-exit
+	./sstbf.py -d
+	exit
 ```
 4. Return to your first terminal window and run the following shell script to confirm that all the cores are operating at the base frequency, for example: 2300MHz.
 ```
-${git_base_path}/scripts/show-cores.sh
+	cd ${git_base_path}/scripts/
+	./show-cores.sh
 ```
 
 &nbsp;
