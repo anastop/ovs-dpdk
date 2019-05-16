@@ -94,13 +94,14 @@ Additionally participants should have the following technical skills:
 ##### That was the hard way. Let's try an easier approach!
 4. Run a python script to show the core configuration
 ```
-	${git_base_path}/scripts/sstbf.py
+	cd ${git_base_path}/scripts/
+	./sstbf.py
 ```
 5. Run a command line arguments -b and -c at the CLI
 ```
-	${git_base_path}/scripts/sstbf.py -b
+	./sstbf.py -b
 	
-	${git_base_path}/scripts/sstbf.py -c
+	./sstbf.py -c
 ```
 
 6. Examine the shell script used for environment variables
@@ -120,19 +121,20 @@ Additionally participants should have the following technical skills:
 > Therefore when Intel® SST-BF is activated, only the OVS dataplane is increased in performance, all other system and workload services remain on the Low P1 cores.
 1. Run a shell script to show the CPU affinity and core speeds of the processes. Note that all cores show 2300MHz and are therefore equal.
 ```
-${git_base_path}/scripts/show-cores.sh
+	cd ${git_base_path}/scripts/
+	./show-cores.sh
 ```
 2. Activate Intel® SST-BF to increase the speed of the CPU cores assigned to the OVS data plane.
 ```
-${git_base_path}/scripts/sstbf.py -a
+	./sstbf.py -a
 ```
 3. Run the shell script again to show the change in the CPU core speeds of the processes. Take special note of the OVS dataplane processes running at 2700MHz.
 ```
-${git_base_path}/scripts/show-cores.sh
+	./show-cores.sh
 ```
 4. Deactivate Intel® SST-BF so that we can perform addional comparisons.
 ```
-${git_base_path}/scripts/sstbf.py -d
+	./sstbf.py -d
 ```
 
 &nbsp;
@@ -141,15 +143,16 @@ ${git_base_path}/scripts/sstbf.py -d
 > In this task you will start the services for OVS, the VMs, and the TRex traffic generator.
 1. Start the OVS virtual switch process.
 ```
-${git_base_path}/lab/start-ovs.sh
+	cd ${git_base_path}/lab/
+	./start-ovs.sh
 ```
 2. Start the QEMU virtual machines.
 ```
-${git_base_path}/lab/start-qemu.sh
+	./start-qemu.sh
 ```
 3. Start the TRex traffic generator service and set its network configuration parameters.
 ```
-${git_base_path}/lab/start-trex.sh
+	./start-trex.sh
 ```
 
 &nbsp;
