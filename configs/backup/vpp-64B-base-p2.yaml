@@ -13,7 +13,7 @@
     mode:
       rate:
         type: "pps"
-        value: 2900000
+        value: 2600000
       type: "continuous"
       total_pkts: 1
       pkts_per_burst: 1
