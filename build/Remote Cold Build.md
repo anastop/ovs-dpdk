@@ -5,18 +5,22 @@ This set of instructions is intended for the lab staff to remotely build or rebu
 **CAUTION!**
 > These instructions contain values that are specific to a particular lab environment, and therefore will not be suitable for everyone. Please take care when adapting these instructions to your own environment as many of the addresses, hostnames, and passwords will differ.
 
-
-### Overview
+#### Process Overview
 These instructions walk though through the setup process for a lab server. There is a pre-build section that contains the steps needed to prepare a "jump server" with the appropriate scripts. Following this, the build section outlines the process to reload the OS of the server and then start the automation scripts that complete the lab server setup.
 
-### Expected Outcome
+#### Expected Outcome
 Upon completion of these steps, the lab server will be loaded with the software required to run the student lab exercises; however none of these services will be started upon boot. The student performs the start of the services in the lab exercise.
 
 Additionally, the automated build process also accounts for the unique CPU chips in each server. For instance, in the Speed Select lab, the build script automatically identifies the number of cores and determines which of those cores is "High_P1" vs. "Low_P1" and then stores this information in a shell environment variable that is loaded on boot via cron.
 
 &nbsp;
 
+## Choose your own adventure:
+* [ ] **[Preparing the Jump Server:](#preparing-the-jump-server)** This process is only run the first time you need to reload a lab server. Skip this section for all subsequent reloads.
+* [ ] **[Reloading the Lab Server:](#reloading-the-lab-server** Follow this section for each lab server you wish to reload.
+
 &nbsp;
+
 
 ## Preparing the Jump Server
 
@@ -45,8 +49,8 @@ The scripts will be in the subfolder "$HOME/ovs-dpdk-lab/build"
 Perform these steps each time you want to refresh a server.
 
 There are two parts to the lab server reload process:
-* [ ] **[RELOAD THE SERVER OS:](#reload-the-server-os)** Unattended (~10 minutes) - Reinstall the operating system via the PXE boot loader.
-* [ ] **[EXECUTE THE BUILD SCRIPT:](#execute-the-build-script)** Unattended (~20 minutes) - Execute the "remote-cold-build" script to install the software.
+* [ ] **[RELOAD THE SERVER OS:](#reload-the-server-os)** Unattended (~5-10 minutes) - Reinstall the operating system via the PXE boot loader.
+* [ ] **[EXECUTE THE BUILD SCRIPT:](#execute-the-build-script)** Unattended (~15 minutes) - Execute the "remote-cold-build" script to install the software.
 
 
 ### Reload the Server OS
@@ -96,12 +100,60 @@ To perform this process you must either use a VM within the lab network, or you 
 ```
 ssh <your-username>@iln01
 ```
-2. Change to the directory of the GitHub repository and perform an update of the scripts. This command "pulls" the current scripts from the internet and loads thewhere the build scripts are located
+2. Change to the directory of the GitHub repository and perform an update of the scripts. This command "pulls" the current scripts from the internet to your jumpt server. 
+> You only need to perform this command once per day, or if you suspect the scripts have changed since you last pulled the source.
+```
+cd $HOME/ovs-dpdk-lab
+git pull
+```
+
+3. Enter the `build` directory and launch the remote-cold-build script, using the following parameters:
+> ```
+> Remote Server Build Script for OVS-DPDK Lab
+> ------------------------------------------------
+> 
+> You must enter exactly 4 command line argument
+> 
+> Usage: './remote-cold-build.sh <SERVER_NAME> <UNPRIV_USER> <UNPRIV_PASS> <ROOT_PASS>'
+> 
+> Where:
+>   <SERVER_NAME> is the name of the server you wish to build.
+>   <UNPRIV_USER> is the unprivileged username.
+>   <UNPRIV_PASS> is the password for the unprivileged user.
+>   <ROOT_PASS> is the password for root.
+> 
+> This script will first logon as pid and then enable root ssh
+> It will then start the server build process by updating the kernel.
+> Upon reboot the script will automatically resume, downloading the github repo, and then starting the install.sh script in the git repo.
+> 
+> Example: './remote-cold-build.sh icn01 pid password password'
+> ```
+
+```
+cd build
+./remote-cold-build.sh <SERVER_NAME> <UNPRIV_USER> <UNPRIV_PASS> <ROOT_PASS>
+```
+8. The `remote-cold-build` script will run several commands that may wait for a second or two before continuing to execute. This is normal. Do **NOT** interrupt the script or press any keys until the script has completed (approximately 1-2 minutes). 
+	![cold_build_doc-build_script-initial_pause](/images/cold_build_doc-build_script-initial_pause.png)
+
+9. Upon completion, the remote console will show the server logon prompt. No other indication is made that the OS installation script has completed successfully. You do **NOT** need to logon to the server.
+	![cold_build_doc-build_script-completion](/images/cold_build_doc-build_script-completion.png)
 
 
 
-## Initial Connection to the Lab Server
-This section guides you through the initial connection to the Ubuntu server as the user `pid` and then helps you enable root SSH access for the remainder of the lab setup process.
+&nbsp;
+# Lab Server Setup Completed!
+
+**The Lab Server installation script has been successfully started.**
+
+**Wait approximately 15 minutes before proceeding to test the server.**
+
+&nbsp;
+
+# Appendix A: Additional Build Script Details
+
+### Build script assumptions
+The automation script `remote-cold-build.sh` performs the initial connection to the Ubuntu server as the user `pid` and then enables root SSH access for the remainder of the lab setup process. It then launches a series of additional scripts to complete the installation and configuration of the server.
 
 Current state assumption:
 * The server is a fresh installation of Ubuntu 18.04.2 (Kernel 4.15)
@@ -110,110 +162,31 @@ Current state assumption:
 * The user `pid` is not yet in the sudoers file, 
 
 
-### Logon and gain root access to the Server
-1. Logon to the host as `pid`, password `password`
-```
-ssh pid@<hostname>
-```
-2. Enter Super User mode and allow root to logon via SSH. The root password is `password`
-```
-su
-```
-3. Allow root to logon via SSH.
-```
-echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-service sshd restart
-```
-4. Exit Super User mode.
-```
-exit
-```
-5. Type `exit` again to logout of the host as user `pid`, and return to your workstation.
-```
-exit
-```
+#### Tasks performed in the remote-cold-build script
+1. Enable the root user to logon via SSH and upload SSH keys
+	* Logon to the host as `pid`, password `password`
+	* Enter Super User mode and allow root to logon via SSH.
+	* Enable root to logon via SSH.
+2. Push your workstation's public SSH key to the lab server.
+3. Use SCP to upload the "pre-scripts" to the lab server.
+4. Use SSH to remotely execute the first pre-script, which:
+	* Upgrades the Linux kernel to 4.20
+	* Puts the next script into the rc.local file (so it runs upon next reboot)
+	* Reboots the lab server
 
-### Enable password-less SSH connections from your workstation
-1. Push your public SSH key to the server.
-```
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@<hostname>
-```
-2. Enter the root password of `password` when prompted to save the key.
+&nbsp;
 
-3. From now on, you may logon to the host as root via SSH without using a password.
-```
-ssh root@<hostname>
-```
+# Appendix B: Testing the server
 
-
-## Prepare the lab server using the Pre-Scripts
-This git repo contains a set of scripts that will be uploaded to the lab server to aid in the server configuration. You will then remotely execute some of these scripts via SSH to complete the setup process. 
-
-**Note:**
-> You should clone the git repository to your local workstation (or your jump box) so that you have easy access to the `/build/pre-scripts` directory and its contents.
-
-1. Clone this repo to your current directory using the commend below. This will create a folder called `ovs-dpdk-lab` and synchronize the git repo to that folder.
-```
-git clone https://github.com/brianeiler/ovs-dpdk.git ovs-dpdk-lab
-```
-> To update this folder in the future, enter the directory and then type `git pull`. Your workstation will automatically download the newest version of the scripts and documentation.
-
-2. Edit the Pre-scripts. All the scripts in this repo rely upon the file `0-ovs-dpdk-global-variables.sh`. The generic template version of this file is located at `/build/pre-scripts/0-ovs-dpdk-global-variables.sh`.
-You **ABSOLUTELY MUST** edit this file to adjust the destination directories and other particulars of your configuration and system.
-
-
-### Upload the scripts
-After you have adjusted the file `/pre-scripts/0-ovs-dpdk-global-variables.sh` to match your desired folder paths, you may upload the scripts to your lab servers using these steps.
-
-1. As noted above, you must first either clone this git repo to your workstation, or download the shell scripts contained in the `/build/pre-scripts` directory of this repo. For these instructions, we will assume that the script files are on your workstation and are located in the `./build/pre-scripts` subdirectory of your current working directory.
-
-2. Use SCP to copy the files to the lab server.
-```
-scp ./build/pre-scripts/*.sh root@<hostname>:~
-```
-
-### Execute the pre-scripts
-You will now use SSH to remotely execute the pre-scripts. Alternatively, you may logon to the servers via SSH and run the scripts interactively as normal. These instructions are designed to minimize the interactive logon requirements when building a number of lab servers.
-
-1. Run the first script: `ssh root@<hostname> './1-kernel_upgrade.sh'`
-
-2. Wait for the server to reboot. the first script downloads an updated kernel, installs it, and then reboots the server. This may take 2-3 minutes.
-
-3. Run the package installation script: `ssh root@<hostname> './2-package_download.sh'`
+Please refer to the following guide for testing and verification processes.
+[Testing the System](/build/Testing the System.md)
 
 &nbsp;
 
 
-# Initial Setup Completed!
-To complete the configuration of the lab server, follow these tasks.
-
-
-## Download and Install the remaining components
-There are build scripts that perform many of the remaining steps for you. These scripts are only run one time and should NOT be run again unless the server has been rebuilt.
-
-Logon to the host as root via SSH:
-```
-ssh root@<hostname>
-```
-
-1. Run the first build script to download the remaining files from the Internet.
-```
-cd ${git_base_path}
-./build/install.sh
-```
-2. Review the command history for errors and if OK, reboot the server as directed by the script. 
-
-
-
-## Review/Adjust the Global Variables
-Logon to your lab server and verify that the custom script file `/etc/0-ovs-dpdk-global-variables.sh` matched the CPU cores in your server. Each server **WILL** be different, and the installation script attempts to auto-detect and map the cores, but it will fail if hyper-threading is disabled due to the difference in the core count. Also, make no assumptions about the CPU core IDs of the high performance cores between hosts, as they are set on a per-chip basis at the factory and cannot be modified.
-Additionally, the server must have certain BIOS settings enabled to expose these cores. These BIOS instructions are not provided in this Git Repo at this time.
-
-
-
-# Lab Server Configuration Completed!
+# Appendix C: Lab Server Exercise
 The lab server is ready for the lab exercise. 
-Please refer to the next guide: [SST-BF Lab Guide](/lab/SST-BF Lab Guide.md)
+Please refer to the guide: [SST-BF Lab Guide](/lab/SST-BF Lab Guide.md)
 
 
 
