@@ -2,6 +2,12 @@
 
 This set of instructions is intended for the lab staff to remotely build or rebuild one of the lab servers. 
 
+## Choose your own adventure:
+* [ ] **[Preparing the Jump Server:](#preparing-the-jump-server)** This process is only run the first time you need to reload a lab server. Skip this section for all subsequent reloads.
+* [ ] **[Reloading the Lab Server:](#reloading-the-lab-server)** Follow this section for each lab server you wish to reload.
+
+&nbsp;
+
 **CAUTION!**
 > These instructions contain values that are specific to a particular lab environment, and therefore will not be suitable for everyone. Please take care when adapting these instructions to your own environment as many of the addresses, hostnames, and passwords will differ.
 
@@ -14,13 +20,6 @@ Upon completion of these steps, the lab server will be loaded with the software 
 Additionally, the automated build process also accounts for the unique CPU chips in each server. For instance, in the Speed Select lab, the build script automatically identifies the number of cores and determines which of those cores is "High_P1" vs. "Low_P1" and then stores this information in a shell environment variable that is loaded on boot via cron.
 
 &nbsp;
-
-## Choose your own adventure:
-* [ ] **[Preparing the Jump Server:](#preparing-the-jump-server)** This process is only run the first time you need to reload a lab server. Skip this section for all subsequent reloads.
-* [ ] **[Reloading the Lab Server:](#reloading-the-lab-server** Follow this section for each lab server you wish to reload.
-
-&nbsp;
-
 
 ## Preparing the Jump Server
 
