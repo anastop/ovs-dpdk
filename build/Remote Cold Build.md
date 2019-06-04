@@ -33,7 +33,9 @@ git clone https://github.com/brianeiler/ovs-dpdk.git $HOME/ovs-dpdk-lab
 
 The scripts will be in the subfolder "$HOME/ovs-dpdk-lab/build"
 
-**Your jump server is ready for use**
+&nbsp;
+
+**Your jump server is ready for use!**
 
 &nbsp;
 
@@ -62,13 +64,29 @@ To perform this process you must either use a VM within the lab network, or you 
 	![cold_build_doc-reload_os-remote_control](/images/cold_build_doc-reload_os-remote_control.png)
 	
 4. In the RMM, within the HTML5 Remote Console window, use the server power control to reboot the lab server.
+	![cold_build_doc-reload_os-power_reset](/images/cold_build_doc-reload_os-power_reset.png)
+	
 5. Click INSIDE the remote console window to ensure it has the focus of your keyboard and mouse.
 6. Wait patiently for a few minutes and watch the remote console window while the lab server reboots. 
 	* During the first few minutes the lab server will initiate a network (PXE) boot sequence.
 	* The PXE boot process launches a boot menu.
 	* The boot menu will time out after 10 seconds, after which it will boot from the local hard drive. 
 7. In the boot menu, before the menu times out, use the arrow keys to select **Ubuntu 18.04 for CLX**. 
-8. The server will immediately initiate a scripted OS reinstallation, which may take up to 10 minutes to complete. Upon completion, the remote console will show the server logon prompt. No other indication is made that the OS installation script has completed successfully.
+	![cold_build_doc-reload_os-pxe_boot_menu](/images/cold_build_doc-reload_os-pxe_boot_menu.png)
+
+8. The server will immediately initiate a scripted OS reinstallation, which may take up to 10 minutes to complete. 
+	![cold_build_doc-reload_os-ubuntu_install](/images/cold_build_doc-reload_os-ubuntu_install.png)
+
+9. Upon completion, the remote console will show the server logon prompt. No other indication is made that the OS installation script has completed successfully. You do **NOT** need to logon to the server.
+	![cold_build_doc-reload_os-process_completed](/images/cold_build_doc-reload_os-process_completed.png)
+
+
+
+&nbsp;
+
+**The Lab Server OS has been successfully reloaded.**
+
+&nbsp;
 
 
 ### Execute the Build Script
