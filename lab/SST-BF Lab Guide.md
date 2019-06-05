@@ -84,7 +84,7 @@ Additionally participants should have the following technical skills:
 ```
 2. Check the base frequency of CPU 0 in the file System
 ```
-	cat /sys/devices/system/cpu/cpu0/cpufreq/base_freq
+	cat /sys/devices/system/cpu/cpu0/cpufreq/base_frequency
 ```
 3. Compare that to the current running frequency of CPU 0
 ```
